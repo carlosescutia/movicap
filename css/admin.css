@@ -1,0 +1,115 @@
+/* CSS Document */
+@import url("intro/stylesheet.css");
+
+@font-face {
+    font-family: 'Proxima Nova';                                                                                                                 
+    src: local('Proxima Nova'), local('Proxima Nova'), url("fonts/Proxima-Nova-Reg.otf") format('opentype');
+}
+@font-face {
+    font-family: 'Proxima Nova Bold';
+    src: local('Proxima Nova Bold'), local('Proxima Nova Bold'), url("fonts/Proxima-Nova-Bold.otf") format('opentype');
+}
+
+html {
+    position: relative;
+    min-height:100%;
+    height: auto !important;
+    height: 100%;
+    text-align: left;
+    margin-top: 0em;
+    font-size: 0.85em;
+}
+
+body {
+    padding-top: 80px;
+    font-family: "Proxima Nova" !important;
+    margin-bottom: 68px;
+}
+
+body a {
+    text-decoration: none;
+}
+
+body a:hover {
+    text-decoration: underline;
+}
+
+.alternate-color {
+    background: #fff;
+}
+
+.alternate-color:nth-child(2n) {
+    background: #ddd;
+}
+
+.alternate-color p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+/* MENU */
+.navbar {
+    background: #f2f3ef;
+    padding: 0 !important;
+    border-bottom: 1px solid #C8C8AA;
+}
+
+.navbar-nav .nav-link {
+    color: #0080FF !important;
+    text-align: center;
+}
+
+.logo_menu {
+    height: 44px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+
+.logo {
+    height: 100%;
+}
+
+.logo_login {
+    width: 100%;
+}
+
+.titulo_menu {
+    margin-right: 40px;
+}
+
+.texto-titulo {
+    color: #001E89 !important;
+}
+
+/* MENU */
+
+
+/* FOOTER */
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #000 !important;
+    padding: 10px 0 0 0 !important;
+}
+
+.footer li {
+    margin-bottom: 0.2em;
+    color: #fff;
+}
+
+.footer_margin {
+    height:80px; 
+}
+/* FOOTER */
+
+.form-group {
+    margin-bottom: .8rem;
+}
+
+.boton-eliminar {
+    font-size: 1rem; 
+    color: red;
+}
