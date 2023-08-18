@@ -8,6 +8,7 @@ class Usuarios extends CI_Controller {
         $this->load->model('organizaciones_model');
         $this->load->model('accesos_sistema_model');
         $this->load->model('opciones_sistema_model');
+        $this->load->model('bitacora_model');
         $this->load->model('parametros_sistema_model');
     }
 
@@ -118,6 +119,28 @@ class Usuarios extends CI_Controller {
                     'activo' => empty($usuarios['activo']) ? '0' : $usuarios['activo']
                 );
                 $cve_usuario = $this->usuarios_model->guardar($data, $cve_usuario);
+
+                // registro en bitacora
+                $organizacion = $this->organizaciones_model->get_organizacion($usuarios['cve_organizacion']);
+                $separador = ' -> ';
+                $usuario = $this->session->userdata('usuario');
+                $nom_usuario = $this->session->userdata('nom_usuario');
+                $nom_organizacion = $this->session->userdata('nom_organizacion');
+                $entidad = 'usuarios';
+                $valor = $cve_usuario ." ". $usuarios['nom_usuario'] . $separador . $organizacion['nom_organizacion'];
+                $data = array(
+                    'fecha' => date("Y-m-d"),
+                    'hora' => date("H:i"),
+                    'origen' => $_SERVER['REMOTE_ADDR'],
+                    'usuario' => $usuario,
+                    'nom_usuario' => $nom_usuario,
+                    'nom_organizacion' => $nom_organizacion,
+                    'accion' => $accion,
+                    'entidad' => $entidad,
+                    'valor' => $valor
+                );
+                $this->bitacora_model->guardar($data);
+
             }
             redirect('usuarios');
 
@@ -129,6 +152,29 @@ class Usuarios extends CI_Controller {
     public function eliminar($cve_usuario)
     {
         if ($this->session->userdata('logueado')) {
+
+            // registro en bitacora
+            $datos_usuario = $this->usuarios_model->get_usuario($cve_usuario);
+			$separador = ' -> ';
+			$usuario = $this->session->userdata('usuario');
+			$nom_usuario = $this->session->userdata('nom_usuario');
+			$nom_organizacion = $this->session->userdata('nom_organizacion');
+            $accion = 'eliminó';
+			$entidad = 'usuarios';
+			$valor = $cve_usuario ." ". $datos_usuario['nom_usuario'] . $separador . $datos_usuario['nom_organizacion'];
+			$data = array(
+				'fecha' => date("Y-m-d"),
+				'hora' => date("H:i"),
+				'origen' => $_SERVER['REMOTE_ADDR'],
+				'usuario' => $usuario,
+				'nom_usuario' => $nom_usuario,
+				'nom_organizacion' => $nom_organizacion,
+				'accion' => $accion,
+				'entidad' => $entidad,
+				'valor' => $valor
+			);
+			$this->bitacora_model->guardar($data);
+
             // eliminado
 			$this->usuarios_model->eliminar($cve_usuario);
 

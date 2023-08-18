@@ -45,13 +45,13 @@
                         <ul class="navbar-nav mr-auto">
                             <?php foreach ($opciones_sistema as $opciones_sistema_item) {
                                 if (in_array($opciones_sistema_item['cod_opcion'], $accesos_sistema_rol) && $opciones_sistema_item['es_menu'] ) { ?>
-                                    <li class="nav-item"><a class="nav-link" href="<?=base_url()?><?=$opciones_sistema_item['url'] ?>"><?=$opciones_sistema_item['nom_opcion'] ?></a></li>
+                                    <li class="nav-item"><a class="nav-link d-print-none" href="<?=base_url()?><?=$opciones_sistema_item['url'] ?>"><?=$opciones_sistema_item['nom_opcion'] ?></a></li>
                                 <?php } 
                             } ?>
                         </ul>
                     </div>
                     <div class="col-sm-5 text-end">
-                        <p class="m-2 texto-titulo"><?php echo $nom_usuario ?> · <?php echo $nom_organizacion ?> | <a class="m-2 texto-titulo" href="<?= base_url() ?>admin/cerrar_sesion">Cerrar sesión</a></p>
+                        <p class="m-2 texto-titulo"><?php echo $nom_usuario ?> · <?php echo $nom_organizacion ?> | <a class="m-2 texto-titulo d-print-none" href="<?= base_url() ?>admin/cerrar_sesion">Cerrar sesión</a></p>
                     </div>
                 </div> <!-- opciones del menu -->
             </div>

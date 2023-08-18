@@ -7,6 +7,7 @@ class Opciones_sistema extends CI_Controller {
         $this->load->helper('url');
         $this->load->model('opciones_sistema_model');
         $this->load->model('accesos_sistema_model');
+        $this->load->model('bitacora_model');
         $this->load->model('parametros_sistema_model');
     }
 
@@ -110,6 +111,27 @@ class Opciones_sistema extends CI_Controller {
                     'es_menu' => $opciones_sistema['es_menu']
                 );
                 $cve_opcion = $this->opciones_sistema_model->guardar($data, $cve_opcion);
+
+                // registro en bitacora
+                $separador = ' -> ';
+                $usuario = $this->session->userdata('usuario');
+                $nom_usuario = $this->session->userdata('nom_usuario');
+                $nom_organizacion = $this->session->userdata('nom_organizacion');
+                $entidad = 'opciones_sistema';
+                $valor = $cve_opcion ." ". $opciones_sistema['cod_opcion'] . " " . $opciones_sistema['nom_opcion'];
+                $data = array(
+                    'fecha' => date("Y-m-d"),
+                    'hora' => date("H:i"),
+                    'origen' => $_SERVER['REMOTE_ADDR'],
+                    'usuario' => $usuario,
+                    'nom_usuario' => $nom_usuario,
+                    'nom_organizacion' => $nom_organizacion,
+                    'accion' => $accion,
+                    'entidad' => $entidad,
+                    'valor' => $valor
+                );
+                $this->bitacora_model->guardar($data);
+
             }
             redirect('opciones_sistema');
 
@@ -121,6 +143,29 @@ class Opciones_sistema extends CI_Controller {
     public function eliminar($cve_opcion)
     {
         if ($this->session->userdata('logueado')) {
+
+            // registro en bitacora
+            $opcion = $this->opciones_sistema_model->get_opcion($cve_opcion);
+            $separador = ' -> ';
+            $usuario = $this->session->userdata('usuario');
+            $nom_usuario = $this->session->userdata('nom_usuario');
+            $nom_organizacion = $this->session->userdata('nom_organizacion');
+            $accion = 'eliminó';
+            $entidad = 'opciones_sistema';
+            $valor = $cve_opcion ." ". $opcion['cod_opcion'] . " " . $opcion['nom_opcion'];
+            $data = array(
+                'fecha' => date("Y-m-d"),
+                'hora' => date("H:i"),
+                'origen' => $_SERVER['REMOTE_ADDR'],
+                'usuario' => $usuario,
+                'nom_usuario' => $nom_usuario,
+                'nom_organizacion' => $nom_organizacion,
+                'accion' => $accion,
+                'entidad' => $entidad,
+                'valor' => $valor
+            );
+            $this->bitacora_model->guardar($data);
+
             // eliminado
             $this->opciones_sistema_model->eliminar($cve_opcion);
             redirect('opciones_sistema');

@@ -8,6 +8,7 @@ class Organizaciones extends CI_Controller {
         $this->load->model('organizaciones_model');
         $this->load->model('accesos_sistema_model');
         $this->load->model('opciones_sistema_model');
+        $this->load->model('bitacora_model');
         $this->load->model('parametros_sistema_model');
     }
 
@@ -111,6 +112,27 @@ class Organizaciones extends CI_Controller {
                     'nom_organizacion' => $organizaciones['nom_organizacion']
                 );
                 $cve_organizacion = $this->organizaciones_model->guardar($data, $cve_organizacion);
+                
+                // registro en bitacora
+				$separador = ' -> ';
+				$usuario = $this->session->userdata('usuario');
+				$nom_usuario = $this->session->userdata('nom_usuario');
+				$nom_organizacion = $this->session->userdata('nom_organizacion');
+				$entidad = 'organizaciones';
+                $valor = $cve_organizacion . " " . $organizaciones['nom_organizacion'];
+				$data = array(
+					'fecha' => date("Y-m-d"),
+					'hora' => date("H:i"),
+					'origen' => $_SERVER['REMOTE_ADDR'],
+					'usuario' => $usuario,
+					'nom_usuario' => $nom_usuario,
+					'nom_organizacion' => $nom_organizacion,
+					'accion' => $accion,
+					'entidad' => $entidad,
+					'valor' => $valor
+				);
+				$this->bitacora_model->guardar($data);
+
             }
 
             redirect('organizaciones');
@@ -123,6 +145,29 @@ class Organizaciones extends CI_Controller {
     public function eliminar($cve_organizacion)
     {
         if ($this->session->userdata('logueado')) {
+
+            // registro en bitacora
+            $organizacion = $this->organizaciones_model->get_organizacion($cve_organizacion);
+            $separador = ' -> ';
+            $usuario = $this->session->userdata('usuario');
+            $nom_usuario = $this->session->userdata('nom_usuario');
+            $nom_organizacion = $this->session->userdata('nom_organizacion');
+            $accion = 'eliminó';
+            $entidad = 'organizaciones';
+            $valor = $cve_organizacion . " " . $organizacion['nom_organizacion'];
+            $data = array(
+                'fecha' => date("Y-m-d"),
+                'hora' => date("H:i"),
+                'origen' => $_SERVER['REMOTE_ADDR'],
+                'usuario' => $usuario,
+                'nom_usuario' => $nom_usuario,
+                'nom_organizacion' => $nom_organizacion,
+                'accion' => $accion,
+                'entidad' => $entidad,
+                'valor' => $valor
+            );
+            $this->bitacora_model->guardar($data);
+
             // eliminado
             $this->organizaciones_model->eliminar($cve_organizacion);
 

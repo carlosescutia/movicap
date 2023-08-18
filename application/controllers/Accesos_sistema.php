@@ -9,6 +9,7 @@ class Accesos_sistema extends CI_Controller {
         $this->load->model('opciones_sistema_model');
         $this->load->model('roles_model');
         $this->load->model('accesos_sistema_model');
+        $this->load->model('bitacora_model');
         $this->load->model('parametros_sistema_model');
     }
 
@@ -86,6 +87,28 @@ class Accesos_sistema extends CI_Controller {
                 );
                 $cve_acceso = $this->accesos_sistema_model->guardar($data, $cve_acceso);
 
+                // registro en bitacora
+                $opcion = $this->opciones_sistema_model->get_opcion_cod($accesos_sistema['cod_opcion']);
+                $rol = $this->roles_model->get_rol($accesos_sistema['cve_rol']);
+				$separador = ' -> ';
+				$usuario = $this->session->userdata('usuario');
+				$nom_usuario = $this->session->userdata('nom_usuario');
+				$nom_organizacion = $this->session->userdata('nom_organizacion');
+				$entidad = 'accesos_sistema';
+				$valor = $opcion['cod_opcion'] . " " . $opcion['nom_opcion'] . $separador . $rol['nom_rol'];
+				$data = array(
+					'fecha' => date("Y-m-d"),
+					'hora' => date("H:i"),
+					'origen' => $_SERVER['REMOTE_ADDR'],
+					'usuario' => $usuario,
+					'nom_usuario' => $nom_usuario,
+					'nom_organizacion' => $nom_organizacion,
+					'accion' => $accion,
+					'entidad' => $entidad,
+					'valor' => $valor
+				);
+				$this->bitacora_model->guardar($data);
+
             }
             redirect('accesos_sistema');
 
@@ -97,6 +120,31 @@ class Accesos_sistema extends CI_Controller {
     public function eliminar($cve_acceso)
     {
         if ($this->session->userdata('logueado')) {
+
+            // registro en bitacora
+            $acceso = $this->accesos_sistema_model->get_acceso_sistema($cve_acceso);
+            $opcion = $this->opciones_sistema_model->get_opcion_cod($acceso['cod_opcion']);
+            $rol = $this->roles_model->get_rol($acceso['cve_rol']);
+            $separador = ' -> ';
+            $usuario = $this->session->userdata('usuario');
+            $nom_usuario = $this->session->userdata('nom_usuario');
+            $nom_organizacion = $this->session->userdata('nom_organizacion');
+            $accion = 'eliminó';
+            $entidad = 'accesos_sistema';
+            $valor = $opcion['cod_opcion'] . " " . $opcion['nom_opcion'] . $separador . $rol['nom_rol'];
+            $data = array(
+                'fecha' => date("Y-m-d"),
+                'hora' => date("H:i"),
+                'origen' => $_SERVER['REMOTE_ADDR'],
+                'usuario' => $usuario,
+                'nom_usuario' => $nom_usuario,
+                'nom_organizacion' => $nom_organizacion,
+                'accion' => $accion,
+                'entidad' => $entidad,
+                'valor' => $valor
+            );
+            $this->bitacora_model->guardar($data);
+
             // eliminado
             $this->accesos_sistema_model->eliminar($cve_acceso);
 
