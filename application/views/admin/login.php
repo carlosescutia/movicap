@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="<?=base_url()?>img/favicon.png" sizes="16x16" type="image/png" />
 
-        <title>Lorem Ipsum</title>
+        <title><?= $nom_sitio_corto ?? 'Lorem ipsum' ?></title>
 
         <!-- global css -->
         <link rel="stylesheet" type="text/css" href="<?=base_url()?>css/admin.css" />
@@ -77,20 +77,20 @@
     </head>
     <body class="text-center">
         <form class="form-signin" method="post" action="<?= base_url() ?>admin/post_login">
-            <h2>Lorem Ipsum</h2>
-            <h4>dolor sit amet</h4>
+            <h2><?= $nom_sitio_corto ?? 'Lorem ipsum' ?></h2>
+            <h4><?= $nom_sitio_largo ?? 'dolor sit amet' ?></h4>
             <hr>
             <?php if ($error): ?>
             <p class="text-danger"><?php echo $error ?></p>
             <?php endif ?>
             <div class="col-sm-4 offset-sm-4">
-                <img class="logo_login" src="<?=base_url()?>img/logotipo.png" alt="logo">
+                <img class="logo_login" src="<?=base_url()?>img/<?= $logo_org_sitio ?? 'logotipo.png' ?>" alt="logo">
             </div>
             <h1 class="h3 mb-3 mt-5 font-weight-normal">Inicie sesión</h1>
             <input name="usuario" class="form-control" placeholder="Usuario" required autofocus>
             <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2023 Organización</p>
+            <p class="mt-5 mb-3 text-muted">&copy; <?= $anio_org_sitio ?? '2023' ?> <?= $nom_org_sitio ?? 'Organización' ?></p>
         </form>
     </body>
 </html>

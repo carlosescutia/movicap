@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="<?=base_url()?>img/favicon.png" sizes="16x16" type="image/png" />
 
-        <title>Lorem Ipsum</title>
+        <title><?= $nom_sitio_corto ?? 'Lorem ipsum' ?></title>
 
         <!-- global css -->
         <link rel="stylesheet" type="text/css" href="<?=base_url()?>css/admin.css" />
@@ -25,11 +25,11 @@
             <div class="container-fluid">
                 <!-- logo -->
                 <div class="logo_menu">
-                    <img class="logo" src="<?=base_url()?>img/logotipo.png" class="d-inline-block align-top" alt="logo">
+                    <img class="logo" src="<?=base_url()?>img/<?= $logo_org_sitio ?? 'logotipo.png' ?>" class="d-inline-block align-top" alt="logo">
                 </div>
                 <!-- titulo -->
                 <div class="titulo_menu">
-                    <h4 class="texto-titulo">Lorem Ipsum</h4>
+                    <h4 class="texto-titulo"><?= $nom_sitio_corto ?? 'Lorem ipsum' ?></h4>
                 </div>
 
                 <!-- boton para menu colapsado (pantallas pequeñas) -->
@@ -40,7 +40,7 @@
                 <!-- opciones del menu -->
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="col-sm-7 mt-2">
-                        <h5 class="texto-titulo">dolor sit amet, consectetur adipiscing elit</h5>
+                        <h5 class="texto-titulo"><?= $nom_sitio_largo ?? 'Lorem ipsum' ?></h5>
                         <hr class="mb-0 mt-2 pt-0 pb-0 " />
                         <ul class="navbar-nav mr-auto">
                             <?php foreach ($opciones_sistema as $opciones_sistema_item) {
