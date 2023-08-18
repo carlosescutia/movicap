@@ -17,4 +17,37 @@ class Usuarios_model extends CI_Model {
         $resultado = $consulta->row();
         return $resultado;
     }
+
+    public function get_usuarios() {
+        $sql = 'select u.*, r.nom_rol, d.nom_organizacion from usuarios u left join roles r on u.cve_rol = r.cve_rol left join organizaciones d on u.cve_organizacion = d.cve_organizacion order by u.cve_usuario;';
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function get_usuario($cve_usuario) {
+        $sql = 'select u.*, d.nom_organizacion, r.nom_rol from usuarios u left join roles r on u.cve_rol = r.cve_rol left join organizaciones d on u.cve_organizacion = d.cve_organizacion where u.cve_usuario = ?;';
+        $query = $this->db->query($sql, array($cve_usuario));
+        return $query->row_array();
+    }
+
+    public function guardar($data, $cve_usuario)
+    {
+        if ($cve_usuario) {
+            $this->db->where('cve_usuario', $cve_usuario);
+            $this->db->update('usuarios', $data);
+            $id = $cve_usuario;
+        } else {
+            $this->db->insert('usuarios', $data);
+            $id = $this->db->insert_id();
+        }
+        return $id;
+    }
+
+    public function eliminar($cve_usuario)
+    {
+        $this->db->where('cve_usuario', $cve_usuario);
+        $result = $this->db->delete('usuarios');
+        return $result;
+    }
+
 }
