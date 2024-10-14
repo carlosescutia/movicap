@@ -64,7 +64,7 @@
                     <tbody>
                         <?php foreach ($bitacora as $bitacora_item) { ?>
                         <tr>
-                            <td><?= $bitacora_item['cve_evento'] ?></td>
+                            <td><?= $bitacora_item['id_evento'] ?></td>
                             <td><?= empty($bitacora_item['fecha']) ? '' : date('d/m/y', strtotime($bitacora_item['fecha'])) ?></td>
                             <td><?= empty($bitacora_item['hora']) ? '' : date('H:i', strtotime($bitacora_item['hora'])) ?></td>
                             <td><?= $bitacora_item['origen'] ?></td>

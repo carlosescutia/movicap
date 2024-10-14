@@ -1,19 +1,14 @@
 <?php
-class Catalogos extends CI_Controller {
+class Rol extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->helper('url');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-
-        $this->load->model('usuario_model');
+        $this->load->model('rol_model');
         $this->load->model('acceso_sistema_model');
         $this->load->model('opcion_sistema_model');
         $this->load->model('parametro_sistema_model');
-
     }
 
     public function get_userdata()
@@ -53,8 +48,10 @@ class Catalogos extends CI_Controller {
                 redirect('admin');
             }
 
+            $data['roles'] = $this->rol_model->get_roles();
+
             $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/lista', $data);
+            $this->load->view('catalogos/rol/lista', $data);
             $this->load->view('templates/footer', $data);
         } else {
             redirect('admin/login');

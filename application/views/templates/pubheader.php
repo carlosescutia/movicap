@@ -40,7 +40,7 @@
                         <hr class="mb-0 mt-2 pt-0 pb-0 " />
                         <ul class="navbar-nav mr-auto">
                             <?php foreach ($opciones_publicas as $opciones_publicas_item) { ?>
-                                <li class="nav-item"><a class="nav-link" href="<?=base_url()?><?=$opciones_publicas_item['url'] ?>"><?=$opciones_publicas_item['nom_opcion'] ?></a></li>
+                                <li class="nav-item"><a class="nav-link" href="<?=base_url()?><?=$opciones_publicas_item['url'] ?>"><?=$opciones_publicas_item['nombre'] ?></a></li>
                             <?php } ?>
                         </ul>
                     </div>

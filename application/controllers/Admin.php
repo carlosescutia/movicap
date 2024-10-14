@@ -4,36 +4,36 @@ class Admin extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('accesos_sistema_model');
-        $this->load->model('opciones_sistema_model');
+        $this->load->model('usuario_model');
+        $this->load->model('acceso_sistema_model');
+        $this->load->model('opcion_sistema_model');
         $this->load->model('bitacora_model');
-        $this->load->model('parametros_sistema_model');
+        $this->load->model('parametro_sistema_model');
     }
 
     public function get_userdata()
     {
-        $cve_rol = $this->session->userdata('cve_rol');
-        $data['cve_usuario'] = $this->session->userdata('cve_usuario');
-        $data['cve_organizacion'] = $this->session->userdata('cve_organizacion');
+        $id_rol = $this->session->userdata('id_rol');
+        $data['id_usuario'] = $this->session->userdata('id_usuario');
+        $data['id_organizacion'] = $this->session->userdata('id_organizacion');
         $data['nom_organizacion'] = $this->session->userdata('nom_organizacion');
-        $data['cve_rol'] = $cve_rol;
+        $data['id_rol'] = $id_rol;
         $data['nom_usuario'] = $this->session->userdata('nom_usuario');
         $data['error'] = $this->session->flashdata('error');
-        $data['accesos_sistema_rol'] = explode(',', $this->accesos_sistema_model->get_accesos_sistema_rol($cve_rol)['accesos']);
-        $data['opciones_sistema'] = $this->opciones_sistema_model->get_opciones_sistema();
+        $data['accesos_sistema'] = explode(',', $this->acceso_sistema_model->get_accesos_sistema_rol($id_rol)['accesos']);
+        $data['opciones_sistema'] = $this->opcion_sistema_model->get_opciones_sistema();
         return $data;
     }
 
     public function get_system_params()
     {
-        $data['nom_sitio_corto'] = $this->parametros_sistema_model->get_parametro_sistema_nom('nom_sitio_corto');
-        $data['nom_sitio_largo'] = $this->parametros_sistema_model->get_parametro_sistema_nom('nom_sitio_largo');
-        $data['nom_org_sitio'] = $this->parametros_sistema_model->get_parametro_sistema_nom('nom_org_sitio');
-        $data['anio_org_sitio'] = $this->parametros_sistema_model->get_parametro_sistema_nom('anio_org_sitio');
-        $data['tel_org_sitio'] = $this->parametros_sistema_model->get_parametro_sistema_nom('tel_org_sitio');
-        $data['correo_org_sitio'] = $this->parametros_sistema_model->get_parametro_sistema_nom('correo_org_sitio');
-        $data['logo_org_sitio'] = $this->parametros_sistema_model->get_parametro_sistema_nom('logo_org_sitio');
+        $data['nom_sitio_corto'] = $this->parametro_sistema_model->get_parametro_sistema_nombre('nom_sitio_corto');
+        $data['nom_sitio_largo'] = $this->parametro_sistema_model->get_parametro_sistema_nombre('nom_sitio_largo');
+        $data['nom_org_sitio'] = $this->parametro_sistema_model->get_parametro_sistema_nombre('nom_org_sitio');
+        $data['anio_org_sitio'] = $this->parametro_sistema_model->get_parametro_sistema_nombre('anio_org_sitio');
+        $data['tel_org_sitio'] = $this->parametro_sistema_model->get_parametro_sistema_nombre('tel_org_sitio');
+        $data['correo_org_sitio'] = $this->parametro_sistema_model->get_parametro_sistema_nombre('correo_org_sitio');
+        $data['logo_org_sitio'] = $this->parametro_sistema_model->get_parametro_sistema_nombre('logo_org_sitio');
         return $data;
     }
 
@@ -66,7 +66,7 @@ class Admin extends CI_Controller {
         );
         $usuario = $this->session->userdata('usuario');
         $nom_usuario = $this->session->userdata('nom_usuario');
-        $cve_organizacion = $this->session->userdata('cve_organizacion');
+        $id_organizacion = $this->session->userdata('id_organizacion');
         $nom_organizacion = $this->session->userdata('nom_organizacion');
         $data = array(
             'fecha' => date("Y-m-d"),
@@ -88,13 +88,13 @@ class Admin extends CI_Controller {
         if ($this->input->post()) {
             $usuario = $this->input->post('usuario');
             $password = $this->input->post('password');
-            $usuario_db = $this->usuarios_model->usuario_por_nombre($usuario, $password);
+            $usuario_db = $this->usuario_model->usuario_por_nombre($usuario, $password);
             if ($usuario_db) {
                 $usuario_data = array(
-                    'cve_usuario' => $usuario_db->cve_usuario,
-                    'cve_organizacion' => $usuario_db->cve_organizacion,
+                    'id_usuario' => $usuario_db->id_usuario,
+                    'id_organizacion' => $usuario_db->id_organizacion,
                     'nom_organizacion' => $usuario_db->nom_organizacion,
-                    'cve_rol' => $usuario_db->cve_rol,
+                    'id_rol' => $usuario_db->id_rol,
                     'nom_usuario' => $usuario_db->nom_usuario,
                     'usuario' => $usuario_db->usuario,
                     'logueado' => TRUE
