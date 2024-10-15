@@ -11,8 +11,10 @@ class Bitacora_model extends CI_Model {
         return $result;
     }
 
-    public function get_bitacora($usuario, $nom_organizacion, $id_rol, $accion, $entidad)
+    public function get_bitacora($usuario, $nom_organizacion, $id_rol, $accion, $entidad, $salida)
     {
+        $this->load->dbutil();
+
         if ($id_rol == 'sup') {
             $usuario = '%';
         }
@@ -37,7 +39,14 @@ class Bitacora_model extends CI_Model {
         } 
         $sql .= ' order by b.id_evento desc;';
         $query = $this->db->query($sql, $parametros);
-        return $query->result_array();
+
+        if ($salida == 'csv') {
+            $delimiter = ",";
+            $newline = "\r\n";
+            return $this->dbutil->csv_from_result($query, $delimiter, $newline);
+        } else {
+            return $query->result_array();
+        }
     }
 
 }

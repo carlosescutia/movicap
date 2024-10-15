@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="row">
-                <?php foreach ($accesos_sistema as $accesos_sistema_item) { ?>
+                <?php foreach ($ed_accesos_sistema as $accesos_sistema_item) { ?>
                 <div class="col-sm-7 alternate-color">
                     <div class="row">
                         <div class="col-sm-2 align-self-center">

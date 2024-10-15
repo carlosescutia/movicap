@@ -7,7 +7,7 @@
                         <h1 class="h2">Bitácora de actividad</h1>
                     </div>
                     <div class="col-sm-4 text-end">
-                        <button formaction="<?= base_url() ?>reportes/listado_bitacora_01_csv" class="btn btn-primary d-print-none">Exportar a excel</button>
+                        <button formaction="<?= base_url() ?>reportes/listado_bitacora_01/csv" class="btn btn-primary d-print-none">Exportar a excel</button>
                         <a href="javascript:window.print()" class="btn btn-primary d-print-none">Generar pdf</a>
                     </div>
                 </div>
@@ -27,10 +27,10 @@
                             <div class="col-2">
                                 <select class="form-select form-select-sm" name="entidad">
                                     <option value="" <?= ($entidad == '') ? 'selected' : '' ?>>Todas las entidades</option>
-                                    <option value="usuarios" <?= ($entidad == 'usuarios') ? 'selected' : '' ?>>usuarios</option>
-                                    <option value="opciones_sistema" <?= ($entidad == 'opciones_sistema') ? 'selected' : '' ?>>opciones_sistema</option>
-                                    <option value="accesos_sistema" <?= ($entidad == 'accesos_sistema') ? 'selected' : '' ?>>accesos_sistema</option>
-                                    <option value="organizaciones" <?= ($entidad == 'organizaciones') ? 'selected' : '' ?>>organizaciones</option>
+                                    <option value="usuario" <?= ($entidad == 'usuario') ? 'selected' : '' ?>>usuario</option>
+                                    <option value="opcion_sistema" <?= ($entidad == 'opcion_sistema') ? 'selected' : '' ?>>opcion_sistema</option>
+                                    <option value="acceso_sistema" <?= ($entidad == 'acceso_sistema') ? 'selected' : '' ?>>acceso_sistema</option>
+                                    <option value="organizacion" <?= ($entidad == 'organizacion') ? 'selected' : '' ?>>organizacion</option>
                                 </select>
                             </div>
                             <div class="col-1">
