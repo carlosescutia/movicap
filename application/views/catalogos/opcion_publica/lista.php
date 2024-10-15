@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-sm-1">
                             <?php 
-                            $item_eliminar = $opciones_publicas_item['orden'] . " " . $opciones_publicas_item['nombre'] ;
+                            $item_eliminar = $opciones_publicas_item['id_opcion_publica'] . " " . $opciones_publicas_item['orden'] . " " . $opciones_publicas_item['nombre'] ;
                             $url = base_url() . "opcion_publica/eliminar/". $opciones_publicas_item['id_opcion_publica']; 
                             ?>
                             <p><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></i>

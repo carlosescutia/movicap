@@ -54,17 +54,21 @@ class Opcion_sistema extends CI_Controller {
     public function nuevo()
     {
         if ($this->session->userdata('logueado')) {
-            $data = [];
-            $data += $this->funciones_sistema->get_userdata();
-            $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
-                redirect(base_url() . 'admin');
-            }
+            // guardado
+            $data = array(
+                'codigo' => null,
+            );
+            $id_opcion_sistema = $this->opcion_sistema_model->guardar($data, null);
 
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/opcion_sistema/nuevo', $data);
-            $this->load->view('templates/footer', $data);
+            // registro en bitacora
+            $accion = 'agregó';
+            $entidad = 'opcion_sistema';
+            $valor = $id_opcion_sistema;
+            $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+
+            $this->detalle($id_opcion_sistema);
+
         } else {
             redirect(base_url() . 'admin/login');
         }

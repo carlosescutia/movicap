@@ -30,7 +30,7 @@ class Opcion_publica extends CI_Controller {
         }
     }
 
-    public function detalle($id_opcion)
+    public function detalle($id_opcion_publica)
     {
         if ($this->session->userdata('logueado')) {
             $data = [];
@@ -41,7 +41,7 @@ class Opcion_publica extends CI_Controller {
                 redirect(base_url() . 'admin');
             }
 
-            $data['opcion_publica'] = $this->opcion_publica_model->get_opcion_publica($id_opcion);
+            $data['opcion_publica'] = $this->opcion_publica_model->get_opcion_publica($id_opcion_publica);
 
             $this->load->view('templates/admheader', $data);
             $this->load->view('catalogos/opcion_publica/detalle', $data);
@@ -54,30 +54,34 @@ class Opcion_publica extends CI_Controller {
     public function nuevo()
     {
         if ($this->session->userdata('logueado')) {
-            $data = [];
-            $data += $this->funciones_sistema->get_userdata();
-            $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
-                redirect(base_url() . 'admin');
-            }
+            // guardado
+            $data = array(
+                'orden' => null,
+            );
+            $id_opcion_publica = $this->opcion_publica_model->guardar($data, null);
 
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/opcion_publica/nuevo', $data);
-            $this->load->view('templates/footer', $data);
+            // registro en bitacora
+            $accion = 'agregó';
+            $entidad = 'opcion_publica';
+            $valor = $id_opcion_publica;
+            $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+
+            $this->detalle($id_opcion_publica);
+
         } else {
             redirect(base_url() . 'admin/login');
         }
     }
 
-    public function guardar($id_opcion=null)
+    public function guardar($id_opcion_publica=null)
     {
         if ($this->session->userdata('logueado')) {
 
             $opcion_publica = $this->input->post();
             if ($opcion_publica) {
 
-                if ($id_opcion) {
+                if ($id_opcion_publica) {
                     $accion = 'modificó';
                 } else {
                     $accion = 'agregó';
@@ -88,11 +92,11 @@ class Opcion_publica extends CI_Controller {
                     'nombre' => $opcion_publica['nombre'],
                     'url' => $opcion_publica['url'],
                 );
-                $id_opcion = $this->opcion_publica_model->guardar($data, $id_opcion);
+                $id_opcion_publica = $this->opcion_publica_model->guardar($data, $id_opcion_publica);
 
                 // registro en bitacora
                 $entidad = 'opcion_publica';
-                $valor = $id_opcion ." ". $opcion_publica['orden'] . " " . $opcion_publica['nombre'];
+                $valor = $id_opcion_publica ." ". $opcion_publica['orden'] . " " . $opcion_publica['nombre'];
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             }
@@ -103,19 +107,19 @@ class Opcion_publica extends CI_Controller {
         }
     }
 
-    public function eliminar($id_opcion)
+    public function eliminar($id_opcion_publica)
     {
         if ($this->session->userdata('logueado')) {
 
             // registro en bitacora
-            $opcion = $this->opcion_publica_model->get_opcion_publica($id_opcion);
+            $opcion = $this->opcion_publica_model->get_opcion_publica($id_opcion_publica);
             $accion = 'eliminó';
             $entidad = 'opcion_publica';
-            $valor = $id_opcion ." ". $opcion['orden'] . " " . $opcion['nombre'];
+            $valor = $id_opcion_publica ." ". $opcion['orden'] . " " . $opcion['nombre'];
             $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             // eliminado
-            $this->opcion_publica_model->eliminar($id_opcion);
+            $this->opcion_publica_model->eliminar($id_opcion_publica);
             redirect(base_url() . 'opcion_publica');
 
         } else {

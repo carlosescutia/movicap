@@ -57,20 +57,21 @@ class Usuario extends CI_Controller {
     public function nuevo()
     {
         if ($this->session->userdata('logueado')) {
-            $data = [];
-            $data += $this->funciones_sistema->get_userdata();
-            $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
-                redirect(base_url() . 'admin');
-            }
+            // guardado
+            $data = array(
+                'id_organizacion' => null,
+            );
+            $id_usuario = $this->usuario_model->guardar($data, null);
 
-            $data['roles'] = $this->rol_model->get_roles();
-            $data['organizaciones'] = $this->organizacion_model->get_organizaciones();
+            // registro en bitacora
+            $accion = 'agregó';
+            $entidad = 'usuario';
+            $valor = $id_usuario ;
+            $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/usuario/nuevo', $data);
-            $this->load->view('templates/footer', $data);
+            $this->detalle($id_usuario);
+
         } else {
             redirect(base_url() . 'admin/login');
         }

@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-sm-1">
                             <?php 
-                            $item_eliminar = $organizaciones_item['nom_organizacion']; 
+                            $item_eliminar = $organizaciones_item['id_organizacion'] . ' ' . $organizaciones_item['nom_organizacion']; 
                             $url = base_url() . "organizacion/eliminar/". $organizaciones_item['id_organizacion']; 
                             ?>
                             <p><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></i>
