@@ -16,7 +16,7 @@
         <script src="<?=base_url()?>js/bootstrap.bundle.min.js"></script>
 
         <!-- jquery -->
-        <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        <script src="<?=base_url()?>js/jquery-3.6.3.min.js"></script>
 
         <style>
             html,
@@ -90,7 +90,7 @@
             <input name="usuario" class="form-control" placeholder="Usuario" required autofocus>
             <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
-            <p class="mt-5 mb-3 text-muted">&copy; <?= $anio_org_sitio ?? '2023' ?> <?= $nom_org_sitio ?? 'Organización' ?></p>
+            <p class="mt-5 mb-3 text-muted">&copy; <?= $anio_org_sitio ?? '2024' ?> <?= $nom_org_sitio ?? 'Organización' ?></p>
         </form>
     </body>
 </html>

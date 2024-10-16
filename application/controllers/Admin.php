@@ -42,7 +42,7 @@ class Admin extends CI_Controller {
         $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
         $this->session->set_userdata($usuario_data);
-        redirect(base_url() . 'admin/login');
+        redirect(base_url() . 'admin');
     }
 
     public function post_login() {
@@ -52,12 +52,12 @@ class Admin extends CI_Controller {
             $usuario_db = $this->usuario_model->usuario_por_nombre($usuario, $password);
             if ($usuario_db) {
                 $usuario_data = array(
-                    'id_usuario' => $usuario_db->id_usuario,
-                    'id_organizacion' => $usuario_db->id_organizacion,
-                    'nom_organizacion' => $usuario_db->nom_organizacion,
-                    'id_rol' => $usuario_db->id_rol,
-                    'nom_usuario' => $usuario_db->nom_usuario,
-                    'usuario' => $usuario_db->usuario,
+                    'id_usuario' => $usuario_db['id_usuario'],
+                    'id_organizacion' => $usuario_db['id_organizacion'],
+                    'nom_organizacion' => $usuario_db['nom_organizacion'],
+                    'id_rol' => $usuario_db['id_rol'],
+                    'nom_usuario' => $usuario_db['nom_usuario'],
+                    'usuario' => $usuario_db['usuario'],
                     'logueado' => TRUE
                 );
                 $this->session->set_userdata($usuario_data);
@@ -77,4 +77,3 @@ class Admin extends CI_Controller {
         }
     }
 }
-

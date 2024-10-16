@@ -28,6 +28,6 @@
                 <li class="nav-item"><i class="bi bi-envelope"></i> <?= $correo_org_sitio ?? 'contacto@organizacion.inet' ?> &nbsp; </li>
             </ul>
         </footer>
-        
+
     </body>
 </html>

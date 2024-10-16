@@ -6,16 +6,18 @@ class Usuario_model extends CI_Model {
     }
 
     public function usuario_por_nombre($usuario, $password) {
-        $this->db->select('u.id_usuario, u.nom_usuario, u.usuario, u.id_organizacion, d.nom_organizacion, u.id_rol, r.nombre as nom_rol');
-        $this->db->from('usuario u');
-        $this->db->join('rol r', 'u.id_rol = r.id_rol', 'left');
-        $this->db->join('organizacion d', 'u.id_organizacion = d.id_organizacion', 'left');
-        $this->db->where('u.usuario', $usuario);
-        $this->db->where('u.password', $password);
-        $this->db->where('u.activo', '1');
-        $consulta = $this->db->get();
-        $resultado = $consulta->row();
-        return $resultado;
+        $sql = ""
+            ."select u.id_usuario, u.nom_usuario, u.usuario, u.id_organizacion, o.nom_organizacion, u.id_rol, r.nombre as nom_rol "
+            ."from usuario u "
+            ."left join rol r on r.id_rol = u.id_rol "
+            ."left join organizacion o on o.id_organizacion = u.id_organizacion "
+            ."where "
+            ."u.usuario = ? "
+            ."and password = ? "
+            ."and activo = 1 "
+            ."";
+        $query = $this->db->query($sql, array($usuario, $password));
+        return $query->row_array();
     }
 
     public function get_usuarios() {
@@ -35,7 +37,13 @@ class Usuario_model extends CI_Model {
     }
 
     public function get_usuario($id_usuario) {
-        $sql = 'select u.*, d.nom_organizacion, r.nombre as nom_rol from usuario u left join rol r on u.id_rol = r.id_rol left join organizacion d on u.id_organizacion = d.id_organizacion where u.id_usuario = ?;';
+        $sql = ""
+            ."select u.*, o.nom_organizacion, r.nombre as nom_rol "
+            ."from usuario u "
+            ."left join rol r on u.id_rol = r.id_rol "
+            ."left join organizacion o on u.id_organizacion = o.id_organizacion "
+            ."where u.id_usuario = ? "
+            ."";
         $query = $this->db->query($sql, array($id_usuario));
         return $query->row_array();
     }

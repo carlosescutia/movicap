@@ -1,10 +1,11 @@
-<main role="main" class="ml-sm-auto px-4 mb-3">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1>Catálogos</h1>
-    </div>
+<div class="my-3 pb-2 border-bottom">
+    <h2>Catálogos</h2>
+</div>
+
+<div class="area-contenido">
     <div class="row">
         <div class="col-md-9 p-3">
-            <h2>Aplicación</h2>
+            <h3>Aplicación</h3>
             <div class="row mb-3 gy-3">
                 <?php
                     $permisos_requeridos = array(
@@ -29,7 +30,7 @@
             </div>
         </div>
         <div class="col-md-3 p-3 border bg-light">
-            <h2>Sistema</h2>
+            <h3>Sistema</h3>
             <div class="row mb-3 gy-3">
                 <?php
                     $permisos_requeridos = array(
@@ -84,4 +85,4 @@
             </div>
         </div>
     </div>
-</main>
+</div>

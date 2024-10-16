@@ -85,6 +85,9 @@ body a:hover {
 
 /* MENU */
 
+.area-contenido {
+    min-height: 60vh;
+}
 
 /* FOOTER */
 .footer {
