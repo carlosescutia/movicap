@@ -15,16 +15,19 @@ class Parametro_sistema extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'parametro_sistema.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['parametros_sistema'] = $this->parametro_sistema_model->get_parametros_sistema();
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('templates/dlg_borrar');
+                $this->load->view('catalogos/parametro_sistema/lista', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['parametros_sistema'] = $this->parametro_sistema_model->get_parametros_sistema();
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('templates/dlg_borrar');
-            $this->load->view('catalogos/parametro_sistema/lista', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -37,15 +40,18 @@ class Parametro_sistema extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'parametro_sistema.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['parametro_sistema'] = $this->parametro_sistema_model->get_parametro_sistema_id($id_parametro_sistema);
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('catalogos/parametro_sistema/detalle', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['parametro_sistema'] = $this->parametro_sistema_model->get_parametro_sistema_id($id_parametro_sistema);
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/parametro_sistema/detalle', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -54,21 +60,30 @@ class Parametro_sistema extends CI_Controller {
     public function nuevo()
     {
         if ($this->session->userdata('logueado')) {
+            $data = [];
+            $data += $this->funciones_sistema->get_userdata();
 
-            // guardado
-            $data = array(
-                'nombre' => null,
+            $permisos_requeridos = array(
+                'parametro_sistema.can_edit',
             );
-            $id_parametro_sistema = $this->parametro_sistema_model->guardar($data, null);
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                // guardado
+                $data = array(
+                    'nombre' => null,
+                );
+                $id_parametro_sistema = $this->parametro_sistema_model->guardar($data, null);
 
-            // registro en bitacora
-            $accion = 'agregó';
-            $entidad = 'parametro_sistema';
-            $valor = $id_parametro_sistema;
-            $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+                // registro en bitacora
+                $accion = 'agregó';
+                $entidad = 'parametro_sistema';
+                $valor = $id_parametro_sistema;
+                $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
-            $this->detalle($id_parametro_sistema);
+                $this->detalle($id_parametro_sistema);
 
+            } else {
+                redirect(base_url() . 'admin');
+            }
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -77,8 +92,6 @@ class Parametro_sistema extends CI_Controller {
     public function guardar($id_parametro_sistema=null)
     {
         if ($this->session->userdata('logueado')) {
-
-            $nueva_parametro_sistema = is_null($id_parametro_sistema);
 
             $parametro_sistema = $this->input->post();
             if ($parametro_sistema) {

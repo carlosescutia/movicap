@@ -15,16 +15,19 @@ class Opcion_publica extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'opcion_publica.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['opciones_publicas'] = $this->opcion_publica_model->get_opciones_publicas();
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('templates/dlg_borrar');
+                $this->load->view('catalogos/opcion_publica/lista', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['opciones_publicas'] = $this->opcion_publica_model->get_opciones_publicas();
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('templates/dlg_borrar');
-            $this->load->view('catalogos/opcion_publica/lista', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -37,15 +40,18 @@ class Opcion_publica extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'opcion_publica.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['opcion_publica'] = $this->opcion_publica_model->get_opcion_publica($id_opcion_publica);
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('catalogos/opcion_publica/detalle', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['opcion_publica'] = $this->opcion_publica_model->get_opcion_publica($id_opcion_publica);
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/opcion_publica/detalle', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -54,21 +60,30 @@ class Opcion_publica extends CI_Controller {
     public function nuevo()
     {
         if ($this->session->userdata('logueado')) {
+            $data = [];
+            $data += $this->funciones_sistema->get_userdata();
 
-            // guardado
-            $data = array(
-                'orden' => null,
+            $permisos_requeridos = array(
+                'opcion_publica.can_edit',
             );
-            $id_opcion_publica = $this->opcion_publica_model->guardar($data, null);
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                // guardado
+                $data = array(
+                    'orden' => null,
+                );
+                $id_opcion_publica = $this->opcion_publica_model->guardar($data, null);
 
-            // registro en bitacora
-            $accion = 'agregó';
-            $entidad = 'opcion_publica';
-            $valor = $id_opcion_publica;
-            $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+                // registro en bitacora
+                $accion = 'agregó';
+                $entidad = 'opcion_publica';
+                $valor = $id_opcion_publica;
+                $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
-            $this->detalle($id_opcion_publica);
+                $this->detalle($id_opcion_publica);
 
+            } else {
+                redirect(base_url() . 'admin');
+            }
         } else {
             redirect(base_url() . 'admin/login');
         }

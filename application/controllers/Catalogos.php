@@ -14,13 +14,16 @@ class Catalogos extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'catalogos.can_view',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('catalogos/lista', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/lista', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }

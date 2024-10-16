@@ -15,15 +15,18 @@ class Rol extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'rol.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['roles'] = $this->rol_model->get_roles();
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('catalogos/rol/lista', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['roles'] = $this->rol_model->get_roles();
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/rol/lista', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }

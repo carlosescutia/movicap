@@ -15,16 +15,19 @@ class Organizacion extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'organizacion.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['organizaciones'] = $this->organizacion_model->get_organizaciones();
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('templates/dlg_borrar');
+                $this->load->view('catalogos/organizacion/lista', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['organizaciones'] = $this->organizacion_model->get_organizaciones();
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('templates/dlg_borrar');
-            $this->load->view('catalogos/organizacion/lista', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -37,15 +40,18 @@ class Organizacion extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'organizacion.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['organizacion'] = $this->organizacion_model->get_organizacion($id_organizacion);
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('catalogos/organizacion/detalle', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['organizacion'] = $this->organizacion_model->get_organizacion($id_organizacion);
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/organizacion/detalle', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -54,21 +60,29 @@ class Organizacion extends CI_Controller {
     public function nuevo()
     {
         if ($this->session->userdata('logueado')) {
+            $data = [];
+            $data += $this->funciones_sistema->get_userdata();
 
-            // guardado
-            $data = array(
-                'nom_organizacion' => null,
+            $permisos_requeridos = array(
+                'organizacion.can_edit',
             );
-            $id_organizacion = $this->organizacion_model->guardar($data, null);
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                // guardado
+                $data = array(
+                    'nom_organizacion' => null,
+                );
+                $id_organizacion = $this->organizacion_model->guardar($data, null);
 
-            // registro en bitacora
-            $accion = 'agregó';
-            $entidad = 'organizacion';
-            $valor = $id_organizacion;
-            $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+                // registro en bitacora
+                $accion = 'agregó';
+                $entidad = 'organizacion';
+                $valor = $id_organizacion;
+                $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
-            $this->detalle($id_organizacion);
-
+                $this->detalle($id_organizacion);
+            } else {
+                redirect(base_url() . 'admin');
+            }
         } else {
             redirect(base_url() . 'admin/login');
         }

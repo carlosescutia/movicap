@@ -17,15 +17,18 @@
     <div class="col-sm-12">
         <div style="min-height: 46vh">
             <div class="row">
-                <div class="col-sm-7">
+                <div class="col-sm-10">
                     <div class="row">
-                        <div class="col-sm-2 align-self-center">
+                        <div class="col-sm-1 align-self-center">
                             <p class="small"><strong>Clave</strong></p>
                         </div>
-                        <div class="col-sm-2 align-self-center">
+                        <div class="col-sm-4 align-self-center">
                             <p class="small"><strong>Opción</strong></p>
                         </div>
-                        <div class="col-sm-5 align-self-center">
+                        <div class="col-sm-4 align-self-center">
+                            <p class="small"><strong>Nombre</strong></p>
+                        </div>
+                        <div class="col-sm-2 align-self-center">
                             <p class="small"><strong>Rol</strong></p>
                         </div>
                     </div>
@@ -33,15 +36,18 @@
             </div>
             <div class="row">
                 <?php foreach ($ed_accesos_sistema as $accesos_sistema_item) { ?>
-                <div class="col-sm-7 alternate-color">
+                <div class="col-sm-10 alternate-color">
                     <div class="row">
-                        <div class="col-sm-2 align-self-center">
+                        <div class="col-sm-1 align-self-center">
                             <p><?= $accesos_sistema_item['id_acceso_sistema'] ?></p>
                         </div>
-                        <div class="col-sm-2 align-self-center">
-                            <p><?= $accesos_sistema_item['codigo'] ?> <?= $accesos_sistema_item['nom_opcion'] ?></p>
+                        <div class="col-sm-4 align-self-center">
+                            <p><?= $accesos_sistema_item['codigo'] ?></p>
                         </div>
-                        <div class="col-sm-5 align-self-center">
+                        <div class="col-sm-4 align-self-center">
+                            <p><?= $accesos_sistema_item['nom_opcion'] ?></p>
+                        </div>
+                        <div class="col-sm-2 align-self-center">
                             <p><?= $accesos_sistema_item['nom_rol'] ?></p>
                         </div>
                         <div class="col-sm-1">

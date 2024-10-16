@@ -17,16 +17,19 @@ class Acceso_sistema extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'acceso_sistema.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['ed_accesos_sistema'] = $this->acceso_sistema_model->get_accesos_sistema();
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('templates/dlg_borrar');
+                $this->load->view('catalogos/acceso_sistema/lista', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['ed_accesos_sistema'] = $this->acceso_sistema_model->get_accesos_sistema();
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('templates/dlg_borrar');
-            $this->load->view('catalogos/acceso_sistema/lista', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -39,16 +42,19 @@ class Acceso_sistema extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
 
-            if ($data['id_rol'] != 'adm') {
+            $permisos_requeridos = array(
+                'acceso_sistema.can_edit',
+            );
+            if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $data['opciones_sistema'] = $this->opcion_sistema_model->get_opciones_sistema();
+                $data['roles'] = $this->rol_model->get_roles();
+
+                $this->load->view('templates/admheader', $data);
+                $this->load->view('catalogos/acceso_sistema/nuevo', $data);
+                $this->load->view('templates/footer', $data);
+            } else {
                 redirect(base_url() . 'admin');
             }
-
-            $data['opciones_sistema'] = $this->opcion_sistema_model->get_opciones_sistema();
-            $data['roles'] = $this->rol_model->get_roles();
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('catalogos/acceso_sistema/nuevo', $data);
-            $this->load->view('templates/footer', $data);
         } else {
             redirect(base_url() . 'admin/login');
         }

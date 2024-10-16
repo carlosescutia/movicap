@@ -17,32 +17,38 @@
     <div class="col-sm-12">
         <div style="min-height: 46vh">
             <div class="row">
-                <div class="col-sm-7">
+                <div class="col-sm-8">
                     <div class="row">
                         <div class="col-sm-2 align-self-center">
                             <p class="small"><strong>Clave</strong></p>
                         </div>
-                        <div class="col-sm-2 align-self-center">
+                        <div class="col-sm-4 align-self-center">
                             <p class="small"><strong>Código</strong></p>
                         </div>
-                        <div class="col-sm-5 align-self-center">
+                        <div class="col-sm-3 align-self-center">
                             <p class="small"><strong>Nombre</strong></p>
+                        </div>
+                        <div class="col-sm-1 align-self-center">
+                            <p class="small"><strong>Otorgable</strong></p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <?php foreach ($opciones_sistema as $opciones_sistema_item) { ?>
-                <div class="col-sm-7 alternate-color">
+                <div class="col-sm-8 alternate-color">
                     <div class="row">
                         <div class="col-sm-2 align-self-center">
-                            <p><?= $opciones_sistema_item['id_opcion_sistema'] ?></p>
+                            <p><a href="<?=base_url()?>opcion_sistema/detalle/<?=$opciones_sistema_item['id_opcion_sistema']?>"><?= $opciones_sistema_item['id_opcion_sistema'] ?></a></p>
                         </div>
-                        <div class="col-sm-2 align-self-center">
-                            <p><?= $opciones_sistema_item['codigo'] ?></p>
+                        <div class="col-sm-4 align-self-center">
+                            <p><a href="<?=base_url()?>opcion_sistema/detalle/<?=$opciones_sistema_item['id_opcion_sistema']?>"><?= $opciones_sistema_item['codigo'] ?></a></p>
                         </div>
-                        <div class="col-sm-5 align-self-center">
-                            <p><a href="<?=base_url()?>opcion_sistema/detalle/<?=$opciones_sistema_item['id_opcion_sistema']?>"><?= $opciones_sistema_item['nombre'] ?></a></p>
+                        <div class="col-sm-3 align-self-center">
+                            <p><?= $opciones_sistema_item['nombre'] ?></p>
+                        </div>
+                        <div class="col-sm-1 text-center">
+                            <p><?= $opciones_sistema_item['otorgable'] ?></p>
                         </div>
                         <div class="col-sm-1">
                             <?php 

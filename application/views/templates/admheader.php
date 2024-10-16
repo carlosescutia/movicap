@@ -43,11 +43,23 @@
                         <h5 class="texto-titulo"><?= $nom_sitio_largo ?? 'Lorem ipsum' ?></h5>
                         <hr class="mb-0 mt-2 pt-0 pb-0 " />
                         <ul class="navbar-nav mr-auto">
-                            <?php foreach ($opciones_sistema as $opciones_sistema_item) {
-                                if (in_array($opciones_sistema_item['codigo'], $accesos_sistema) && $opciones_sistema_item['es_menu'] ) { ?>
-                                    <li class="nav-item"><a class="nav-link d-print-none" href="<?=base_url()?><?=$opciones_sistema_item['url'] ?>"><?=$opciones_sistema_item['nombre'] ?></a></li>
-                                <?php } 
-                            } ?>
+                            <li class="nav-item d-print-none"><a class="nav-link" href="<?=base_url()?>admin">Inicio</a></li>
+                            <?php
+                                $permisos_requeridos = array(
+                                'reportes.can_view',
+                                );
+                                if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                                    <li class="nav-item d-print-none"><a class="nav-link" href="<?=base_url()?>reportes">Reportes</a></li>
+                                <?php }
+                            ?>
+                            <?php
+                                $permisos_requeridos = array(
+                                'catalogos.can_view',
+                                );
+                                if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                                    <li class="nav-item d-print-none"><a class="nav-link" href="<?=base_url()?>catalogos">Catalogos</a></li>
+                                <?php }
+                            ?>
                         </ul>
                     </div>
                     <div class="col-sm-5 text-end">

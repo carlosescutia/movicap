@@ -6,10 +6,16 @@
         <div class="row">
             <div class="col-md-6">
                 <h3>Listados</h3>
-                <?php include "btn_listado_bitacora_01.php"; ?>
-            </div>
-            <div class="col-md-6">
-                <h3>Estadísticos</h3>
+                    <?php
+                        $permisos_requeridos = array(
+                        'reportes_usuario.can_view',
+                        'reportes_supervisor.can_view',
+                        'reportes_administrador.can_view',
+                        );
+                        if (has_permission_or($permisos_requeridos, $permisos_usuario)) {
+                            include "btn_listado_bitacora_01.php";
+                        }
+                    ?>
             </div>
         </div>
     </div>
@@ -17,3 +23,4 @@
     <hr />
 
 </main>
+
