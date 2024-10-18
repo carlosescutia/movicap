@@ -111,12 +111,12 @@ class Usuario extends CI_Controller {
                 }
                 // guardado
                 $data = array(
-                    'id_organizacion' => $usuario['id_organizacion'],
+                    'id_organizacion' => empty($usuario['id_organizacion']) ? null : $usuario['id_organizacion'],
                     'id_rol' => $usuario['id_rol'],
                     'nom_usuario' => $usuario['nom_usuario'],
                     'usuario' => $usuario['usuario'],
                     'password' => $usuario['password'],
-                    'activo' => empty($usuario['activo']) ? '0' : $usuario['activo']
+                    'activo' => empty($usuario['activo']) ? null : $usuario['activo'],
                 );
                 $id_usuario = $this->usuario_model->guardar($data, $id_usuario);
 

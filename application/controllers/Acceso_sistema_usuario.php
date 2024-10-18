@@ -20,7 +20,7 @@ class Acceso_sistema_usuario extends CI_Controller {
                 // guardado
                 $data = array(
                     'id_usuario' => $acceso_sistema_usuario['id_usuario'],
-                    'codigo' => $acceso_sistema_usuario['codigo'],
+                    'cod_opcion_sistema' => $acceso_sistema_usuario['cod_opcion_sistema'],
                 );
                 $id_acceso_sistema_usuario = $this->acceso_sistema_usuario_model->guardar($data, $acceso_sistema_usuario['id_acceso_sistema_usuario']);
 
@@ -28,7 +28,7 @@ class Acceso_sistema_usuario extends CI_Controller {
                 $usuario = $this->usuario_model->get_usuario($id_usuario);
                 $accion = 'agregó';
                 $entidad = 'acceso_sistema_usuario';
-                $valor = $acceso_sistema_usuario['codigo'] . " - " . $usuario['usuario'];
+                $valor = $acceso_sistema_usuario['cod_opcion_sistema'] . " - " . $usuario['usuario'];
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             }
@@ -50,7 +50,7 @@ class Acceso_sistema_usuario extends CI_Controller {
             $usuario = $this->usuario_model->get_usuario($id_usuario);
             $accion = 'eliminó';
             $entidad = 'acceso_sistema_usuario';
-            $valor = $acceso_sistema_usuario['codigo'] . " - " . $usuario['usuario'];
+            $valor = $acceso_sistema_usuario['cod_opcion_sistema'] . " - " . $usuario['usuario'];
             $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             // eliminado

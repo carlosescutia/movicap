@@ -12,11 +12,11 @@
 
     <div class="area-contenido col-md-12">
         <div class="form-group row">
-            <label for="codigo" class="col-sm-2 col-form-label">Opción</label>
+            <label for="cod_opcion_sistema" class="col-sm-2 col-form-label">Opción</label>
             <div class="col-sm-3">
-                <select class="form-select" name="codigo" id="codigo">
+                <select class="form-select" name="cod_opcion_sistema" id="cod_opcion_sistema">
                     <?php foreach ($opciones_sistema as $opciones_sistema_item) { ?>
-                        <option value="<?= $opciones_sistema_item['codigo'] ?>" ><?= $opciones_sistema_item['codigo'] ?> <?= $opciones_sistema_item['nombre'] ?></option>
+                        <option value="<?= $opciones_sistema_item['cod_opcion_sistema'] ?>" ><?= $opciones_sistema_item['cod_opcion_sistema'] ?> <?= $opciones_sistema_item['nom_opcion_sistema'] ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -26,7 +26,7 @@
             <div class="col-sm-3">
                 <select class="form-select" name="id_rol" id="id_rol">
                     <?php foreach ($roles as $roles_item) { ?>
-                        <option value="<?= $roles_item['id_rol'] ?>" ><?= $roles_item['nombre'] ?></option>
+                        <option value="<?= $roles_item['id_rol'] ?>" ><?= $roles_item['nom_rol'] ?></option>
                     <?php } ?>
                 </select>
             </div>

@@ -17,9 +17,9 @@ class Parametro_sistema_model extends CI_Model {
         return $query->row_array();
     }
 
-    public function get_parametro_sistema_nombre($nombre) {
-        $sql = 'select valor from parametro_sistema where nombre = ?;';
-        $query = $this->db->query($sql, array($nombre));
+    public function get_parametro_sistema_nom($nom_parametro_sistema) {
+        $sql = 'select valor from parametro_sistema where nom_parametro_sistema = ?;';
+        $query = $this->db->query($sql, array($nom_parametro_sistema));
         return $query->row_array()['valor'] ?? null ;
     }
 

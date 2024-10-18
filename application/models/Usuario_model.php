@@ -7,7 +7,7 @@ class Usuario_model extends CI_Model {
 
     public function usuario_por_nombre($usuario, $password) {
         $sql = ""
-            ."select u.id_usuario, u.nom_usuario, u.usuario, u.id_organizacion, o.nom_organizacion, u.id_rol, r.nombre as nom_rol "
+            ."select u.id_usuario, u.nom_usuario, u.usuario, u.id_organizacion, o.nom_organizacion, u.id_rol, r.nom_rol "
             ."from usuario u "
             ."left join rol r on r.id_rol = u.id_rol "
             ."left join organizacion o on o.id_organizacion = u.id_organizacion "
@@ -23,7 +23,7 @@ class Usuario_model extends CI_Model {
     public function get_usuarios() {
         $sql = ""
             ."select "
-            ."u.*, r.nombre as nom_rol, o.nom_organizacion, "
+            ."u.*, r.nom_rol, o.nom_organizacion, "
             ."(select count(*) from acceso_sistema_usuario asu where asu.id_usuario = u.id_usuario) as num_permisos "
             ."from "
             ."usuario u "
@@ -38,7 +38,7 @@ class Usuario_model extends CI_Model {
 
     public function get_usuario($id_usuario) {
         $sql = ""
-            ."select u.*, o.nom_organizacion, r.nombre as nom_rol "
+            ."select u.*, o.nom_organizacion, r.nom_rol "
             ."from usuario u "
             ."left join rol r on u.id_rol = r.id_rol "
             ."left join organizacion o on u.id_organizacion = o.id_organizacion "

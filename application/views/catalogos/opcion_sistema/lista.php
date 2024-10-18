@@ -1,7 +1,7 @@
 <div class="my-3 pb-2 border-bottom">
     <div class="row">
         <div class="col-sm-10 text-start">
-            <h2>Opciones</h2>
+            <h2>Opciones del sistema</h2>
         </div>
         <div class="col-sm-2 text-end">
             <form method="post" action="<?= base_url() ?>opcion_sistema/nuevo">
@@ -38,17 +38,17 @@
                     <p><a href="<?=base_url()?>opcion_sistema/detalle/<?=$opciones_sistema_item['id_opcion_sistema']?>"><?= $opciones_sistema_item['id_opcion_sistema'] ?></a></p>
                 </div>
                 <div class="col-sm-4 align-self-center">
-                    <p><a href="<?=base_url()?>opcion_sistema/detalle/<?=$opciones_sistema_item['id_opcion_sistema']?>"><?= $opciones_sistema_item['codigo'] ?></a></p>
+                    <p><a href="<?=base_url()?>opcion_sistema/detalle/<?=$opciones_sistema_item['id_opcion_sistema']?>"><?= $opciones_sistema_item['cod_opcion_sistema'] ?></a></p>
                 </div>
                 <div class="col-sm-3 align-self-center">
-                    <p><?= $opciones_sistema_item['nombre'] ?></p>
+                    <p><?= $opciones_sistema_item['nom_opcion_sistema'] ?></p>
                 </div>
                 <div class="col-sm-1 text-center">
                     <p><?= $opciones_sistema_item['otorgable'] ?></p>
                 </div>
                 <div class="col-sm-1">
                     <?php 
-                    $item_eliminar = $opciones_sistema_item['id_opcion_sistema'] . " " . $opciones_sistema_item['codigo'] . " " . $opciones_sistema_item['nombre'] ;
+                    $item_eliminar = $opciones_sistema_item['id_opcion_sistema'] . " " . $opciones_sistema_item['cod_opcion_sistema'] . " " . $opciones_sistema_item['nom_opcion_sistema'] ;
                     $url = base_url() . "opcion_sistema/eliminar/". $opciones_sistema_item['id_opcion_sistema']; 
                     ?>
                     <p><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></i>

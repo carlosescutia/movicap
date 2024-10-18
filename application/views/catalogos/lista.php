@@ -17,16 +17,6 @@
                         </div>
                     <?php }
                 ?>
-                <?php
-                    $permisos_requeridos = array(
-                    'parametro_sistema.can_edit',
-                    );
-                    if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                        <div class="col-md-4">
-                            <?php include "parametro_sistema/boton.php" ?>
-                        </div>
-                    <?php }
-                ?>
             </div>
         </div>
         <div class="col-md-3 p-3 border bg-light">
@@ -74,11 +64,11 @@
                 ?>
                 <?php
                     $permisos_requeridos = array(
-                    'opcion_publica.can_edit',
+                    'parametro_sistema.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
                         <div class="col-md-12">
-                            <?php include "opcion_publica/boton.php" ?>
+                            <?php include "parametro_sistema/boton.php" ?>
                         </div>
                     <?php }
                 ?>

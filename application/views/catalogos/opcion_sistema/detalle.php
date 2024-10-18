@@ -12,15 +12,21 @@
 
     <div class="col-md-12 mb-5">
         <div class="form-group row">
-            <label for="codigo" class="col-sm-2 col-form-label">Código</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" name="codigo" id="codigo" value="<?=$opcion_sistema['codigo'] ?>">
+            <label for="id_opcion_sistema" class="col-sm-2 col-form-label">Clave</label>
+            <div class="col-sm-1">
+                <input type="text" class="form-control" name="id_opcion_sistema" id="id_opcion_sistema" value="<?=$opcion_sistema['id_opcion_sistema'] ?>">
             </div>
         </div>
         <div class="form-group row">
-            <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+            <label for="cod_opcion_sistema" class="col-sm-2 col-form-label">Código</label>
+            <div class="col-sm-2">
+                <input type="text" class="form-control" name="cod_opcion_sistema" id="cod_opcion_sistema" value="<?=$opcion_sistema['cod_opcion_sistema'] ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="nom_opcion_sistema" class="col-sm-2 col-form-label">Nombre</label>
             <div class="col-sm-4">
-                <input type="text" class="form-control" name="nombre" id="nombre" value="<?=$opcion_sistema['nombre'] ?>">
+                <input type="text" class="form-control" name="nom_opcion_sistema" id="nom_opcion_sistema" value="<?=$opcion_sistema['nom_opcion_sistema'] ?>">
             </div>
         </div>
         <div class="form-group row">

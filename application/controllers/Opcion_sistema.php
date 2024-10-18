@@ -66,14 +66,14 @@ class Opcion_sistema extends CI_Controller {
             $data = [];
             $data += $this->funciones_sistema->get_userdata();
 
-            // guardado
-            $data = array(
-                'codigo' => null,
-            );
             $permisos_requeridos = array(
                 'opcion_sistema.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                // guardado
+                $data = array(
+                    'cod_opcion_sistema' => null,
+                );
                 $id_opcion_sistema = $this->opcion_sistema_model->guardar($data, null);
 
                 // registro en bitacora
@@ -106,15 +106,15 @@ class Opcion_sistema extends CI_Controller {
                 }
                 // guardado
                 $data = array(
-                    'codigo' => $opcion_sistema['codigo'],
-                    'nombre' => $opcion_sistema['nombre'],
-                    'otorgable' => $opcion_sistema['otorgable'],
+                    'cod_opcion_sistema' => $opcion_sistema['cod_opcion_sistema'],
+                    'nom_opcion_sistema' => $opcion_sistema['nom_opcion_sistema'],
+                    'otorgable' => empty($opcion_sistema['otorgable']) ? null : $opcion_sistema['otorgable'],
                 );
                 $id_opcion_sistema = $this->opcion_sistema_model->guardar($data, $id_opcion_sistema);
 
                 // registro en bitacora
                 $entidad = 'opcion_sistema';
-                $valor = $id_opcion_sistema ." ". $opcion_sistema['codigo'] . " " . $opcion_sistema['nombre'];
+                $valor = $id_opcion_sistema ." ". $opcion_sistema['cod_opcion_sistema'] . " " . $opcion_sistema['nom_opcion_sistema'];
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             }
@@ -133,7 +133,7 @@ class Opcion_sistema extends CI_Controller {
             $opcion = $this->opcion_sistema_model->get_opcion_sistema($id_opcion_sistema);
             $accion = 'eliminó';
             $entidad = 'opcion_sistema';
-            $valor = $id_opcion_sistema ." ". $opcion['codigo'] . " " . $opcion['nombre'];
+            $valor = $id_opcion_sistema ." ". $opcion['cod_opcion_sistema'] . " " . $opcion['nom_opcion_sistema'];
             $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             // eliminado

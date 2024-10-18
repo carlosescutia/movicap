@@ -6,7 +6,7 @@ class Acceso_sistema_model extends CI_Model {
     }
 
     public function get_accesos_sistema() {
-        $sql = 'select acs.*, o.nombre as nom_opcion, r.nombre as nom_rol from acceso_sistema acs left join opcion_sistema o on acs.codigo = o.codigo left join rol r on acs.id_rol = r.id_rol order by id_rol, codigo;';
+        $sql = 'select acs.*, ops.nom_opcion_sistema, r.nom_rol from acceso_sistema acs left join opcion_sistema ops on acs.cod_opcion_sistema = ops.cod_opcion_sistema left join rol r on acs.id_rol = r.id_rol order by id_rol, cod_opcion_sistema;';
         $query = $this->db->query($sql);
         return $query->result_array();
     }
@@ -19,7 +19,7 @@ class Acceso_sistema_model extends CI_Model {
 
     public function get_accesos_sistema_rol_usuario($id_usuario) {
         // solo accesos del rol al que pertenece el usuario
-        $sql = "select acs.codigo, ops.nombre as nom_opcion from acceso_sistema acs left join opcion_sistema ops on acs.codigo = ops.codigo left join usuario usu on acs.id_rol = usu.id_rol where usu.id_usuario = ?";
+        $sql = "select acs.cod_opcion_sistema, ops.nom_opcion_sistema from acceso_sistema acs left join opcion_sistema ops on acs.cod_opcion_sistema = ops.cod_opcion_sistema left join usuario usu on acs.id_rol = usu.id_rol where usu.id_usuario = ?";
         $query = $this->db->query($sql, array($id_usuario));
         return $query->result_array();
     }
@@ -28,10 +28,10 @@ class Acceso_sistema_model extends CI_Model {
         // accesos del usuario y su rol
         $sql = ""
         ."select "
-        ."string_agg(codigo::text, ',') as permisos "
+        ."string_agg(cod_opcion_sistema::text, ',') as permisos "
         ."from ( "
         ."select "
-        ."acs.codigo "
+        ."acs.cod_opcion_sistema "
         ."from "
         ."acceso_sistema acs "
         ."left join usuario usu on acs.id_rol = usu.id_rol "
@@ -39,7 +39,7 @@ class Acceso_sistema_model extends CI_Model {
         ."usu.id_usuario = ? "
         ."union "
         ."select "
-        ."asu.codigo "
+        ."asu.cod_opcion_sistema "
         ."from "
         ."acceso_sistema_usuario asu "
         ."where "
@@ -52,20 +52,20 @@ class Acceso_sistema_model extends CI_Model {
     }
 
     public function get_accesos_sistema_rol($id_rol) {
-        $sql = "select string_agg(codigo::text, ',') as accesos from acceso_sistema where id_rol = ?";
+        $sql = "select string_agg(cod_opcion_sistema::text, ',') as accesos from acceso_sistema where id_rol = ?";
         $query = $this->db->query($sql, array($id_rol));
         return $query->row_array();
     }
 
-    public function get_acceso_opcion_rol($codigo, $id_rol) {
-        $sql = 'select * from acceso_sistema where codigo = ? and $id_rol = ?;';
-        $query = $this->db->query($sql, array($codigo, $id_rol));
+    public function get_acceso_opcion_rol($cod_opcion_sistema, $id_rol) {
+        $sql = 'select * from acceso_sistema where cod_opcion_sistema = ? and $id_rol = ?;';
+        $query = $this->db->query($sql, array($cod_opcion_sistema, $id_rol));
         return $query->row_array();
     }
 
     public function get_roles_acceso($id_opcion_sistema) {
         // Devuelve roles con acceso a una opción
-        $sql = 'select acs.id_rol, r.nombre from acceso_sistema acs left join opcion_sistema ops on ops.codigo = acs.codigo left join rol r on r.id_rol = acs.id_rol where ops.id_opcion_sistema = ?';
+        $sql = 'select acs.id_rol, r.nom_rol from acceso_sistema acs left join opcion_sistema ops on ops.cod_opcion_sistema = acs.cod_opcion_sistema left join rol r on r.id_rol = acs.id_rol where ops.id_opcion_sistema = ?';
         $query = $this->db->query($sql, array($id_opcion_sistema));
         return $query->result_array();
     }

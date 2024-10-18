@@ -32,13 +32,13 @@ class Funciones_sistema extends CI_Controller {
     {
         $this->CI->load->model('parametro_sistema_model');
 
-        $data['nom_sitio_corto'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nombre('nom_sitio_corto');
-        $data['nom_sitio_largo'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nombre('nom_sitio_largo');
-        $data['nom_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nombre('nom_org_sitio');
-        $data['anio_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nombre('anio_org_sitio');
-        $data['tel_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nombre('tel_org_sitio');
-        $data['correo_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nombre('correo_org_sitio');
-        $data['logo_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nombre('logo_org_sitio');
+        $data['nom_sitio_corto'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nom('nom_sitio_corto');
+        $data['nom_sitio_largo'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nom('nom_sitio_largo');
+        $data['nom_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nom('nom_org_sitio');
+        $data['anio_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nom('anio_org_sitio');
+        $data['tel_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nom('tel_org_sitio');
+        $data['correo_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nom('correo_org_sitio');
+        $data['logo_org_sitio'] = $this->CI->parametro_sistema_model->get_parametro_sistema_nom('logo_org_sitio');
         return $data;
     }
 

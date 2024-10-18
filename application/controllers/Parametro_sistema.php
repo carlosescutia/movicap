@@ -69,7 +69,7 @@ class Parametro_sistema extends CI_Controller {
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
                 // guardado
                 $data = array(
-                    'nombre' => null,
+                    'nom_parametro_sistema' => null,
                 );
                 $id_parametro_sistema = $this->parametro_sistema_model->guardar($data, null);
 
@@ -104,14 +104,14 @@ class Parametro_sistema extends CI_Controller {
 
                 // guardado
                 $data = array(
-                    'nombre' => $parametro_sistema['nombre'],
+                    'nom_parametro_sistema' => $parametro_sistema['nom_parametro_sistema'],
                     'valor' => $parametro_sistema['valor'],
                 );
                 $id_parametro_sistema = $this->parametro_sistema_model->guardar($data, $id_parametro_sistema);
 
                 // registro en bitacora
                 $entidad = 'parametro_sistema';
-                $valor = $id_parametro_sistema . " " . $parametro_sistema['nombre'];
+                $valor = $id_parametro_sistema . " " . $parametro_sistema['nom_parametro_sistema'];
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             }
@@ -131,7 +131,7 @@ class Parametro_sistema extends CI_Controller {
             $parametro_sistema = $this->parametro_sistema_model->get_parametro_sistema_id($id_parametro_sistema);
             $accion = 'eliminó';
             $entidad = 'parametro_sistema';
-            $valor = $id_parametro_sistema . " " . $parametro_sistema['nombre'];
+            $valor = $id_parametro_sistema . " " . $parametro_sistema['nom_parametro_sistema'];
             $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             // eliminado

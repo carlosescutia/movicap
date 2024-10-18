@@ -32,17 +32,17 @@
             <div class="col-sm-10 alternate-color mx-2">
                 <div class="row">
                     <div class="col-sm-4 align-self-center">
-                        <p><?= $accesos_sistema_item['codigo'] ?></p>
+                        <p><?= $accesos_sistema_item['cod_opcion_sistema'] ?></p>
                     </div>
                     <div class="col-sm-4 align-self-center">
-                        <p><?= $accesos_sistema_item['nom_opcion'] ?></p>
+                        <p><?= $accesos_sistema_item['nom_opcion_sistema'] ?></p>
                     </div>
                     <div class="col-sm-2 align-self-center">
                         <p><?= $accesos_sistema_item['nom_rol'] ?></p>
                     </div>
                     <div class="col-sm-1">
                         <?php 
-                        $item_eliminar = $accesos_sistema_item['codigo'] . " " . $accesos_sistema_item['nom_opcion'] . " - " . $accesos_sistema_item['nom_rol'] ;
+                        $item_eliminar = $accesos_sistema_item['cod_opcion_sistema'] . " " . $accesos_sistema_item['nom_opcion_sistema'] . " - " . $accesos_sistema_item['nom_rol'] ;
                         $url = base_url() . "acceso_sistema/eliminar/". $accesos_sistema_item['id_acceso_sistema']; 
                         ?>
                         <p><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></i>

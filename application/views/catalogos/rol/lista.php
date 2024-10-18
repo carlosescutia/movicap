@@ -27,7 +27,7 @@
                     <p><?= $roles_item['id_rol'] ?></p>
                 </div>
                 <div class="col-sm-8 align-self-center">
-                    <p><?= $roles_item['nombre'] ?></p>
+                    <p><?= $roles_item['nom_rol'] ?></p>
                 </div>
             </div>
         </div>

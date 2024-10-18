@@ -15,10 +15,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="row">
-                <div class="col-sm-3 align-self-center">
+                <div class="col-sm-1 align-self-center">
+                    <p class="small"><strong>Clave</strong></p>
+                </div>
+                <div class="col-sm-2 align-self-center">
                     <p class="small"><strong>Nombre</strong></p>
                 </div>
-                <div class="col-sm-3 align-self-center">
+                <div class="col-sm-2 align-self-center">
                     <p class="small"><strong>Usuario</strong></p>
                 </div>
                 <div class="col-sm-1 align-self-center">
@@ -40,10 +43,13 @@
         <?php foreach ($usuarios as $usuarios_item) { ?>
         <div class="col-sm-12 alternate-color mx-2">
             <div class="row">
-                <div class="col-sm-3 align-self-center">
+                <div class="col-sm-1 align-self-center">
+                    <p><a href="<?=base_url()?>usuario/detalle/<?=$usuarios_item['id_usuario']?>"><?= $usuarios_item['id_usuario'] ?></a></p>
+                </div>
+                <div class="col-sm-2 align-self-center">
                     <p><a href="<?=base_url()?>usuario/detalle/<?=$usuarios_item['id_usuario']?>"><?= $usuarios_item['nom_usuario'] ?></a></p>
                 </div>
-                <div class="col-sm-3 align-self-center">
+                <div class="col-sm-2 align-self-center">
                     <p><?= $usuarios_item['usuario'] ?></p>
                 </div>
                 <div class="col-sm-1 align-self-center">

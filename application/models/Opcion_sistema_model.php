@@ -6,13 +6,13 @@ class Opcion_sistema_model extends CI_Model {
     }
 
     public function get_opciones_sistema() {
-        $sql = 'select * from opcion_sistema order by codigo;';
+        $sql = 'select * from opcion_sistema order by cod_opcion_sistema;';
         $query = $this->db->query($sql);
         return $query->result_array();
     }
 
     public function get_opciones_sistema_otorgables() {
-        $sql = 'select * from opcion_sistema where otorgable = 1 order by codigo;';
+        $sql = 'select * from opcion_sistema where otorgable = 1 order by cod_opcion_sistema;';
         $query = $this->db->query($sql);
         return $query->result_array();
     }
@@ -23,9 +23,9 @@ class Opcion_sistema_model extends CI_Model {
         return $query->row_array();
     }
 
-    public function get_opcion_sistema_codigo($codigo) {
-        $sql = 'select * from opcion_sistema where codigo = ?;';
-        $query = $this->db->query($sql, array($codigo));
+    public function get_opcion_sistema_cod_opcion_sistema($cod_opcion_sistema) {
+        $sql = 'select * from opcion_sistema where cod_opcion_sistema = ?;';
+        $query = $this->db->query($sql, array($cod_opcion_sistema));
         return $query->row_array();
     }
 

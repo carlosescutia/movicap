@@ -5,7 +5,7 @@
     <div class="card-body">
         <ul>
         <?php foreach( $accesos_sistema_rol as $accesos_sistema_rol_item) { ?>
-            <li><?= $accesos_sistema_rol_item['codigo'] ?></li>
+            <li><?= $accesos_sistema_rol_item['cod_opcion_sistema'] ?></li>
         <?php } ?>
         </ul>
     </div>

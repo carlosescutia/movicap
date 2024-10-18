@@ -12,6 +12,12 @@
 
     <div class="col-md-12 mb-5">
         <div class="form-group row">
+            <label for="id_usuario" class="col-sm-2 col-form-label">Clave</label>
+            <div class="col-sm-1">
+                <input type="text" class="form-control" name="nom_usuario" id="id_usuario" value="<?=$usuario['id_usuario'] ?>">
+            </div>
+        </div>
+        <div class="form-group row">
             <label for="nom_usuario" class="col-sm-2 col-form-label">Nombre</label>
             <div class="col-sm-4">
                 <input type="text" class="form-control" name="nom_usuario" id="nom_usuario" value="<?=$usuario['nom_usuario'] ?>">
@@ -44,7 +50,7 @@
             <div class="col-sm-3">
                 <select class="form-select" name="id_rol" id="id_rol">
                     <?php foreach ($roles as $roles_item) { ?>
-                    <option value="<?= $roles_item['id_rol'] ?>" <?= ($usuario['id_rol'] == $roles_item['id_rol']) ? 'selected' : '' ?> ><?= $roles_item['nombre'] ?></option>
+                    <option value="<?= $roles_item['id_rol'] ?>" <?= ($usuario['id_rol'] == $roles_item['id_rol']) ? 'selected' : '' ?> ><?= $roles_item['nom_rol'] ?></option>
                     <?php } ?>
                 </select>
             </div>

@@ -29,7 +29,7 @@
         <div class="col-sm-7 alternate-color mx-2">
             <div class="row">
                 <div class="col-sm-2 align-self-center">
-                    <p><?= $organizaciones_item['id_organizacion'] ?></p>
+                    <p><a href="<?=base_url()?>organizacion/detalle/<?=$organizaciones_item['id_organizacion']?>"><?= $organizaciones_item['id_organizacion'] ?></a></p>
                 </div>
                 <div class="col-sm-5 align-self-center">
                     <p><a href="<?=base_url()?>organizacion/detalle/<?=$organizaciones_item['id_organizacion']?>"><?= $organizaciones_item['nom_organizacion'] ?></a></p>

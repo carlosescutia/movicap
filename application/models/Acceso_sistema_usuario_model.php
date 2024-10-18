@@ -14,14 +14,14 @@ class Acceso_sistema_usuario_model extends CI_Model {
 
     public function get_accesos_sistema_usuario($id_usuario) {
         // solo accesos del usuario
-        $sql = "select asu.id_usuario, asu.id_acceso_sistema_usuario, asu.codigo, ops.nombre as nom_opcion from acceso_sistema_usuario asu left join opcion_sistema ops on asu.codigo = ops.codigo where id_usuario = ?";
+        $sql = "select asu.id_usuario, asu.id_acceso_sistema_usuario, asu.cod_opcion_sistema, ops.nom_opcion_sistema from acceso_sistema_usuario asu left join opcion_sistema ops on asu.cod_opcion_sistema = ops.cod_opcion_sistema where id_usuario = ?";
         $query = $this->db->query($sql, array($id_usuario));
         return $query->result_array();
     }
 
     public function get_usuarios_acceso($id_opcion_sistema) {
         // Devuelve usuarios con acceso a una opción
-        $sql = 'select asu.id_usuario, u.nom_usuario, o.nom_organizacion from acceso_sistema_usuario asu left join opcion_sistema ops on ops.codigo = asu.codigo left join usuario u on u.id_usuario = asu.id_usuario left join organizacion o on o.id_organizacion = u.id_organizacion where ops.id_opcion_sistema = ? ;';
+        $sql = 'select asu.id_usuario, u.nom_usuario, o.nom_organizacion from acceso_sistema_usuario asu left join opcion_sistema ops on ops.cod_opcion_sistema = asu.cod_opcion_sistema left join usuario u on u.id_usuario = asu.id_usuario left join organizacion o on o.id_organizacion = u.id_organizacion where ops.id_opcion_sistema = ? ;';
         $query = $this->db->query($sql, array($id_opcion_sistema));
         return $query->result_array();
     }

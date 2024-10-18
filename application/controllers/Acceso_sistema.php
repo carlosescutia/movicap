@@ -74,17 +74,17 @@ class Acceso_sistema extends CI_Controller {
                 }
                 // guardado
                 $data = array(
-                    'codigo' => $acceso_sistema['codigo'],
+                    'cod_opcion_sistema' => $acceso_sistema['cod_opcion_sistema'],
                     'id_rol' => $acceso_sistema['id_rol']
                 );
                 $id_acceso = $this->acceso_sistema_model->guardar($data, $id_acceso);
 
                 // registro en bitacora
-                $opcion = $this->opcion_sistema_model->get_opcion_sistema_codigo($acceso_sistema['codigo']);
+                $opcion = $this->opcion_sistema_model->get_opcion_sistema_codigo($acceso_sistema['cod_opcion_sistema']);
                 $rol = $this->rol_model->get_rol($acceso_sistema['id_rol']);
                 $separador = ' -> ';
                 $entidad = 'acceso_sistema';
-                $valor = $opcion['codigo'] . " " . $opcion['nombre'] . $separador . $rol['nombre'];
+                $valor = $opcion['cod_opcion_sistema'] . " " . $opcion['nom_acceso_sistema'] . $separador . $rol['nom_acceso_sistema'];
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             }
@@ -101,12 +101,12 @@ class Acceso_sistema extends CI_Controller {
 
             // registro en bitacora
             $acceso = $this->acceso_sistema_model->get_acceso_sistema($id_acceso);
-            $opcion = $this->opcion_sistema_model->get_opcion_sistema_codigo($acceso['codigo']);
+            $opcion = $this->opcion_sistema_model->get_opcion_sistema_codigo($acceso['cod_opcion_sistema']);
             $rol = $this->rol_model->get_rol($acceso['id_rol']);
             $separador = ' -> ';
             $accion = 'eliminó';
             $entidad = 'acceso_sistema';
-            $valor = $opcion['codigo'] . " " . $opcion['nombre'] . $separador . $rol['nombre'];
+            $valor = $opcion['cod_opcion_sistema'] . " " . $opcion['nom_acceso_sistema'] . $separador . $rol['nom_acceso_sistema'];
             $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             // eliminado
