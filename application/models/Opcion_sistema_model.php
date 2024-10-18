@@ -23,7 +23,7 @@ class Opcion_sistema_model extends CI_Model {
         return $query->row_array();
     }
 
-    public function get_opcion_sistema_cod_opcion_sistema($cod_opcion_sistema) {
+    public function get_opcion_sistema_codigo($cod_opcion_sistema) {
         $sql = 'select * from opcion_sistema where cod_opcion_sistema = ?;';
         $query = $this->db->query($sql, array($cod_opcion_sistema));
         return $query->row_array();
