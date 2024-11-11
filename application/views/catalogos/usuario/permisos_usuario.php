@@ -7,10 +7,10 @@
             <?php foreach( $accesos_sistema_usuario as $accesos_sistema_usuario_item) { ?>
             <li>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-6">
                         <?= $accesos_sistema_usuario_item['cod_opcion_sistema'] ?>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-2">
                         <?php 
                             $item_eliminar = $accesos_sistema_usuario_item['cod_opcion_sistema'] ;
                             $url = base_url() . "acceso_sistema_usuario/eliminar/". $accesos_sistema_usuario_item['id_acceso_sistema_usuario']; 
@@ -26,7 +26,7 @@
     <div class="card-footer text-end">
         <form method="post" action="<?= base_url() ?>acceso_sistema_usuario/guardar">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-8">
                     <select class="form-select" name="cod_opcion_sistema" id="cod_opcion_sistema">
                         <?php foreach ($opciones_sistema_otorgables as $opciones_sistema_otorgables_item) { ?>
                             <option value="<?= $opciones_sistema_otorgables_item['cod_opcion_sistema'] ?>"><?= $opciones_sistema_otorgables_item['nom_opcion_sistema'] ?></option>
@@ -34,7 +34,7 @@
                     </select>
                 </div>
                 <input type="hidden" id="id_usuario" name="id_usuario" value="<?= $usuario['id_usuario'] ?>">
-                <div class="col-md-2">
+                <div class="col-2">
                     <button type="submit" class="btn btn-primary">Agregar</button>
                 </div>
             </div>

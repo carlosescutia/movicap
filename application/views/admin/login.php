@@ -83,7 +83,7 @@
             <?php if ($error): ?>
             <p class="text-danger"><?php echo $error ?></p>
             <?php endif ?>
-            <div class="col-sm-4 offset-sm-4">
+            <div class="col-4 offset-4">
                 <img class="logo_login" src="<?=base_url()?>img/<?= $logo_org_sitio ?? 'logotipo.png' ?>" alt="logo">
             </div>
             <h1 class="h3 mb-3 mt-5 font-weight-normal">Inicie sesión</h1>

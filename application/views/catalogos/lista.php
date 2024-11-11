@@ -4,7 +4,7 @@
 
 <div class="area-contenido">
     <div class="row">
-        <div class="col-md-9 p-3">
+        <div class="col-sm-9 p-3">
             <h3>Aplicación</h3>
             <div class="row mb-3 gy-3">
                 <?php
@@ -12,14 +12,14 @@
                     'organizacion.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <?php include "organizacion/boton.php" ?>
                         </div>
                     <?php }
                 ?>
             </div>
         </div>
-        <div class="col-md-3 p-3 border bg-light">
+        <div class="col-sm-3 p-3 border bg-light">
             <h3>Sistema</h3>
             <div class="row mb-3 gy-3">
                 <?php
@@ -27,7 +27,7 @@
                     'usuario.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <?php include "usuario/boton.php" ?>
                         </div>
                     <?php }
@@ -37,7 +37,7 @@
                     'rol.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <?php include "rol/boton.php" ?>
                         </div>
                     <?php }
@@ -47,7 +47,7 @@
                     'opcion_sistema.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <?php include "opcion_sistema/boton.php" ?>
                         </div>
                     <?php }
@@ -57,7 +57,7 @@
                     'acceso_sistema.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <?php include "acceso_sistema/boton.php" ?>
                         </div>
                     <?php }
@@ -67,7 +67,7 @@
                     'parametro_sistema.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <?php include "parametro_sistema/boton.php" ?>
                         </div>
                     <?php }

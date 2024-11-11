@@ -1,16 +1,16 @@
 <form method="post" action="<?= base_url() ?>usuario/guardar/<?= $usuario['id_usuario'] ?>">
     <div class="my-3 pb-2 border-bottom">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-9">
                 <h2 class="h2">Editar usuario</h2>
             </div>
-            <div class="col-md-2 text-end">
+            <div class="col-2 text-end">
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
 
-    <div class="col-md-12 mb-5">
+    <div class="col-12 mb-5">
         <div class="form-group row">
             <label for="id_usuario" class="col-sm-2 col-form-label">Clave</label>
             <div class="col-sm-1">
@@ -64,12 +64,12 @@
     </div>
 </form>
 
-<div class="col-md-12">
+<div class="col-12">
     <div class="row">
-        <div class="col-md-4 offset-md-1">
+        <div class="col-sm-4 offset-sm-1">
             <?php include 'permisos_rol.php' ?>
         </div>
-        <div class="col-md-4 offset-md-1">
+        <div class="col-sm-4 offset-sm-1">
             <?php include 'permisos_usuario.php' ?>
         </div>
     </div>

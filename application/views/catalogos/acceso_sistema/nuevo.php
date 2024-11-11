@@ -1,16 +1,16 @@
 <form method="post" action="<?= base_url() ?>acceso_sistema/guardar">
     <div class="my-3 pb-2 border-bottom">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-9">
                 <h2>Nuevo acceso al sistema</h2>
             </div>
-            <div class="col-md-2 text-end">
+            <div class="col-2 text-end">
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
 
-    <div class="area-contenido col-md-12">
+    <div class="area-contenido col-12">
         <div class="form-group row">
             <label for="cod_opcion_sistema" class="col-sm-2 col-form-label">Opción</label>
             <div class="col-sm-3">
@@ -37,7 +37,7 @@
 <hr />
 
 <div class="form-group row">
-    <div class="col-sm-10">
+    <div class="col-10">
         <a href="<?=base_url()?>acceso_sistema" class="btn btn-secondary">Volver</a>
     </div>
 </div>
