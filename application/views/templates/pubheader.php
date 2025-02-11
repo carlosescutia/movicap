@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="<?=base_url()?>img/favicon.png" sizes="16x16" type="image/png" />
+        <link rel="icon" href="<?=base_url()?>img/favicon.svg"/>
 
         <title><?= $nom_sitio_corto ?? 'Lorem ipsum' ?></title>
 
