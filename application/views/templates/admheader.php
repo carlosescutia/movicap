@@ -46,6 +46,14 @@
                             <li class="nav-item d-print-none"><a class="nav-link" href="<?=base_url()?>admin">Inicio</a></li>
                             <?php
                                 $permisos_requeridos = array(
+                                'cuestionario.can_view',
+                                );
+                                if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                                    <li class="nav-item d-print-none"><a class="nav-link" href="<?=base_url()?>cuestionario">Cuestionarios</a></li>
+                                <?php }
+                            ?>
+                            <?php
+                                $permisos_requeridos = array(
                                 'reportes.can_view',
                                 );
                                 if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
