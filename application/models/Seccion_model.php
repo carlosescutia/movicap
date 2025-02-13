@@ -6,7 +6,7 @@ class Seccion_model extends CI_Model {
     }
 
     public function get_secciones_cuestionario($id_cuestionario) {
-        $sql = 'select * from seccion where id_cuestionario = ? order by id_seccion;';
+        $sql = 'select * from seccion where id_cuestionario = ? order by orden;';
         $query = $this->db->query($sql, array($id_cuestionario));
         return $query->result_array();
     }

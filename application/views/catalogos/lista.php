@@ -17,6 +17,16 @@
                         </div>
                     <?php }
                 ?>
+                <?php
+                    $permisos_requeridos = array(
+                    'tipo_pregunta.can_edit',
+                    );
+                    if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                        <div class="col-sm-4">
+                            <?php include "tipo_pregunta/boton.php" ?>
+                        </div>
+                    <?php }
+                ?>
             </div>
         </div>
         <div class="col-sm-3 p-3 border bg-light">

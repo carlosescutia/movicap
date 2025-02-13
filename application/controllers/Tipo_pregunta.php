@@ -1,12 +1,11 @@
 <?php
-class Cuestionario extends CI_Controller {
+class Tipo_pregunta extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->library('funciones_sistema');
-        $this->load->model('cuestionario_model');
-        $this->load->model('seccion_model');
+        $this->load->model('tipo_pregunta_model');
     }
 
     public function index()
@@ -17,14 +16,14 @@ class Cuestionario extends CI_Controller {
             $data += $this->funciones_sistema->get_system_params();
 
             $permisos_requeridos = array(
-                'cuestionario.can_view',
+                'tipo_pregunta.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
-                $data['cuestionarios'] = $this->cuestionario_model->get_cuestionarios();
+                $data['tipos_pregunta'] = $this->tipo_pregunta_model->get_tipos_pregunta();
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/lista', $data);
+                $this->load->view('catalogos/tipo_pregunta/lista', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'admin');
@@ -34,7 +33,7 @@ class Cuestionario extends CI_Controller {
         }
     }
 
-    public function detalle($id_cuestionario)
+    public function detalle($id_tipo_pregunta)
     {
         if ($this->session->userdata('logueado')) {
             $data = [];
@@ -42,15 +41,13 @@ class Cuestionario extends CI_Controller {
             $data += $this->funciones_sistema->get_system_params();
 
             $permisos_requeridos = array(
-                'cuestionario.can_view',
+                'tipo_pregunta.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
-                $data['cuestionario'] = $this->cuestionario_model->get_cuestionario($id_cuestionario);
-                $data['secciones'] = $this->seccion_model->get_secciones_cuestionario($id_cuestionario);
+                $data['tipo_pregunta'] = $this->tipo_pregunta_model->get_tipo_pregunta_id($id_tipo_pregunta);
 
                 $this->load->view('templates/admheader', $data);
-                $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/detalle', $data);
+                $this->load->view('catalogos/tipo_pregunta/detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'admin');
@@ -67,40 +64,39 @@ class Cuestionario extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
 
             $permisos_requeridos = array(
-                'cuestionario.can_edit',
+                'tipo_pregunta.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
                 // guardado
                 $data = array(
-                    'nom_cuestionario' => null,
+                    'nom_tipo_pregunta' => null,
                 );
-                $id_cuestionario = $this->cuestionario_model->guardar($data, null);
+                $id_tipo_pregunta = $this->tipo_pregunta_model->guardar($data, null);
 
                 // registro en bitacora
                 $accion = 'agregó';
-                $entidad = 'cuestionario';
-                $valor = $id_cuestionario;
+                $entidad = 'tipo_pregunta';
+                $valor = $id_tipo_pregunta;
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
-                $this->detalle($id_cuestionario);
+                $this->detalle($id_tipo_pregunta);
+
             } else {
-                redirect(base_url() . 'cuestionario');
+                redirect(base_url() . 'admin');
             }
         } else {
             redirect(base_url() . 'admin/login');
         }
     }
 
-    public function guardar($id_cuestionario=null)
+    public function guardar($id_tipo_pregunta=null)
     {
         if ($this->session->userdata('logueado')) {
 
-            $nueva_cuestionario = is_null($id_cuestionario);
+            $tipo_pregunta = $this->input->post();
+            if ($tipo_pregunta) {
 
-            $cuestionario = $this->input->post();
-            if ($cuestionario) {
-
-                if ($id_cuestionario) {
+                if ($id_tipo_pregunta) {
                     $accion = 'modificó';
                 } else {
                     $accion = 'agregó';
@@ -108,41 +104,40 @@ class Cuestionario extends CI_Controller {
 
                 // guardado
                 $data = array(
-                    'nom_cuestionario' => $cuestionario['nom_cuestionario'],
-                    'fecha' => empty($cuestionario['fecha']) ? null : $cuestionario['fecha'],
-                    'lugar' => $cuestionario['lugar'],
+                    'nom_tipo_pregunta' => $tipo_pregunta['nom_tipo_pregunta'],
+                    'orden' => $tipo_pregunta['orden'],
                 );
-                $id_cuestionario = $this->cuestionario_model->guardar($data, $id_cuestionario);
+                $id_tipo_pregunta = $this->tipo_pregunta_model->guardar($data, $id_tipo_pregunta);
 
                 // registro en bitacora
-                $entidad = 'cuestionario';
-                $valor = $id_cuestionario . " " . $cuestionario['nom_cuestionario'];
+                $entidad = 'tipo_pregunta';
+                $valor = $id_tipo_pregunta . " " . $tipo_pregunta['nom_tipo_pregunta'];
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             }
 
-            redirect(base_url() . 'cuestionario');
+            redirect(base_url() . 'tipo_pregunta');
 
         } else {
             redirect(base_url() . 'admin/login');
         }
     }
 
-    public function eliminar($id_cuestionario)
+    public function eliminar($id_tipo_pregunta)
     {
         if ($this->session->userdata('logueado')) {
 
             // registro en bitacora
-            $cuestionario = $this->cuestionario_model->get_cuestionario($id_cuestionario);
+            $tipo_pregunta = $this->tipo_pregunta_model->get_tipo_pregunta_id($id_tipo_pregunta);
             $accion = 'eliminó';
-            $entidad = 'cuestionario';
-            $valor = $id_cuestionario . " " . $cuestionario['nom_cuestionario'];
+            $entidad = 'tipo_pregunta';
+            $valor = $id_tipo_pregunta . " " . $tipo_pregunta['nom_tipo_pregunta'];
             $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             // eliminado
-            $this->cuestionario_model->eliminar($id_cuestionario);
+            $this->tipo_pregunta_model->eliminar($id_tipo_pregunta);
 
-            redirect(base_url() . 'cuestionario');
+            redirect(base_url() . 'tipo_pregunta');
 
         } else {
             redirect(base_url() . 'admin/login');
@@ -150,4 +145,3 @@ class Cuestionario extends CI_Controller {
     }
 
 }
-

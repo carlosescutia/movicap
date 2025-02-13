@@ -44,7 +44,7 @@
                     <p><?= $cuestionarios_item['lugar'] ?></p>
                 </div>
                 <div class="col-3 align-self-center">
-                    <p><?= date('d/m/Y', strtotime($cuestionarios_item['fecha'])) ?></p>
+                    <p><?= $cuestionarios_item['fecha'] ? date('d/m/Y', strtotime($cuestionarios_item['fecha'])) : '' ?></p>
                 </div>
                 <div class="col-1">
                     <?php 

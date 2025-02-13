@@ -1,32 +1,34 @@
 <div class="card mt-0 mb-3">
-    <div class="card-header text-white bg-primary">
-        Secciones
+    <div class="card-header text-white bg-success">
+        Preguntas
     </div>
     <div class="card-body">
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Sección</th>
+                    <th scope="col">Texto</th>
+                    <th scope="col" class="d-none d-sm-table-cell">Tipo</th>
                     <th scope="col" class="text-center">Orden</th>
 
                 </tr>
             </thead>
             <tbody>
-                <?php foreach( $secciones as $secciones_item) { ?>
+                <?php foreach( $preguntas as $preguntas_item) { ?>
                     <tr>
-                        <td><a href="<?= base_url() ?>seccion/detalle/<?= $secciones_item['id_seccion']?>"><?= $secciones_item['id_seccion'] ?></a></td>
-                        <td><a href="<?= base_url() ?>seccion/detalle/<?= $secciones_item['id_seccion']?>"><?= $secciones_item['nom_seccion'] ?></a></td>
-                        <td class="text-center"><?= $secciones_item['orden'] ?></td>
+                        <td><a href="<?= base_url() ?>pregunta/detalle/<?= $preguntas_item['id_pregunta']?>"><?= $preguntas_item['id_pregunta'] ?></a></td>
+                        <td><a href="<?= base_url() ?>pregunta/detalle/<?= $preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></a></td>
+                        <td class="d-none d-sm-table-cell"><?= $preguntas_item['nom_tipo_pregunta'] ?></td>
+                        <td class="text-center"><?= $preguntas_item['orden'] ?></td>
                         <?php
                             $permisos_requeridos = array(
-                            'seccion.can_edit',
+                            'pregunta.can_edit',
                             );
                         ?>
                         <?php if (has_permission_and($permisos_requeridos, $permisos_usuario)) { ?>
                             <?php 
-                                $item_eliminar = $secciones_item['id_seccion'] ." " . $secciones_item['nom_seccion'] ;
-                                $url = base_url() . "seccion/eliminar/". $secciones_item['id_seccion']; 
+                                $item_eliminar = $preguntas_item['id_pregunta'] ." " . $preguntas_item['texto'] ;
+                                $url = base_url() . "pregunta/eliminar/". $preguntas_item['id_pregunta']; 
                             ?>
                             <td><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></a></td>
                         <?php } ?>
@@ -37,13 +39,13 @@
     </div>
     <?php
         $permisos_requeridos = array(
-        'seccion.can_edit',
+        'pregunta.can_edit',
         );
     ?>
     <?php if (has_permission_and($permisos_requeridos, $permisos_usuario)) { ?>
         <div class="card-footer text-end d-print-none">
-            <form method="post" action="<?= base_url() ?>seccion/nuevo">
-                <input type="hidden" name="id_cuestionario" value="<?= $cuestionario['id_cuestionario'] ?>">
+            <form method="post" action="<?= base_url() ?>pregunta/nuevo">
+                <input type="hidden" name="id_seccion" value="<?= $seccion['id_seccion'] ?>">
                 <button type="submit" class="btn btn-primary">Nuevo</button>
             </form>
         </div>
