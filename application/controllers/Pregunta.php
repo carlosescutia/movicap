@@ -7,6 +7,7 @@ class Pregunta extends CI_Controller {
         $this->load->library('funciones_sistema');
         $this->load->model('pregunta_model');
         $this->load->model('tipo_pregunta_model');
+        $this->load->model('valor_posible_model');
     }
 
     public function detalle($id_pregunta)
@@ -19,6 +20,7 @@ class Pregunta extends CI_Controller {
             $data['pregunta'] = $this->pregunta_model->get_pregunta($id_pregunta);
             $id_seccion = $data['pregunta']['id_seccion'];
             $data['tipos_pregunta'] = $this->tipo_pregunta_model->get_tipos_pregunta();
+            $data['valores_posibles'] = $this->valor_posible_model->get_valores_posibles_pregunta($id_pregunta);
 
             $permisos_requeridos = array(
                 'pregunta.can_edit',
@@ -51,6 +53,7 @@ class Pregunta extends CI_Controller {
                 if ($pregunta) {
                     $data = array(
                         'id_seccion' => $pregunta['id_seccion'],
+                        'texto' => 'Nueva pregunta',
                     );
                     $id_pregunta = $this->pregunta_model->guardar($data, null);
 
@@ -87,7 +90,7 @@ class Pregunta extends CI_Controller {
                 // guardado
                 $data = array(
                     'id_seccion' => $pregunta['id_seccion'],
-                    'id_tipo_pregunta' => $pregunta['id_tipo_pregunta'],
+                    'cve_tipo_pregunta' => $pregunta['cve_tipo_pregunta'],
                     'texto' => $pregunta['texto'],
                     'orden' => empty($pregunta['orden']) ? null : $pregunta['orden'],
                 );

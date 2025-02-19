@@ -21,7 +21,7 @@
             <div class="form-group row">
                 <label for="nom_cuestionario" class="col-sm-2 col-form-label">Nombre</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" name="nom_cuestionario" id="nom_cuestionario" value="<?=$cuestionario['nom_cuestionario'] ?>">
+                    <input type="text" class="form-control" name="nom_cuestionario" id="nom_cuestionario" value="<?=$cuestionario['nom_cuestionario'] ?>" required>
                 </div>
             </div>
             <div class="form-group row">

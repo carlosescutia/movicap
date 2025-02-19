@@ -1,13 +1,15 @@
 <?php
-class Cuestionario extends CI_Controller {
+class Captura extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
         $this->load->library('funciones_sistema');
-        $this->load->model('cuestionario_model');
         $this->load->model('captura_model');
         $this->load->model('seccion_model');
+        $this->load->model('pregunta_model');
+        $this->load->model('respuesta_model');
+        $this->load->model('valor_posible_model');
     }
 
     public function index()
@@ -18,15 +20,14 @@ class Cuestionario extends CI_Controller {
             $data += $this->funciones_sistema->get_system_params();
 
             $permisos_requeridos = array(
-                'cuestionario.can_view',
+                'captura.can_view',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
-                $data['cuestionarios'] = $this->cuestionario_model->get_cuestionarios();
                 $data['capturas'] = $this->captura_model->get_capturas();
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/lista', $data);
+                $this->load->view('captura/lista', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'admin');
@@ -36,7 +37,7 @@ class Cuestionario extends CI_Controller {
         }
     }
 
-    public function detalle($id_cuestionario)
+    public function detalle($id_captura)
     {
         if ($this->session->userdata('logueado')) {
             $data = [];
@@ -44,15 +45,21 @@ class Cuestionario extends CI_Controller {
             $data += $this->funciones_sistema->get_system_params();
 
             $permisos_requeridos = array(
-                'cuestionario.can_view',
+                'captura.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
-                $data['cuestionario'] = $this->cuestionario_model->get_cuestionario($id_cuestionario);
+                $data['captura'] = $this->captura_model->get_captura($id_captura);
+                $id_cuestionario = $data['captura']['id_cuestionario'];
                 $data['secciones'] = $this->seccion_model->get_secciones_cuestionario($id_cuestionario);
+                $data['preguntas'] = $this->pregunta_model->get_preguntas_cuestionario($id_cuestionario);
+                $data['respuestas'] = $this->respuesta_model->get_respuestas_captura($id_captura);
+                $data['valores_posibles'] = $this->valor_posible_model->get_valores_posibles();
+                $data['error'] = $this->session->flashdata('error');
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/detalle', $data);
+                $this->load->view('templates/dlg_borrar_archivo');
+                $this->load->view('cuestionario/captura_detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'admin');
@@ -69,22 +76,31 @@ class Cuestionario extends CI_Controller {
             $data += $this->funciones_sistema->get_userdata();
 
             $permisos_requeridos = array(
-                'cuestionario.can_edit',
+                'captura.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
-                // guardado
-                $data = array(
-                    'nom_cuestionario' => 'Nuevo cuestionario',
-                );
-                $id_cuestionario = $this->cuestionario_model->guardar($data, null);
+                $captura = $this->input->post();
 
-                // registro en bitacora
-                $accion = 'agregó';
-                $entidad = 'cuestionario';
-                $valor = $id_cuestionario;
-                $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+                if ($captura) {
 
-                $this->detalle($id_cuestionario);
+                    // guardado
+                    $data = array(
+                        'id_cuestionario' => $captura['id_cuestionario'],
+                        'id_usuario' => $captura['id_usuario'],
+                        'fecha' => $captura['fecha'],
+                        'lat' => $captura['lat'],
+                        'lon' => $captura['lon'],
+                    );
+                    $id_captura = $this->captura_model->guardar($data, null);
+
+                    // registro en bitacora
+                    $accion = 'agregó';
+                    $entidad = 'captura';
+                    $valor = $id_captura;
+                    $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+
+                    $this->detalle($id_captura);
+                }
             } else {
                 redirect(base_url() . 'cuestionario');
             }
@@ -93,16 +109,18 @@ class Cuestionario extends CI_Controller {
         }
     }
 
-    public function guardar($id_cuestionario=null)
+    public function guardar($id_captura=null)
     {
         if ($this->session->userdata('logueado')) {
 
-            $nueva_cuestionario = is_null($id_cuestionario);
+            $nueva_captura = is_null($id_captura);
 
-            $cuestionario = $this->input->post();
-            if ($cuestionario) {
+            $captura = $this->input->post();
+            print_r($captura);
+            /*
+            if ($captura) {
 
-                if ($id_cuestionario) {
+                if ($id_captura) {
                     $accion = 'modificó';
                 } else {
                     $accion = 'agregó';
@@ -110,41 +128,42 @@ class Cuestionario extends CI_Controller {
 
                 // guardado
                 $data = array(
-                    'nom_cuestionario' => $cuestionario['nom_cuestionario'],
-                    'fecha' => empty($cuestionario['fecha']) ? null : $cuestionario['fecha'],
-                    'lugar' => $cuestionario['lugar'],
+                    'nom_captura' => $captura['nom_captura'],
+                    'fecha' => empty($captura['fecha']) ? null : $captura['fecha'],
+                    'lugar' => $captura['lugar'],
                 );
-                $id_cuestionario = $this->cuestionario_model->guardar($data, $id_cuestionario);
+                $id_captura = $this->captura_model->guardar($data, $id_captura);
 
                 // registro en bitacora
-                $entidad = 'cuestionario';
-                $valor = $id_cuestionario . " " . $cuestionario['nom_cuestionario'];
+                $entidad = 'captura';
+                $valor = $id_captura . " " . $captura['nom_captura'];
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             }
 
-            redirect(base_url() . 'cuestionario');
+            redirect(base_url() . 'captura');
+            */
 
         } else {
             redirect(base_url() . 'admin/login');
         }
     }
 
-    public function eliminar($id_cuestionario)
+    public function eliminar($id_captura)
     {
         if ($this->session->userdata('logueado')) {
 
             // registro en bitacora
-            $cuestionario = $this->cuestionario_model->get_cuestionario($id_cuestionario);
+            $captura = $this->captura_model->get_captura($id_captura);
             $accion = 'eliminó';
-            $entidad = 'cuestionario';
-            $valor = $id_cuestionario . " " . $cuestionario['nom_cuestionario'];
+            $entidad = 'captura';
+            $valor = $id_captura . " " . $captura['nom_captura'];
             $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
             // eliminado
-            $this->cuestionario_model->eliminar($id_cuestionario);
+            $this->captura_model->eliminar($id_captura);
 
-            redirect(base_url() . 'cuestionario');
+            redirect(base_url() . 'captura');
 
         } else {
             redirect(base_url() . 'admin/login');
@@ -152,4 +171,5 @@ class Cuestionario extends CI_Controller {
     }
 
 }
+
 

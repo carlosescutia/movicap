@@ -6,7 +6,6 @@
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
                     <th scope="col">Sección</th>
                     <th scope="col" class="text-center">Orden</th>
 
@@ -15,7 +14,6 @@
             <tbody>
                 <?php foreach( $secciones as $secciones_item) { ?>
                     <tr>
-                        <td><a href="<?= base_url() ?>seccion/detalle/<?= $secciones_item['id_seccion']?>"><?= $secciones_item['id_seccion'] ?></a></td>
                         <td><a href="<?= base_url() ?>seccion/detalle/<?= $secciones_item['id_seccion']?>"><?= $secciones_item['nom_seccion'] ?></a></td>
                         <td class="text-center"><?= $secciones_item['orden'] ?></td>
                         <?php

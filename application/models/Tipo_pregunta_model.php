@@ -11,9 +11,9 @@ class Tipo_pregunta_model extends CI_Model {
         return $query->result_array();
     }
 
-    public function get_tipo_pregunta_id($id_tipo_pregunta) {
-        $sql = 'select * from tipo_pregunta where id_tipo_pregunta = ?;';
-        $query = $this->db->query($sql, array($id_tipo_pregunta));
+    public function get_tipo_pregunta_cve($cve_tipo_pregunta) {
+        $sql = 'select * from tipo_pregunta where cve_tipo_pregunta = ?;';
+        $query = $this->db->query($sql, array($cve_tipo_pregunta));
         return $query->row_array();
     }
 
@@ -21,25 +21,6 @@ class Tipo_pregunta_model extends CI_Model {
         $sql = 'select valor from tipo_pregunta where nom_tipo_pregunta = ?;';
         $query = $this->db->query($sql, array($nom_tipo_pregunta));
         return $query->row_array()['valor'] ?? null ;
-    }
-
-    public function guardar($data, $id_tipo_pregunta)
-    {
-        if ($id_tipo_pregunta) {
-            $this->db->where('id_tipo_pregunta', $id_tipo_pregunta);
-            $this->db->update('tipo_pregunta', $data);
-            $id = $id_tipo_pregunta;
-        } else {
-            $this->db->insert('tipo_pregunta', $data);
-            $id = $this->db->insert_id();
-        }
-        return $id;
-    }
-
-    public function eliminar($id_tipo_pregunta)
-    {
-        $this->db->where('id_tipo_pregunta', $id_tipo_pregunta);
-        $result = $this->db->delete('tipo_pregunta');
     }
 
 }

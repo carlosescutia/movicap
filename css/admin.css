@@ -116,3 +116,9 @@ body a:hover {
     font-size: 1rem; 
     color: red;
 }
+
+.boton-archivo-sm {
+    font-size: 1.4rem; 
+    color: blue;
+    cursor: pointer;
+}

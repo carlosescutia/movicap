@@ -52,6 +52,7 @@ class Seccion extends CI_Controller {
                 if ($seccion) {
                     $data = array(
                         'id_cuestionario' => $seccion['id_cuestionario'],
+                        'nom_seccion' => 'Nueva sección',
                     );
                     $id_seccion = $this->seccion_model->guardar($data, null);
 

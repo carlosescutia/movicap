@@ -12,52 +12,51 @@
 </div>
 
 <div class="area-contenido">
-    <div class="row">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-1 align-self-center">
-                    <p class="small"><strong>Clave</strong></p>
-                </div>
-                <div class="col-4 align-self-center">
-                    <p class="small"><strong>Nombre</strong></p>
-                </div>
-                <div class="col-2 align-self-center">
-                    <p class="small"><strong>Lugar</strong></p>
-                </div>
-                <div class="col-3 align-self-center">
-                    <p class="small"><strong>Fecha</strong></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <?php foreach ($cuestionarios as $cuestionarios_item) { ?>
-        <div class="col-12 alternate-color">
-            <div class="row">
-                <div class="col-1 align-self-center">
-                    <p><a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionarios_item['id_cuestionario']?>"><?= $cuestionarios_item['id_cuestionario'] ?></a></p>
-                </div>
-                <div class="col-4 align-self-center">
-                    <p><a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionarios_item['id_cuestionario']?>"><?= $cuestionarios_item['nom_cuestionario'] ?></a></p>
-                </div>
-                <div class="col-2 align-self-center">
-                    <p><?= $cuestionarios_item['lugar'] ?></p>
-                </div>
-                <div class="col-3 align-self-center">
-                    <p><?= $cuestionarios_item['fecha'] ? date('d/m/Y', strtotime($cuestionarios_item['fecha'])) : '' ?></p>
-                </div>
-                <div class="col-1">
-                    <?php 
-                    $item_eliminar = $cuestionarios_item['id_cuestionario'] . ' ' . $cuestionarios_item['nom_cuestionario']; 
-                    $url = base_url() . "cuestionario/eliminar/". $cuestionarios_item['id_cuestionario']; 
-                    ?>
-                    <p><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></i>
-                    </a></p>
+    <?php foreach ($cuestionarios as $cuestionarios_item) { ?>
+        <div class="row">
+            <div class="col-12 pt-3 pb-2 mb-3 align-self-center bg-success-subtle">
+                <div class="row">
+                    <div class="col-9 align-self-center">
+                        <h4>
+                            <a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionarios_item['id_cuestionario']?>"><?= $cuestionarios_item['nom_cuestionario'] ?></a>
+                            -
+                            <?= $cuestionarios_item['lugar'] ?>
+                            <small>(<?= date('d/m/y', strtotime($cuestionarios_item['fecha'])) ?>)</small>
+                        </h4>
+                    </div>
+                    <div class="col-2 text-end">
+                        <form method="post" action="<?= base_url() ?>captura/nuevo">
+                            <input type="hidden" name="id_cuestionario" value="<?= $cuestionarios_item['id_cuestionario'] ?>">
+                            <input type="hidden" name="id_usuario" value="1">
+                            <input type="hidden" name="fecha" value="<?= date('Y-m-d') ?>">
+                            <input type="hidden" name="lat" value="21.008110">
+                            <input type="hidden" name="lon" value="-101.506989">
+                            <button type="submit" class="btn btn-primary">Nueva captura</button>
+                        </form>
+                    </div>
+                    <div class="col-1 mt-1 text-end">
+                        <?php 
+                        $item_eliminar = $cuestionarios_item['id_cuestionario'] . ' ' . $cuestionarios_item['nom_cuestionario']; 
+                        $url = base_url() . "cuestionario/eliminar/". $cuestionarios_item['id_cuestionario']; 
+                        ?>
+                        <p><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></i>
+                        </a></p>
+                    </div>
                 </div>
             </div>
         </div>
-        <?php } ?>
-    </div>
+        <div class="row">
+            <div class="col-9 align-self-center">
+                <ul>
+                <?php foreach ($capturas as $capturas_item) { ?>
+                    <?php if ($capturas_item['id_cuestionario'] == $cuestionarios_item['id_cuestionario']) { ?>
+                        <li><a href="<?= base_url() ?>captura/detalle/<?= $capturas_item['id_captura']?>"><?= $capturas_item['id_captura'] ?> - <?= $capturas_item['id_cuestionario'] ?> - <?= $capturas_item['id_usuario'] ?> - <?= $capturas_item['fecha'] ?></a></li>
+                    <?php } ?>
+                <?php } ?>
+                </ul>
+            </div>
+        </div>
+    <?php } ?>
 </div>
 
 <hr />

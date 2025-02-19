@@ -24,14 +24,14 @@ DROP TABLE IF EXISTS pregunta;
 CREATE TABLE pregunta (
     id_pregunta serial,
     id_seccion integer,
-    id_tipo_pregunta integer,
+    cve_tipo_pregunta integer,
     texto text,
     orden integer
 );
 
 DROP TABLE IF EXISTS tipo_pregunta;
 CREATE TABLE tipo_pregunta (
-    id_tipo_pregunta serial,
+    cve_tipo_pregunta text,
     nom_tipo_pregunta text,
     orden integer
 );
@@ -50,12 +50,15 @@ CREATE TABLE captura (
     id_captura serial,
     id_cuestionario integer,
     id_usuario integer,
-    fecha date
+    fecha date,
+    lat numeric (10,6),
+    lon numeric (10,6)
 );
 
 DROP TABLE IF EXISTS respuesta;
 CREATE TABLE respuesta (
     id_respuesta serial,
+    id_captura integer,
     id_pregunta integer,
     valor text
 );

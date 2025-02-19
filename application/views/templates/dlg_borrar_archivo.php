@@ -40,7 +40,7 @@
                 <h3 class="text-center"><span id="item_eliminar"></span></h3>
             </div>
             <div class="modal-footer">
-                <form method="post" enctype="multipart/form-data" action="<?= base_url() ?>archivos/eliminar">
+                <form method="post" enctype="multipart/form-data" action="<?= base_url() ?>archivo/eliminar">
                     <input type="hidden" id="nombre_archivo" name="nombre_archivo" value="eliminar">
                     <input type="hidden" id="url_actual" name="url_actual" value="url">
                     <input type="hidden" id="dir_docs" name="dir_docs" value="docs">

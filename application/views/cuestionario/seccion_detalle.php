@@ -14,15 +14,9 @@
 
             <div>
                 <div class="form-group row">
-                    <label for="id_seccion" class="col-sm-2 col-form-label">Clave</label>
-                    <div class="col-sm-1">
-                        <input type="text" class="form-control" name="id_seccion" id="id_seccion" value="<?=$seccion['id_seccion'] ?>" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
                     <label for="nom_seccion" class="col-sm-2 col-form-label">Nombre</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" name="nom_seccion" id="nom_seccion" value="<?=$seccion['nom_seccion'] ?>">
+                        <input type="text" class="form-control" name="nom_seccion" id="nom_seccion" value="<?=$seccion['nom_seccion'] ?>" required>
                     </div>
                 </div>
                 <div class="form-group row">
