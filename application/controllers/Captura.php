@@ -116,8 +116,6 @@ class Captura extends CI_Controller {
             $nueva_captura = is_null($id_captura);
 
             $captura = $this->input->post();
-            print_r($captura);
-            /*
             if ($captura) {
 
                 if ($id_captura) {
@@ -142,7 +140,6 @@ class Captura extends CI_Controller {
             }
 
             redirect(base_url() . 'captura');
-            */
 
         } else {
             redirect(base_url() . 'admin/login');

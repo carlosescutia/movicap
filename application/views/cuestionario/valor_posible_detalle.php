@@ -1,7 +1,7 @@
 <div class="area-contenido">
     <div class="col-12">
         <form method="post" action="<?= base_url() ?>valor_posible/guardar/<?= $valor_posible['id_valor_posible'] ?>">
-            <div class="pt-3 pb-2 ps-2 mb-3 bg-success-subtle border-bottom border-success-subtle">
+            <div class="pt-3 pb-2 ps-2 mb-3 bg-dark-subtle border-bottom border-success-subtle">
                 <div class="row">
                     <div class="col-9">
                         <h2>Editar valor posible</h2>

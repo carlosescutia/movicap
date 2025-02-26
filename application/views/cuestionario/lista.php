@@ -17,12 +17,33 @@
             <div class="col-12 pt-3 pb-2 mb-3 align-self-center bg-success-subtle">
                 <div class="row">
                     <div class="col-9 align-self-center">
-                        <h4>
-                            <a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionarios_item['id_cuestionario']?>"><?= $cuestionarios_item['nom_cuestionario'] ?></a>
-                            -
-                            <?= $cuestionarios_item['lugar'] ?>
-                            <small>(<?= date('d/m/y', strtotime($cuestionarios_item['fecha'])) ?>)</small>
-                        </h4>
+                        <div class="row">
+                            <div class="col-sm-auto">
+                                <h4>
+                                    <a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionarios_item['id_cuestionario']?>"><?= $cuestionarios_item['nom_cuestionario'] ?></a>
+                                    -
+                                    <?= $cuestionarios_item['lugar'] ?>
+                                    <small>(<?= date('d/m/y', strtotime($cuestionarios_item['fecha'])) ?>)</small>
+                                </h4>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="row">
+                                    <div class="col-2 col-sm-4">
+                                        <form method="post" action="<?= base_url() ?>reportes/capturas_cuestionario/">
+                                            <input type="hidden" name="id_cuestionario" value="<?=$cuestionarios_item['id_cuestionario']?>">
+                                            <input type="hidden" name="salida" value="csv">
+                                            <button type="submit" class="btn btn-success btn-sm">csv</button>
+                                        </form>
+                                    </div>
+                                    <div class="col-2 col-sm-4">
+                                        <form method="post" action="<?= base_url() ?>cuestionario/descarga_fotos/">
+                                            <input type="hidden" name="id_cuestionario" value="<?=$cuestionarios_item['id_cuestionario']?>">
+                                            <button type="submit" class="btn btn-success btn-sm">fotos</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-2 text-end">
                         <form method="post" action="<?= base_url() ?>captura/nuevo">
@@ -31,7 +52,7 @@
                             <input type="hidden" name="fecha" value="<?= date('Y-m-d') ?>">
                             <input type="hidden" name="lat" value="21.008110">
                             <input type="hidden" name="lon" value="-101.506989">
-                            <button type="submit" class="btn btn-primary">Nueva captura</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Capturar</button>
                         </form>
                     </div>
                     <div class="col-1 mt-1 text-end">

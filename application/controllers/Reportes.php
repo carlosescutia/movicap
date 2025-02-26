@@ -5,7 +5,12 @@ class Reportes extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('funciones_sistema');
+        $this->load->helper('file');
+        $this->load->helper('download');
+
         $this->load->model('bitacora_model');
+        $this->load->model('captura_model');
+        $this->load->model('cuestionario_model');
     }
 
     public function index()
@@ -33,9 +38,6 @@ class Reportes extends CI_Controller {
     public function listado_bitacora_01($salida='')
     {
         if ($this->session->userdata('logueado')) {
-            $this->load->helper('file');
-            $this->load->helper('download');
-
             $data = [];
             $data += $this->funciones_sistema->get_userdata();
             $data += $this->funciones_sistema->get_system_params();
@@ -73,6 +75,35 @@ class Reportes extends CI_Controller {
             } else {
                 redirect(base_url() . 'admin');
             }
+        } else {
+            redirect(base_url() . 'admin/login');
+        }
+    }
+
+    public function capturas_cuestionario()
+    {
+        if ($this->session->userdata('logueado')) {
+            $data = [];
+            $data += $this->funciones_sistema->get_userdata();
+            $data += $this->funciones_sistema->get_system_params();
+
+            $parametros = $this->input->post();
+            if ($parametros) {
+                $id_cuestionario = $parametros['id_cuestionario'];
+                $salida = $parametros['salida'];
+
+                $capturas_cuestionario = $this->captura_model->get_capturas_cuestionario($id_cuestionario, $salida);
+
+                $cuestionario = $this->cuestionario_model->get_cuestionario($id_cuestionario);
+                $nom_archivo = $cuestionario['nom_cuestionario'] . ' - ' . date('d', time()) . get_nom_mes(date('m',time())) . date('y',time()) . '.csv';
+
+                if ($salida == 'csv') {
+                    force_download($nom_archivo, $capturas_cuestionario);
+                } else {
+                    print_r($capturas_cuestionario);
+                }
+            }
+            //redirect(base_url() . 'cuestionario');
         } else {
             redirect(base_url() . 'admin/login');
         }

@@ -96,12 +96,12 @@
                                                     <button id="btn_subir_<?=$nom_archivo?>" type="submit" class="btn btn-sm d-none" style="background: none; color: #28A745">
                                                         <i class="bi bi-upload boton-subir-sm"></i>
                                                     </button>
+                                                    <?php if ( file_exists($nombre_archivo_fs) ) { 
+                                                        $item_eliminar = $nombre_archivo; ?>
+                                                        &nbsp;
+                                                        <a href="#dlg_borrar_archivo" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url_actual?>', '<?=$dir_docs?>')" ><i class="bi bi-x-circle boton-eliminar" ></i></a>
+                                                    <?php } ?>
                                                 </form>
-                                                <?php if ( file_exists($nombre_archivo_fs) ) { 
-                                                    $item_eliminar = $nombre_archivo; ?>
-                                                    &nbsp;
-                                                    <a href="#dlg_borrar_archivo" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url_actual?>', '<?=$dir_docs?>')" ><i class="bi bi-x-circle boton-eliminar" ></i></a>
-                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
