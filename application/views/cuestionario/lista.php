@@ -36,8 +36,9 @@
                                         </form>
                                     </div>
                                     <div class="col-2 col-sm-4">
-                                        <form method="post" action="<?= base_url() ?>cuestionario/descarga_fotos/">
+                                        <form method="post" action="<?= base_url() ?>reportes/fotos_cuestionario/">
                                             <input type="hidden" name="id_cuestionario" value="<?=$cuestionarios_item['id_cuestionario']?>">
+                                            <input type="hidden" name="salida" value="csv">
                                             <button type="submit" class="btn btn-success btn-sm">fotos</button>
                                         </form>
                                     </div>

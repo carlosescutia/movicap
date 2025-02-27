@@ -5,6 +5,7 @@ class Reportes extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('funciones_sistema');
+        $this->load->library('zip');
         $this->load->helper('file');
         $this->load->helper('download');
 
@@ -103,10 +104,38 @@ class Reportes extends CI_Controller {
                     print_r($capturas_cuestionario);
                 }
             }
-            //redirect(base_url() . 'cuestionario');
+            redirect(base_url() . 'cuestionario');
         } else {
             redirect(base_url() . 'admin/login');
         }
     }
+
+    public function fotos_cuestionario()
+    {
+        if ($this->session->userdata('logueado')) {
+            $data = [];
+            $data += $this->funciones_sistema->get_userdata();
+            $data += $this->funciones_sistema->get_system_params();
+
+            $parametros = $this->input->post();
+            if ($parametros) {
+                $id_cuestionario = $parametros['id_cuestionario'];
+
+                $fotos_cuestionario = $this->captura_model->get_fotos_cuestionario($id_cuestionario);
+                foreach ($fotos_cuestionario as $foto) {
+                    $this->zip->read_file($foto);
+                }
+
+                $cuestionario = $this->cuestionario_model->get_cuestionario($id_cuestionario);
+                $nom_archivo_zip = 'Fotos ' . $cuestionario['nom_cuestionario'] . ' - ' . date('d', time()) . get_nom_mes(date('m',time())) . date('y',time()) . '.zip';
+
+                $this->zip->download($nom_archivo_zip);
+            }
+            redirect(base_url() . 'cuestionario');
+        } else {
+            redirect(base_url() . 'admin/login');
+        }
+    }
+
 
 }
