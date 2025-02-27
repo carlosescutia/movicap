@@ -3,7 +3,7 @@
         <div class="my-3 pb-2 border-bottom">
             <div class="row">
                 <div class="col-9">
-                    <h2>Editar cuestionario</h2>
+                    <h2>Editar proyecto</h2>
                 </div>
                 <div class="col-2 text-end">
                     <button type="submit" class="btn btn-primary">Guardar</button>

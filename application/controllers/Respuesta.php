@@ -6,6 +6,7 @@ class Respuesta extends CI_Controller {
         parent::__construct();
         $this->load->library('funciones_sistema');
         $this->load->model('respuesta_model');
+        $this->load->model('captura_model');
     }
 
     public function guardar()
@@ -15,8 +16,10 @@ class Respuesta extends CI_Controller {
             $respuestas = $this->input->post();
             if ($respuestas) {
                 $id_captura = $respuestas['id_captura'];
+                $lat = $respuestas['lat'];
+                $lon = $respuestas['lon'];
                 foreach ($respuestas as $clave => $valor) {
-                    if ($clave !== 'id_captura') {
+                    if ($clave !== 'id_captura' and $clave !== 'lat' and $clave !== 'lon') {
                         if (strpos($clave, "_")) {
                             $id_pregunta = substr($clave, 2, strlen($clave) );
                         } else {
@@ -38,6 +41,13 @@ class Respuesta extends CI_Controller {
 
                     }
                 }
+                // actualizar coordenadas en Captura
+                $data = array(
+                    'lat' => $lat,
+                    'lon' => $lon,
+                );
+                $this->captura_model->guardar($data, $id_captura);
+
                 // registro en bitacora
                 $accion = 'modificó';
                 $entidad = 'captura';

@@ -1,7 +1,7 @@
 <div class="my-3 pb-2 border-bottom">
     <div class="row">
         <div class="col-9 text-start">
-            <h2>Cuestionarios</h2>
+            <h2>Proyectos</h2>
         </div>
         <div class="col-2 text-end">
             <form method="post" action="<?= base_url() ?>cuestionario/nuevo">
@@ -51,8 +51,8 @@
                             <input type="hidden" name="id_cuestionario" value="<?= $cuestionarios_item['id_cuestionario'] ?>">
                             <input type="hidden" name="id_usuario" value="1">
                             <input type="hidden" name="fecha" value="<?= date('Y-m-d') ?>">
-                            <input type="hidden" name="lat" value="21.008110">
-                            <input type="hidden" name="lon" value="-101.506989">
+                            <input type="hidden" name="lat" value="21">
+                            <input type="hidden" name="lon" value="-101">
                             <button type="submit" class="btn btn-primary btn-sm">Capturar</button>
                         </form>
                     </div>
@@ -68,11 +68,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-9 align-self-center">
+            <div class="col-12 col-sm-6 align-self-center">
                 <ul>
                 <?php foreach ($capturas as $capturas_item) { ?>
                     <?php if ($capturas_item['id_cuestionario'] == $cuestionarios_item['id_cuestionario']) { ?>
-                        <li><a href="<?= base_url() ?>captura/detalle/<?= $capturas_item['id_captura']?>"><?= $capturas_item['id_captura'] ?> - <?= $capturas_item['id_cuestionario'] ?> - <?= $capturas_item['id_usuario'] ?> - <?= $capturas_item['fecha'] ?></a></li>
+                        <li class="alternate-color"><a href="<?= base_url() ?>captura/detalle/<?= $capturas_item['id_captura']?>"><?= $capturas_item['id_captura'] ?> - <?= $capturas_item['id_cuestionario'] ?> - <?= $capturas_item['id_usuario'] ?> - <?= $capturas_item['fecha'] ?></a></li>
                     <?php } ?>
                 <?php } ?>
                 </ul>

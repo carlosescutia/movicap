@@ -1,6 +1,8 @@
 <div class="area-contenido">
     <form method="post" action="<?= base_url() ?>respuesta/guardar/" id="frm_captura">
         <input type="hidden" name="id_captura" value="<?= $captura['id_captura'] ?>" >
+        <input type="hidden" name="lat" id="lat" value="<?= $captura['lat'] ?>" >
+        <input type="hidden" name="lon" id="lon" value="<?= $captura['lon'] ?>" >
     </form>
     <div class="my-3 pb-2 border-bottom">
         <div class="row">
@@ -116,12 +118,23 @@
         </div>
 
         <div class="col-sm-3">
-            <div class="form-group row">
-                <label> <?=$captura['fecha'] ?> - <?=$captura['lat'] ?>, <?=$captura['lon'] ?></label>
-            </div>
-            <div id="map" style="height: 180px">
+            <div class="card">
+                <div class="card-header">
+                    Ubicación:
+                    <label id="lbl_lat"><?=number_format($captura['lat'], 6) ?></label>,
+                    <label id="lbl_lon"><?=number_format($captura['lon'],6) ?></label>
+                </div>
+                <div class="card-body">
+                    <div id="map" style="height: 180px">
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-success" onclick="get_coords();">Actualizar</button>
+                </div>
             </div>
         </div>
+    </div>
+
     </div>
 </div>
 
@@ -135,23 +148,56 @@
 
 <script type="text/javascript">
     // crear mapa en el div "map"
-    var map = L.map('map');
+    var map = L.map('map', {
+        fullscreenControl: true,
+        fullscreenControlOptions: {
+            position: 'topleft'
+        }
+    });
 
     // crear layer openstreetmap
     var backgUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
     backgAttrib = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
-    var backg_lyr = L.tileLayer(backgUrl, {maxZoom: 18, attribution: backgAttrib});                        
+    var backg_lyr = L.tileLayer(backgUrl, {maxZoom: 18, attribution: backgAttrib});
 
     // agregar layer openstreetmap a mapa
     map.addLayer(backg_lyr);
     var curr_position = L.marker();
+    curr_position.addTo(map)
 
-    $(document).ready(function(){
-        lati = <?= $captura['lat'] ?> ;
-        longi = <?= $captura['lon'] ?> ;
+    // actualizar coordenadas al hacer click en el mapa
+    function onMapClick(e) {
+        lati = e.latlng.lat.toFixed(7);
+        longi = e.latlng.lng.toFixed(7);
+        update_position(lati,longi);
+    }
+    map.on('click', onMapClick);
+
+    function update_position(lati,longi) {
         new_position = new L.LatLng(lati, longi);
         curr_position.setLatLng(new_position);
-        curr_position.addTo(map)
+        $("#lat").attr('value',lati);
+        $("#lon").attr('value',longi);
+        $("#lbl_lat").html(lati);
+        $("#lbl_lon").html(longi);
         map.setView(new_position, 15);
+    }
+
+    $(document).ready(function(){
+        lati = $("#lat").attr('value');
+        longi = $("#lon").attr('value');
+        update_position(lati,longi);
     });
+
+    function get_coords() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                lati = position.coords.latitude;
+                longi = position.coords.longitude;
+                update_position(lati,longi);
+            });
+        } else {
+            console.log("no se puede obtener ubicacion");
+        }
+    }
 </script>

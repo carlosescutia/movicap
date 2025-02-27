@@ -11,13 +11,7 @@ class Admin extends CI_Controller {
     public function index()
     {
         if ($this->session->userdata('logueado')) {
-            $data = [];
-            $data += $this->funciones_sistema->get_userdata();
-            $data += $this->funciones_sistema->get_system_params();
-
-            $this->load->view('templates/admheader', $data);
-            $this->load->view('admin/inicio', $data);
-            $this->load->view('templates/footer', $data);
+            redirect(base_url() . 'cuestionario');
         } else {
             $this->login();
         }
