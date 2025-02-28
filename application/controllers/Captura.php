@@ -80,13 +80,13 @@ class Captura extends CI_Controller {
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
                 $captura = $this->input->post();
+                $capturista = $data['id_usuario'];
 
                 if ($captura) {
-
                     // guardado
                     $data = array(
                         'id_cuestionario' => $captura['id_cuestionario'],
-                        'id_usuario' => $captura['id_usuario'],
+                        'id_usuario' => $capturista,
                         'fecha' => $captura['fecha'],
                         'lat' => $captura['lat'],
                         'lon' => $captura['lon'],

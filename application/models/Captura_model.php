@@ -8,8 +8,17 @@ class Captura_model extends CI_Model {
     }
 
     public function get_capturas() {
-        $sql = 'select * from captura order by id_cuestionario, fecha;';
+        $sql = 'select c.*, u.nom_usuario from captura c left join usuario u on u.id_usuario = c.id_usuario order by fecha desc, id_cuestionario desc';
         $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
+    public function get_capturas_usuario($id_usuario, $id_rol) {
+        if ($id_rol == 'adm' or $id_rol=='sup') {
+            $id_usuario = '%';
+        }
+        $sql = 'select c.*, u.nom_usuario from captura c left join usuario u on u.id_usuario = c.id_usuario where c.id_usuario::text like ? order by fecha desc, id_cuestionario desc';
+        $query = $this->db->query($sql, array($id_usuario));
         return $query->result_array();
     }
 
@@ -164,7 +173,7 @@ class Captura_model extends CI_Model {
 
 
     public function get_captura($id_captura) {
-        $sql = 'select * from captura where id_captura = ?;';
+        $sql = 'select c.*, u.nom_usuario from captura c left join usuario u on u.id_usuario = c.id_usuario where id_captura = ?;';
         $query = $this->db->query($sql, array($id_captura));
         return $query->row_array();
     }

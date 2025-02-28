@@ -36,6 +36,12 @@ class Usuario_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function get_usuarios_rol($id_rol) {
+        $sql = "select * from usuario where id_rol = ?";
+        $query = $this->db->query($sql, array($id_rol));
+        return $query->result_array();
+    }
+
     public function get_usuario($id_usuario) {
         $sql = ""
             ."select u.*, o.nom_organizacion, r.nom_rol "

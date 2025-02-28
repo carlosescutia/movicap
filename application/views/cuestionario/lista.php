@@ -69,13 +69,26 @@
         </div>
         <div class="row">
             <div class="col-12 col-sm-6 align-self-center">
-                <ul>
-                <?php foreach ($capturas as $capturas_item) { ?>
-                    <?php if ($capturas_item['id_cuestionario'] == $cuestionarios_item['id_cuestionario']) { ?>
-                        <li class="alternate-color"><a href="<?= base_url() ?>captura/detalle/<?= $capturas_item['id_captura']?>"><?= $capturas_item['id_captura'] ?> - <?= $capturas_item['id_cuestionario'] ?> - <?= $capturas_item['id_usuario'] ?> - <?= $capturas_item['fecha'] ?></a></li>
-                    <?php } ?>
-                <?php } ?>
-                </ul>
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">id</th>
+                            <th scope="col">capturista</th>
+                            <th scope="col">fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($capturas as $capturas_item) { ?>
+                            <?php if ($capturas_item['id_cuestionario'] == $cuestionarios_item['id_cuestionario']) { ?>
+                                <tr>
+                                    <td><?= $capturas_item['id_captura'] ?></td>
+                                    <td><a href="<?= base_url() ?>captura/detalle/<?= $capturas_item['id_captura']?>"><?= $capturas_item['nom_usuario'] ?></td>
+                                    <td><?= date('d/m/y', strtotime($capturas_item['fecha'])) ?></td>
+                                </tr>
+                            <?php } ?>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     <?php } ?>

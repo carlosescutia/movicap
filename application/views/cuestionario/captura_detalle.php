@@ -7,7 +7,9 @@
     <div class="my-3 pb-2 border-bottom">
         <div class="row">
             <div class="col-9">
-                <h2>Editar captura</h2>
+                <h2>Editar captura
+                    <span class="h6"><?= $captura['id_captura'] ?> - <?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?></span>
+                </h2>
             </div>
             <div class="col-2 text-end">
                 <button type="submit" class="btn btn-primary" form="frm_captura">Guardar</button>
@@ -129,7 +131,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <button class="btn btn-success" onclick="get_coords();">Actualizar</button>
+                    <button class="btn btn-success" onclick="get_coords();">Detectar</button>
                 </div>
             </div>
         </div>

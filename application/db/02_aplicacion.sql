@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS cuestionario;
 CREATE TABLE cuestionario (
     id_cuestionario serial,
+    id_usuario integer,
     nom_cuestionario text,
     fecha date,
     lugar text
@@ -8,6 +9,7 @@ CREATE TABLE cuestionario (
 
 DROP TABLE IF EXISTS cuestionario_usuario;
 CREATE TABLE cuestionario_usuario (
+    id_cuestionario_usuario serial,
     id_cuestionario integer,
     id_usuario integer
 );

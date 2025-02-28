@@ -39,9 +39,17 @@
         </div>
     </form>
 
-    <div class="col-12 col-sm-5 offset-sm-1 mt-5">
-        <?php include "seccion_lista.php" ?>
+    <div class="col-12 mt-5">
+        <div class="row">
+            <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                <?php include "seccion_lista.php" ?>
+            </div>
+            <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                <?php include "cuestionario_usuario.php" ?>
+            </div>
+        </div>
     </div>
+
 </div>
 
 <hr />

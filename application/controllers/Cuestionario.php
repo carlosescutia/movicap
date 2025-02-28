@@ -8,6 +8,8 @@ class Cuestionario extends CI_Controller {
         $this->load->model('cuestionario_model');
         $this->load->model('captura_model');
         $this->load->model('seccion_model');
+        $this->load->model('cuestionario_usuario_model');
+        $this->load->model('usuario_model');
     }
 
     public function index()
@@ -21,8 +23,8 @@ class Cuestionario extends CI_Controller {
                 'cuestionario.can_view',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
-                $data['cuestionarios'] = $this->cuestionario_model->get_cuestionarios();
-                $data['capturas'] = $this->captura_model->get_capturas();
+                $data['cuestionarios'] = $this->cuestionario_model->get_cuestionarios_usuario($data['id_usuario'], $data['id_rol']);
+                $data['capturas'] = $this->captura_model->get_capturas_usuario($data['id_usuario'], $data['id_rol']);
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
@@ -49,6 +51,9 @@ class Cuestionario extends CI_Controller {
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
                 $data['cuestionario'] = $this->cuestionario_model->get_cuestionario($id_cuestionario);
                 $data['secciones'] = $this->seccion_model->get_secciones_cuestionario($id_cuestionario);
+                $data['cuestionario_usuarios'] = $this->cuestionario_usuario_model->get_usuarios_cuestionario($id_cuestionario);
+                $id_rol = 'usr';
+                $data['usuarios'] = $this->usuario_model->get_usuarios_rol($id_rol);
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
@@ -72,8 +77,10 @@ class Cuestionario extends CI_Controller {
                 'cuestionario.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
+                $capturista = $data['id_usuario'];
                 // guardado
                 $data = array(
+                    'id_usuario' => $capturista,
                     'nom_cuestionario' => 'Nuevo cuestionario',
                 );
                 $id_cuestionario = $this->cuestionario_model->guardar($data, null);
