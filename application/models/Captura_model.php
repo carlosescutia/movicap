@@ -54,6 +54,9 @@ class Captura_model extends CI_Model {
             }
         }
         $lista_fotos_cuestionario = implode(',', $lista_fotos_array);
+        if (empty($lista_fotos_cuestionario)) {
+            $lista_fotos_cuestionario = '\'none\'';
+        }
 
         // obtener lista de preguntas del cuestionario
         $sql = ""

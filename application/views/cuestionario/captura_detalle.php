@@ -11,9 +11,16 @@
                     <span class="h6"><?= $captura['id_captura'] ?> - <?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?></span>
                 </h2>
             </div>
-            <div class="col-2 text-end">
-                <button type="submit" class="btn btn-primary" form="frm_captura">Guardar</button>
-            </div>
+            <?php
+                $permisos_requeridos = array(
+                'captura.can_edit',
+                );
+                if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                    <div class="col-2 text-end">
+                        <button type="submit" class="btn btn-primary" form="frm_captura">Guardar</button>
+                    </div>
+                <?php }
+            ?>
         </div>
         <div class="row">
             <div class="col-md-6 text-end">
@@ -86,26 +93,33 @@
                                             <div class="card-body text-center">
                                                 <p class="card-text text-start"><?= $preguntas_item['texto'] ?></p>
 
-                                                <form method="post" enctype="multipart/form-data" action="<?=base_url()?>archivo/subir" id="frm_foto">
-                                                    <label tabindex="0" name="btn_sel_<?=$nom_archivo?>" id="btn_sel_<?=$nom_archivo?>"><i class="bi bi-camera-fill boton-archivo-sm"></i>
-                                                        <input name="subir_archivo" id="<?=$selector_archivo?>" type="file" accept="image/*" capture="environment" class="d-none" onchange="$('#btn_subir_<?=$nom_archivo?>').removeClass('d-none'); $('#btn_sel_<?=$nom_archivo?>').addClass('d-none');">
-                                                    </label>
-                                                    <input type="hidden" name="nombre_archivo" value="<?=$nombre_archivo?>">
-                                                    <input type="hidden" name="dir_docs" value="<?=$dir_docs?>">
-                                                    <input type="hidden" name="tipo_archivo" value="<?=$tipo_archivo?>">
-                                                    <input type="hidden" name="url_actual" value="<?=$url_actual?>">
-                                                    <input type="hidden" name="descripcion" value="<?=$descripcion?>">
-                                                    <input type="hidden" name="selector_archivo" value="<?=$selector_archivo?>">
+                                                <?php
+                                                    $permisos_requeridos = array(
+                                                    'captura.can_edit',
+                                                    );
+                                                    if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                                                        <form method="post" enctype="multipart/form-data" action="<?=base_url()?>archivo/subir" id="frm_foto">
+                                                            <label tabindex="0" name="btn_sel_<?=$nom_archivo?>" id="btn_sel_<?=$nom_archivo?>"><i class="bi bi-camera-fill boton-archivo-sm"></i>
+                                                                <input name="subir_archivo" id="<?=$selector_archivo?>" type="file" accept="image/*" capture="environment" class="d-none" onchange="$('#btn_subir_<?=$nom_archivo?>').removeClass('d-none'); $('#btn_sel_<?=$nom_archivo?>').addClass('d-none');">
+                                                            </label>
+                                                            <input type="hidden" name="nombre_archivo" value="<?=$nombre_archivo?>">
+                                                            <input type="hidden" name="dir_docs" value="<?=$dir_docs?>">
+                                                            <input type="hidden" name="tipo_archivo" value="<?=$tipo_archivo?>">
+                                                            <input type="hidden" name="url_actual" value="<?=$url_actual?>">
+                                                            <input type="hidden" name="descripcion" value="<?=$descripcion?>">
+                                                            <input type="hidden" name="selector_archivo" value="<?=$selector_archivo?>">
 
-                                                    <button id="btn_subir_<?=$nom_archivo?>" type="submit" class="btn btn-sm d-none" style="background: none; color: #28A745">
-                                                        <i class="bi bi-upload boton-subir-sm"></i>
-                                                    </button>
-                                                    <?php if ( file_exists($nombre_archivo_fs) ) { 
-                                                        $item_eliminar = $nombre_archivo; ?>
-                                                        &nbsp;
-                                                        <a href="#dlg_borrar_archivo" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url_actual?>', '<?=$dir_docs?>')" ><i class="bi bi-x-circle boton-eliminar" ></i></a>
-                                                    <?php } ?>
-                                                </form>
+                                                            <button id="btn_subir_<?=$nom_archivo?>" type="submit" class="btn btn-sm d-none" style="background: none; color: #28A745">
+                                                                <i class="bi bi-upload boton-subir-sm"></i>
+                                                            </button>
+                                                            <?php if ( file_exists($nombre_archivo_fs) ) { 
+                                                                $item_eliminar = $nombre_archivo; ?>
+                                                                &nbsp;
+                                                                <a href="#dlg_borrar_archivo" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url_actual?>', '<?=$dir_docs?>')" ><i class="bi bi-x-circle boton-eliminar" ></i></a>
+                                                            <?php } ?>
+                                                        </form>
+                                                    <?php }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>

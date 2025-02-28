@@ -45,7 +45,7 @@ class Captura extends CI_Controller {
             $data += $this->funciones_sistema->get_system_params();
 
             $permisos_requeridos = array(
-                'captura.can_edit',
+                'captura.can_view',
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
                 $data['captura'] = $this->captura_model->get_captura($id_captura);

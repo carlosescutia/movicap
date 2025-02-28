@@ -32,10 +32,15 @@ class Respuesta extends CI_Controller {
                         );
 
                         $respuesta = $this->respuesta_model->get_respuesta_captura_pregunta($id_captura, $id_pregunta);
-                        $id_respuesta = $respuesta['id_respuesta'];
-                        if ($id_respuesta) {
+                        if ($respuesta) {
+                            $id_respuesta = $respuesta['id_respuesta'];
+                            if ($id_respuesta) {
+                                $accion = 'modificó';
+                            } else {
+                                $accion = 'agregó';
+                            }
                         } else {
-                            $accion = 'agregó';
+                            $id_respuesta = null;
                         }
                         $id_respuesta = $this->respuesta_model->guardar($data, $id_respuesta);
 
