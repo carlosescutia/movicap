@@ -74,7 +74,10 @@ class Captura_model extends CI_Model {
         $preguntas = $query->result_array();
 
         // query final para obtener el csv
-        $sql = "select distinct cst.id_cuestionario, cst.nom_cuestionario, cst.fecha as fecha_cuestionario, cst.lugar, cap.id_captura, cap.fecha as fecha_captura, ";
+        $url = base_url() . 'doc/';
+        $sql = ""
+            ."select distinct cst.id_cuestionario, cst.nom_cuestionario, cst.fecha as fecha_cuestionario, "
+            ."cst.lugar, cap.id_captura, u.nom_usuario as capturista, cap.fecha as fecha_captura, ";
         foreach ($preguntas as $preguntas_item) {
             $orig_valor = '';
             $tabla_adicional = '';
@@ -94,7 +97,7 @@ class Captura_model extends CI_Model {
                 case 'op_multiple':
                     $sql .= ''
                         .'(select '
-                        .'vp.texto as "' . $preguntas_item['texto'] . '" '
+                        .'vp.valor as "' . $preguntas_item['texto'] . '" '
                         .'from '
                         .'respuesta r2 '
                         .'left join valor_posible vp on vp.id_pregunta = r2.id_pregunta and vp.valor = r2.valor '
@@ -108,7 +111,7 @@ class Captura_model extends CI_Model {
                     $sql .= ''
                         .'(select '
                         .'(case when c.id_captura::text || \'_\' || p.id_pregunta::text '
-                        .'in (' . $lista_fotos_cuestionario . ') then \'ft_\' || c.id_captura::text || \'_\' || p.id_pregunta::text || \'.jpg\' '
+                        .'in (' . $lista_fotos_cuestionario . ') then \'' . $url . 'ft_\' || c.id_captura::text || \'_\' || p.id_pregunta::text || \'.jpg\' '
                         .'else \'\' end) as "'. $preguntas_item['texto'] . '" '
                         .'from  '
                         .'captura c  '
@@ -128,6 +131,7 @@ class Captura_model extends CI_Model {
             ."captura cap "
             ."left join respuesta r on r.id_captura = cap.id_captura "
             ."left join cuestionario cst on cst.id_cuestionario = cap.id_cuestionario "
+            ."left join usuario u on u.id_usuario = cap.id_usuario "
             ."where  "
             ."cap.id_cuestionario = ? "
             ."";
