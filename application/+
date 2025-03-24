@@ -6,17 +6,18 @@
     </form>
     <div class="my-3 pb-2 border-bottom">
         <div class="row">
-            <div class="col-10">
-                <h2 id="titulo">Editar captura</h2>
-                <h6><?= $captura['id_captura'] ?> - <?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?></h6>
+            <div class="col-9">
+                <h2>Editar captura
+                    <span class="h6"><?= $captura['id_captura'] ?> - <?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?></span>
+                </h2>
             </div>
             <?php
                 $permisos_requeridos = array(
                 'captura.can_edit',
                 );
                 if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                    <div class="col-1 text-end">
-                        <button type="submit" class="btn btn-primary btn-sm" form="frm_captura">Guardar</button>
+                    <div class="col-2 text-end">
+                        <button type="submit" class="btn btn-primary" form="frm_captura">Guardar</button>
                     </div>
                 <?php }
             ?>
@@ -32,29 +33,40 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end offcanvas-size-sm" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas offcanvas-end offcanvas-size-md" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Secciones</h5>
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="list-group">
-                <button 
-                    class="list-group-item list-group-item-action active" 
-                    id="tab-ubicacion" 
-                    data-bs-toggle="tab" 
-                    data-bs-target="#panel-ubicacion" 
-                    type="button" 
-                    role="tab" 
-                    aria-controls="panel-ubicacion" 
-                    aria-selected="true"
-                    onclick="update_titulo('Ubicación')"
-                >
-                    Ubicación
-                </button>
-                <?php foreach ($secciones as $secciones_item) { ?>
+            <div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="nav nav-tabs rounded bg-success-subtle" id="tabs-secciones" role="tablist">
+                <li class="nav-item" role="presentation">
                     <button 
-                        class="list-group-item list-group-item-action" 
+                        class="nav-link active" 
+                        id="tab-ubicacion" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#panel-ubicacion" 
+                        type="button" 
+                        role="tab" 
+                        aria-controls="panel-ubicacion" 
+                        aria-selected="true"
+                    >
+                        Ubicación
+                    </button>
+                </li>
+                <?php foreach ($secciones as $secciones_item) { ?>
+                <li class="nav-item" role="presentation">
+                    <button 
+                        class="nav-link" 
                         id="tab-<?= $secciones_item['id_seccion'] ?>" 
                         data-bs-toggle="tab" 
                         data-bs-target="#panel-<?= $secciones_item['id_seccion'] ?>" 
@@ -62,54 +74,12 @@
                         role="tab" 
                         aria-controls="panel-<?= $secciones_item['id_seccion'] ?>" 
                         aria-selected="false"
-                        onclick="update_titulo('<?= $secciones_item['nom_seccion'] ?>')"
                     >
                         <?= $secciones_item['nom_seccion'] ?> 
                     </button>
+                </li>
                 <?php } ?>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-sm-12" id="area1">
-            <div class="d-none d-sm-block col-12">
-                <ul class="nav nav-tabs rounded bg-success-subtle" id="tabs-secciones" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button 
-                            class="nav-link active" 
-                            id="tab-ubicacion" 
-                            data-bs-toggle="tab" 
-                            data-bs-target="#panel-ubicacion" 
-                            type="button" 
-                            role="tab" 
-                            aria-controls="panel-ubicacion" 
-                            aria-selected="true"
-                            onclick="update_titulo('Ubicación')"
-                        >
-                            Ubicación
-                        </button>
-                    </li>
-                    <?php foreach ($secciones as $secciones_item) { ?>
-                    <li class="nav-item" role="presentation">
-                        <button 
-                            class="nav-link" 
-                            id="tab-<?= $secciones_item['id_seccion'] ?>" 
-                            data-bs-toggle="tab" 
-                            data-bs-target="#panel-<?= $secciones_item['id_seccion'] ?>" 
-                            type="button" 
-                            role="tab" 
-                            aria-controls="panel-<?= $secciones_item['id_seccion'] ?>" 
-                            aria-selected="false"
-                            onclick="update_titulo('<?= $secciones_item['nom_seccion'] ?>')"
-                        >
-                            <?= $secciones_item['nom_seccion'] ?> 
-                        </button>
-                    </li>
-                    <?php } ?>
-                </ul>
-            </div>
+            </ul>
             <div class="tab-content mx-0 mx-sm-3 my-3" id="panes-secciones">
                 <div 
                     class="tab-pane fade show active" 
@@ -244,6 +214,9 @@
 <div class="form-group row">
     <div class="col-10">
         <a href="<?=base_url()?>cuestionario" class="btn btn-secondary">Volver</a>
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            Menú lateral
+        </button>
     </div>
 </div>
 
@@ -284,38 +257,10 @@
         map.setView(new_position, 15);
     }
 
-    function update_titulo(titulo) {
-        $("#titulo").html(titulo);
-        return offcanvas.hide();
-    }
-
     $(document).ready(function(){
         lati = $("#lat").attr('value');
         longi = $("#lon").attr('value');
         update_position(lati,longi);
-
-        offcanvasElement = document.getElementById("offcanvasExample");
-        offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-        $(window).swipe( {
-            //Single swipe handler for left swipes
-            swipeLeft:function(event, direction, distance, duration, fingerCount) {
-                console.log('swipeLeft!');
-                return offcanvas.toggle();
-            },
-            swipeRight:function(event, direction, distance, duration, fingerCount) {
-                console.log('swipeRight!');
-                return offcanvas.hide();
-            },
-            //Default is 75px, set to 0 for demo so any distance triggers swipe
-            threshold:75
-        });
-        /*
-        $(window).on("swipeleft", function(event) {
-            console.log('swipe!');
-            return offcanvas.toggle();
-        });
-        */
-
     });
 
     function get_coords() {
@@ -329,6 +274,4 @@
             console.log("no se puede obtener ubicacion");
         }
     }
-
-
 </script>
