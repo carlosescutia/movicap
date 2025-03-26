@@ -53,8 +53,10 @@ CREATE TABLE captura (
     id_cuestionario integer,
     id_usuario integer,
     fecha date,
+    hora time,
     lat numeric (10,6),
-    lon numeric (10,6)
+    lon numeric (10,6),
+    geom geometry(point, 4326)
 );
 
 DROP TABLE IF EXISTS respuesta;
@@ -64,4 +66,15 @@ CREATE TABLE respuesta (
     id_pregunta integer,
     valor text
 );
+
+CREATE OR REPLACE FUNCTION actualizacoords() RETURNS TRIGGER AS $$
+BEGIN
+   UPDATE captura SET geom = ST_SETSRID(ST_MakePoint(cast(lon as float), cast(lat as float)),4326);
+   RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER cambio_coordenadas
+AFTER INSERT OR UPDATE OF lat, lon ON captura
+    FOR EACH ROW EXECUTE FUNCTION actualizacoords();
 

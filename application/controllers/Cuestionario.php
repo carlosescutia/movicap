@@ -24,7 +24,8 @@ class Cuestionario extends CI_Controller {
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
                 $data['cuestionarios'] = $this->cuestionario_model->get_cuestionarios_usuario($data['id_usuario'], $data['id_rol']);
-                $data['capturas'] = $this->captura_model->get_capturas_usuario($data['id_usuario'], $data['id_rol']);
+                $data['cuestionario'] = $this->cuestionario_model->get_cuestionario($data['cuestionario_activo']);
+                $data['capturas'] = $this->captura_model->get_capturas_cuestionario($data['cuestionario_activo'], $data['id_usuario'], $data['id_rol']);
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
@@ -97,6 +98,14 @@ class Cuestionario extends CI_Controller {
             }
         } else {
             redirect(base_url() . 'admin/login');
+        }
+    }
+
+    public function set_cuestionario_activo() {
+        if ($this->input->post()){
+            $cuestionario_activo = $this->input->post()['cuestionario_activo'];
+            $this->session->set_userdata('cuestionario_activo', $cuestionario_activo);
+            redirect(base_url() . 'cuestionario');
         }
     }
 

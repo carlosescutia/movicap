@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-10">
                 <h2 id="titulo">Editar captura</h2>
-                <h6><?= $captura['id_captura'] ?> - <?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?></h6>
+                <h6><?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?> <?= date('H:i', strtotime($captura['hora'])) ?></h6>
             </div>
             <?php
                 $permisos_requeridos = array(
@@ -296,27 +296,48 @@
 
         offcanvasElement = document.getElementById("offcanvasExample");
         offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-        $(window).swipe( {
-            //Single swipe handler for left swipes
-            swipeLeft:function(event, direction, distance, duration, fingerCount) {
-                console.log('swipeLeft!');
-                return offcanvas.toggle();
-            },
-            swipeRight:function(event, direction, distance, duration, fingerCount) {
-                console.log('swipeRight!');
-                return offcanvas.hide();
-            },
-            //Default is 75px, set to 0 for demo so any distance triggers swipe
-            threshold:75
-        });
-        /*
-        $(window).on("swipeleft", function(event) {
-            console.log('swipe!');
-            return offcanvas.toggle();
-        });
-        */
 
     });
+
+    // Swipe support 
+    var initialTouchX, initialTouchY, finalTouchX, finalTouchY;
+    var swipeThreshold = 75; 
+
+    function handleTouch(startX, endX, onSwipeLeft, onSwipeRight) {
+        var horizontalDistance = finalTouchX - initialTouchX;
+        var verticalDistance = finalTouchY - initialTouchY;
+
+        if (Math.abs(horizontalDistance) > Math.abs(verticalDistance) && Math.abs(horizontalDistance) > swipeThreshold) {
+            if (finalTouchX - initialTouchX < 0) {
+                onSwipeLeft(); 
+            } else {
+                onSwipeRight(); 
+            }
+        }
+    }
+
+    var swipeLeft = () => {
+        return offcanvas.toggle();
+    };
+
+    var swipeRight = () => {
+        return offcanvas.hide();
+    };
+
+    window.onload = function () {
+        window.addEventListener ('touchstart', function (event) {
+            initialTouchX = event.touches[0].clientX;
+            initialTouchY = event.touches[0].clientY;
+        });
+
+        window.addEventListener ('touchend', function (event) {
+            finalTouchX = event.changedTouches[0].clientX;
+            finalTouchY = event.changedTouches[0].clientY;
+
+            handleTouch(initialTouchX, finalTouchX, swipeLeft, swipeRight);
+        });
+    };
+    // Swipe support 
 
     function get_coords() {
         if (navigator.geolocation) {

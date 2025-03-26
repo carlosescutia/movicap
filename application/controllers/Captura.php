@@ -88,6 +88,7 @@ class Captura extends CI_Controller {
                         'id_cuestionario' => $captura['id_cuestionario'],
                         'id_usuario' => $capturista,
                         'fecha' => $captura['fecha'],
+                        'hora' => $captura['hora'],
                         'lat' => $captura['lat'],
                         'lon' => $captura['lon'],
                     );
@@ -109,6 +110,17 @@ class Captura extends CI_Controller {
         }
     }
 
+    public function get_layer($id_cuestionario)
+    {
+        $data = [];
+        $data += $this->funciones_sistema->get_userdata();
+        $data += $this->funciones_sistema->get_system_params();
+
+        $result = $this->captura_model->get_layer($id_cuestionario, $data['id_usuario'], $data['id_rol']);
+        echo json_encode($result);
+    }
+
+
     public function guardar($id_captura=null)
     {
         if ($this->session->userdata('logueado')) {
@@ -128,6 +140,7 @@ class Captura extends CI_Controller {
                 $data = array(
                     'nom_captura' => $captura['nom_captura'],
                     'fecha' => empty($captura['fecha']) ? null : $captura['fecha'],
+                    'hora' => empty($captura['hora']) ? null : $captura['hora'],
                     'lugar' => $captura['lugar'],
                 );
                 $id_captura = $this->captura_model->guardar($data, $id_captura);

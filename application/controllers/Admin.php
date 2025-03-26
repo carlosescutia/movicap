@@ -6,6 +6,7 @@ class Admin extends CI_Controller {
         parent::__construct();
         $this->load->library('funciones_sistema');
         $this->load->model('usuario_model');
+        $this->load->model('cuestionario_model');
     }
 
     public function index()
@@ -45,6 +46,8 @@ class Admin extends CI_Controller {
             $password = $this->input->post('password');
             $usuario_db = $this->usuario_model->usuario_por_nombre($usuario, $password);
             if ($usuario_db) {
+                $cuestionarios = $this->cuestionario_model->get_cuestionarios_usuario($usuario_db['id_usuario'], $usuario_db['id_rol']);
+                $cuestionario_activo = $cuestionarios[0]['id_cuestionario'];
                 $usuario_data = array(
                     'id_usuario' => $usuario_db['id_usuario'],
                     'id_organizacion' => $usuario_db['id_organizacion'],
@@ -52,6 +55,7 @@ class Admin extends CI_Controller {
                     'id_rol' => $usuario_db['id_rol'],
                     'nom_usuario' => $usuario_db['nom_usuario'],
                     'usuario' => $usuario_db['usuario'],
+                    'cuestionario_activo' => $cuestionario_activo,
                     'logueado' => TRUE
                 );
                 $this->session->set_userdata($usuario_data);

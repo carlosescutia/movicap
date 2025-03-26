@@ -18,17 +18,14 @@
         <!-- jquery -->
         <script src="<?=base_url()?>js/jquery-3.6.3.min.js"></script>
 
-        <!-- touchswipe -->
-        <script type="text/javascript" src="<?=base_url()?>js/jquery.touchSwipe.min.js"></script>
-    <!--
-        <script src="https://code.jquery.com/mobile/1.5.0-rc1/jquery.mobile-1.5.0-rc1.js"></script>
--->
-
         <!-- leaflet -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         <link rel="stylesheet" href="<?=base_url()?>js/Control.FullScreen.css" />
         <script src="<?=base_url()?>js/Control.FullScreen.js"></script>
+        <link href="<?=base_url()?>css/MarkerCluster.css" rel="stylesheet"/>
+        <link href="<?=base_url()?>css/MarkerCluster.Default.css" rel="stylesheet"/>
+        <script src="<?=base_url()?>js/leaflet.markercluster.js"></script>
 
     </head>
     <body>

@@ -93,7 +93,7 @@ class Reportes extends CI_Controller {
                 $id_cuestionario = $parametros['id_cuestionario'];
                 $salida = $parametros['salida'];
 
-                $capturas_cuestionario = $this->captura_model->get_capturas_cuestionario($id_cuestionario, $salida);
+                $capturas_cuestionario = $this->captura_model->get_capturas_cuestionario($id_cuestionario, $data['id_usuario'], $data['id_rol'], $salida);
 
                 $cuestionario = $this->cuestionario_model->get_cuestionario($id_cuestionario);
                 $nom_archivo = $cuestionario['nom_cuestionario'] . ' - ' . date('d', time()) . get_nom_mes(date('m',time())) . date('y',time()) . '.csv';
@@ -121,7 +121,7 @@ class Reportes extends CI_Controller {
             if ($parametros) {
                 $id_cuestionario = $parametros['id_cuestionario'];
 
-                $fotos_cuestionario = $this->captura_model->get_fotos_cuestionario($id_cuestionario);
+                $fotos_cuestionario = $this->captura_model->get_fotos_cuestionario($id_cuestionario, $data['id_usuario'], $data['id_rol']);
                 foreach ($fotos_cuestionario as $foto) {
                     $this->zip->read_file($foto);
                 }

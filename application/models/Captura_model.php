@@ -17,19 +17,33 @@ class Captura_model extends CI_Model {
         if ($id_rol == 'adm' or $id_rol=='sup') {
             $id_usuario = '%';
         }
-        $sql = 'select c.*, u.nom_usuario from captura c left join usuario u on u.id_usuario = c.id_usuario where c.id_usuario::text like ? order by fecha desc, id_cuestionario desc';
+        $sql = ''
+            .'select '
+            .'c.*, u.nom_usuario '
+            .'from '
+            .'captura c '
+            .'left join usuario u on u.id_usuario = c.id_usuario '
+            .'where '
+            .'c.id_usuario::text like ? '
+            .'order by '
+            .'fecha desc, id_cuestionario desc'
+            .'';
         $query = $this->db->query($sql, array($id_usuario));
         return $query->result_array();
     }
 
-    public function get_capturas_cuestionario($id_cuestionario, $salida=null)
+    public function get_capturas_cuestionario($id_cuestionario, $id_usuario, $id_rol, $salida=null)
     {
+        if ($id_rol == 'adm' or $id_rol=='sup') {
+            $id_usuario = '%';
+        }
         // lista de archivos de fotos del cuestionario existentes
         $sql = ''
             .'select '
-            .'c.id_captura, p.id_pregunta '
+            .'c.id_captura, p.id_pregunta, u.nom_usuario '
             .'from  '
             .'captura c  '
+            .'left join usuario u on u.id_usuario = c.id_usuario '
             .'left join seccion s on s.id_cuestionario = c.id_cuestionario  '
             .'left join pregunta p on p.id_seccion = s.id_seccion  '
             .'where  '
@@ -77,7 +91,7 @@ class Captura_model extends CI_Model {
         $url = base_url() . 'doc/';
         $sql = ""
             ."select distinct cst.id_cuestionario, cst.nom_cuestionario, cst.fecha as fecha_cuestionario, "
-            ."cst.lugar, cap.id_captura, u.nom_usuario as capturista, cap.fecha as fecha_captura, ";
+            ."cst.lugar, cap.id_captura, u.nom_usuario as capturista, cap.fecha as fecha_captura, cap.hora as hora_captura, ";
         foreach ($preguntas as $preguntas_item) {
             $orig_valor = '';
             $tabla_adicional = '';
@@ -134,8 +148,11 @@ class Captura_model extends CI_Model {
             ."left join usuario u on u.id_usuario = cap.id_usuario "
             ."where  "
             ."cap.id_cuestionario = ? "
+            ."and cap.id_usuario::text like ? "
+            ."order by "
+            ."cap.fecha desc, cap.hora desc "
             ."";
-        $query = $this->db->query($sql, array($id_cuestionario));
+        $query = $this->db->query($sql, array($id_cuestionario, $id_usuario));
 
         if ($salida == 'csv') {
             $delimiter = ",";
@@ -146,8 +163,11 @@ class Captura_model extends CI_Model {
         }
     }
 
-    public function get_fotos_cuestionario($id_cuestionario)
+    public function get_fotos_cuestionario($id_cuestionario, $id_usuario, $id_rol)
     {
+        if ($id_rol == 'adm' or $id_rol=='sup') {
+            $id_usuario = '%';
+        }
         $sql = ''
             .'select '
             .'c.id_captura, p.id_pregunta '
@@ -158,10 +178,11 @@ class Captura_model extends CI_Model {
             .'where  '
             .'p.cve_tipo_pregunta = \'foto\' '
             .'and c.id_cuestionario = ? '
+            .'and c.id_usuario::text like ? '
             .'order by '
             .'c.id_captura, s.orden, p.orden '
             .'';
-        $query = $this->db->query($sql, array($id_cuestionario));
+        $query = $this->db->query($sql, array($id_cuestionario, $id_usuario));
         $lista_fotos = $query->result_array();
 
         $prefijo = 'ft' ;
@@ -196,6 +217,17 @@ class Captura_model extends CI_Model {
             $id = $this->db->insert_id();
         }
         return $id;
+    }
+
+    public function get_layer($id_cuestionario, $id_usuario, $id_rol)
+    {
+        if ($id_rol == 'adm' or $id_rol=='sup') {
+            $id_usuario = '%';
+        }
+        $sql = "SELECT row_to_json(fc) FROM ( SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM ( SELECT 'Feature' As type, ST_AsGeoJSON(c.geom, 4)::json As geometry, row_to_json((SELECT l FROM (SELECT c.id_captura, c.fecha, c.hora, u.nom_usuario) As l )) As properties FROM captura As c left join usuario u on u.id_usuario = c.id_usuario where c.id_cuestionario = ? and c.id_usuario::text like ? ) As f ) As fc;";
+        $query = $this->db->query($sql, array($id_cuestionario, $id_usuario));
+        $result = $query->result_array();
+        return $result[0]['row_to_json'];
     }
 
     public function eliminar($id_captura)
