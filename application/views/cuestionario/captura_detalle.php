@@ -166,7 +166,7 @@
                                                 <select class="form-select" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" form="frm_captura">
                                                     <?php foreach ($valores_posibles as $valores_posibles_item) { ?>
                                                         <?php if ($valores_posibles_item['id_pregunta'] == $preguntas_item['id_pregunta'] ) { ?>
-                                                            <option value="<?= $valores_posibles_item['valor'] ?>" <?= $valores_posibles_item['valor'] == $valor ? 'selected' : '' ?> ><?= $valores_posibles_item['texto'] ?></option>
+                                                            <option value="<?= $valores_posibles_item['id_valor_posible'] ?>" <?= $valores_posibles_item['id_valor_posible'] == $valor ? 'selected' : '' ?> ><?= $valores_posibles_item['texto'] ?></option>
                                                         <?php } ?>
                                                     <?php } ?>
                                                     </select>

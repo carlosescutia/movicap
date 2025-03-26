@@ -114,7 +114,7 @@ class Captura_model extends CI_Model {
                         .'vp.valor as "' . $preguntas_item['texto'] . '" '
                         .'from '
                         .'respuesta r2 '
-                        .'left join valor_posible vp on vp.id_pregunta = r2.id_pregunta and vp.valor = r2.valor '
+                        .'left join valor_posible vp on vp.id_pregunta = r2.id_pregunta and vp.id_valor_posible = r2.valor::integer '
                         .'where '
                         .'r2.id_captura = cap.id_captura '
                         .'and r2.id_pregunta = ' . $preguntas_item['id_pregunta'] 
