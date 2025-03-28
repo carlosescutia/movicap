@@ -28,6 +28,7 @@ class Pregunta extends CI_Controller {
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
 
                 $this->load->view('templates/admheader', $data);
+                $this->load->view('templates/dlg_borrar');
                 $this->load->view('cuestionario/pregunta_detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {

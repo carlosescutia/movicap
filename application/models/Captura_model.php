@@ -37,6 +37,38 @@ class Captura_model extends CI_Model {
         if ($id_rol == 'adm' or $id_rol=='sup') {
             $id_usuario = '%';
         }
+
+        $sql = ""
+            ."select distinct cst.id_cuestionario, cst.nom_cuestionario, cst.fecha as fecha_cuestionario, "
+            ."cst.lugar, cap.id_captura, u.nom_usuario as capturista, cap.fecha as fecha_captura, cap.hora as hora_captura, "
+            ."cap.lat, cap.lon "
+            ."from  "
+            ."captura cap "
+            ."left join respuesta r on r.id_captura = cap.id_captura "
+            ."left join cuestionario cst on cst.id_cuestionario = cap.id_cuestionario "
+            ."left join usuario u on u.id_usuario = cap.id_usuario "
+            ."where  "
+            ."cap.id_cuestionario = ? "
+            ."and cap.id_usuario::text like ? "
+            ."order by "
+            ."cap.fecha desc, cap.hora desc "
+            ."";
+        $query = $this->db->query($sql, array($id_cuestionario, $id_usuario));
+
+        if ($salida == 'csv') {
+            $delimiter = ",";
+            $newline = "\r\n";
+            return $this->dbutil->csv_from_result($query, $delimiter, $newline);
+        } else {
+            return $query->result_array();
+        }
+    }
+
+    public function get_capturas_cuestionario_csv($id_cuestionario, $id_usuario, $id_rol, $salida=null)
+    {
+        if ($id_rol == 'adm' or $id_rol=='sup') {
+            $id_usuario = '%';
+        }
         // lista de archivos de fotos del cuestionario existentes
         $sql = ''
             .'select '
