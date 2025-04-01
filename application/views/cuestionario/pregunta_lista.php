@@ -6,6 +6,7 @@
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
+                    <th scope="col">Nombre</th>
                     <th scope="col">Texto</th>
                     <th scope="col" class="d-none d-sm-table-cell">Tipo</th>
                     <th scope="col" class="text-center">Orden</th>
@@ -15,7 +16,8 @@
             <tbody>
                 <?php foreach( $preguntas as $preguntas_item) { ?>
                     <tr>
-                        <td><a href="<?= base_url() ?>pregunta/detalle/<?= $preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></a></td>
+                        <td><a href="<?= base_url() ?>pregunta/detalle/<?= $preguntas_item['id_pregunta']?>"><?= $preguntas_item['nom_pregunta'] ?></a></td>
+                        <td><?= $preguntas_item['texto'] ?></td>
                         <td class="d-none d-sm-table-cell"><?= $preguntas_item['nom_tipo_pregunta'] ?></td>
                         <td class="text-center"><?= $preguntas_item['orden'] ?></td>
                         <?php

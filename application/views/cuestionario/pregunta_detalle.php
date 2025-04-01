@@ -14,6 +14,12 @@
 
             <div>
                 <div class="form-group row">
+                    <label for="nom_pregunta" class="col-sm-2 col-form-label">Nombre</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="nom_pregunta" id="nom_pregunta" value="<?=$pregunta['nom_pregunta'] ?>" required>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="texto" class="col-sm-2 col-form-label">Texto</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" name="texto" id="texto" value="<?=$pregunta['texto'] ?>" required>
@@ -29,6 +35,14 @@
                         </select>
                     </div>
                 </div>
+                <?php if ($pregunta['cve_tipo_pregunta'] == 'calculo') { ?>
+                    <div class="form-group row">
+                        <label for="expresion" class="col-sm-2 col-form-label">Expresión</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="expresion" id="expresion" value="<?=$pregunta['expresion'] ?>" required>
+                        </div>
+                    </div>
+                <?php } ?>
                 <div class="form-group row">
                     <label for="orden" class="col-sm-2 col-form-label">Orden</label>
                     <div class="col-sm-1">

@@ -147,6 +147,7 @@
                                     foreach ($respuestas as $respuestas_item) {
                                         if ($respuestas_item['id_pregunta'] == $preguntas_item['id_pregunta']) {
                                             $valor = $respuestas_item['valor'];
+                                            $id_respuesta = $respuestas_item['id_respuesta'];
                                         }
                                     }
                                 ?>
@@ -171,6 +172,19 @@
                                                     <?php } ?>
                                                     </select>
                                                 </div>
+                                        </div>
+                                        <?php break; ?>
+                                    <?php case 'calculo': ?>
+                                        <div class="form-group row">
+                                            <?php
+                                                $exp1 = str_replace('{', '$resp_calc["', $preguntas_item['expresion']);
+                                                $finalexp = str_replace('}', '"]', $exp1);
+                                                eval('$result = '.$finalexp.';');
+                                            ?>
+                                            <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $preguntas_item['expresion'] ?></label>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" value="<?= $result ?>" disabled>
+                                            </div>
                                         </div>
                                         <?php break; ?>
                                     <?php case 'foto': ?>

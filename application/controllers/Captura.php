@@ -53,6 +53,7 @@ class Captura extends CI_Controller {
                 $data['secciones'] = $this->seccion_model->get_secciones_cuestionario($id_cuestionario);
                 $data['preguntas'] = $this->pregunta_model->get_preguntas_cuestionario($id_cuestionario);
                 $data['respuestas'] = $this->respuesta_model->get_respuestas_captura($id_captura);
+                $data['resp_calc'] = $this->respuesta_model->get_respuestas_calculo($id_captura);
                 $data['valores_posibles'] = $this->valor_posible_model->get_valores_posibles();
                 $data['error'] = $this->session->flashdata('error');
 

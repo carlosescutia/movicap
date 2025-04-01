@@ -54,6 +54,7 @@ class Pregunta extends CI_Controller {
                 if ($pregunta) {
                     $data = array(
                         'id_seccion' => $pregunta['id_seccion'],
+                        'nom_pregunta' => 'nueva_pregunta',
                         'texto' => 'Nueva pregunta',
                     );
                     $id_pregunta = $this->pregunta_model->guardar($data, null);
@@ -92,7 +93,9 @@ class Pregunta extends CI_Controller {
                 $data = array(
                     'id_seccion' => $pregunta['id_seccion'],
                     'cve_tipo_pregunta' => $pregunta['cve_tipo_pregunta'],
+                    'nom_pregunta' => $pregunta['nom_pregunta'],
                     'texto' => $pregunta['texto'],
+                    'expresion' => $pregunta['expresion'],
                     'orden' => empty($pregunta['orden']) ? null : $pregunta['orden'],
                 );
                 $id_pregunta = $this->pregunta_model->guardar($data, $id_pregunta);
