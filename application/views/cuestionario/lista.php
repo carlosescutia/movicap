@@ -27,7 +27,19 @@
     <div class="col-12">
         <div class="row">
             <div class="col-auto mt-1">
-                <h5><a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionario['id_cuestionario']?>"><?= $cuestionario['lugar'] ?> - (<?= $cuestionario['fecha'] ?>)</a></h5>
+                <h5>
+                    <?php
+                        $permisos_requeridos = array(
+                        'cuestionario.can_edit',
+                        );
+                        if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                            <a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionario['id_cuestionario']?>">
+                        <?php } ?>
+                        <?= $cuestionario['lugar'] ?> - (<?= $cuestionario['fecha'] ?>)
+                        <?php if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                            </a>
+                    <?php } ?>
+                </h5>
             </div>
             <?php
                 $permisos_requeridos = array(
@@ -117,6 +129,18 @@
                                 </td>
                                 <td><?= date('d/m/y', strtotime($capturas_item['fecha_captura'])) ?></td>
                                 <td><?= date('H:i', strtotime($capturas_item['hora_captura'])) ?></td>
+                                <?php
+                                    $permisos_requeridos = array(
+                                    'captura.can_edit',
+                                    );
+                                ?>
+                                <?php if (has_permission_and($permisos_requeridos, $permisos_usuario)) { ?>
+                                    <?php 
+                            $item_eliminar = $capturas_item['id_captura'] ." " . $capturas_item['capturista'] . " " . date('d/m/y', strtotime($capturas_item['fecha_captura'])) . " " . date('H:i', strtotime($capturas_item['hora_captura'])) ;
+                                        $url = base_url() . "captura/eliminar/". $capturas_item['id_captura']; 
+                                    ?>
+                                    <td><a href="#dlg_borrar" data-bs-toggle="modal" onclick="pass_data('<?=$item_eliminar?>', '<?=$url?>')" ><i class="bi bi-x-circle boton-eliminar" ></a></td>
+                                <?php } ?>
                             </tr>
                         <?php } ?>
                     </tbody>

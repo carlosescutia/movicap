@@ -174,7 +174,7 @@ class Captura extends CI_Controller {
             // eliminado
             $this->captura_model->eliminar($id_captura);
 
-            redirect(base_url() . 'captura');
+            redirect(base_url() . 'cuestionario');
 
         } else {
             redirect(base_url() . 'admin/login');
