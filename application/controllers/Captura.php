@@ -121,7 +121,6 @@ class Captura extends CI_Controller {
         echo json_encode($result);
     }
 
-
     public function guardar($id_captura=null)
     {
         if ($this->session->userdata('logueado')) {
@@ -139,10 +138,8 @@ class Captura extends CI_Controller {
 
                 // guardado
                 $data = array(
-                    'nom_captura' => $captura['nom_captura'],
                     'fecha' => empty($captura['fecha']) ? null : $captura['fecha'],
                     'hora' => empty($captura['hora']) ? null : $captura['hora'],
-                    'lugar' => $captura['lugar'],
                 );
                 $id_captura = $this->captura_model->guardar($data, $id_captura);
 
@@ -155,6 +152,90 @@ class Captura extends CI_Controller {
 
             redirect(base_url() . 'captura');
 
+        } else {
+            redirect(base_url() . 'admin/login');
+        }
+    }
+
+    public function importar_csv()
+    {
+        if ($this->session->userdata('logueado')) {
+            $data = [];
+            $data += $this->funciones_sistema->get_userdata();
+
+            $captura = $this->input->post();
+            $num_registros_importados = 0;
+            if ($captura) {
+                $id_cuestionario = $captura['id_cuestionario'];
+                $id_usuario = $data['id_usuario'];
+                $fecha = date('Y/m/d');
+                $hora = date('H:i:s');
+
+                $nombre_archivo = $captura['nombre_archivo'];
+                $nombre_archivo_fs = $captura['dir_docs'] . $nombre_archivo;
+                if ( file_exists($nombre_archivo_fs) ) {
+                    $rows = array_map('str_getcsv', file($nombre_archivo_fs));
+                    $header = array_shift($rows);
+                    $csv = array();
+                    foreach ($rows as $row) {
+                        $csv[] = array_combine($header, $row);
+                    }
+
+                    foreach ($csv as $registro) {
+                        $lat = empty($registro['lat']) ? 21 : $registro['lat'];
+                        $lon = empty($registro['lon']) ? -101 : $registro['lon'];
+                        $nueva_captura = array (
+                            'id_cuestionario' => $id_cuestionario,
+                            'id_usuario' => $id_usuario,
+                            'fecha' => $fecha,
+                            'hora' => $hora,
+                            'lat' => $lat,
+                            'lon' => $lon,
+                        );
+                        $id_captura = null;
+                        $id_captura = $this->captura_model->guardar($nueva_captura, null);
+                        if ($id_captura) {
+                            $num_registros_importados++;
+                        }
+                        foreach ($registro as $campo => $valor) {
+                            if ( ! in_array($campo, array("lat", "lon")) ) { 
+                                $id_pregunta = $this->pregunta_model->get_pregunta_cuestionario_nombre($id_cuestionario, $campo)['id_pregunta'];
+                                $cve_tipo_pregunta = $this->pregunta_model->get_pregunta_cuestionario_nombre($id_cuestionario, $campo)['cve_tipo_pregunta'];
+                                if ($cve_tipo_pregunta == 'op_multiple') {
+                                    $valor_posible = $this->valor_posible_model->get_valor_posible_pregunta_valor($id_pregunta, $valor);
+                                    if ($valor_posible) {
+                                        $valor_final = $valor_posible['id_valor_posible'];
+                                    } else {
+                                        $valor_final = null;
+                                    }
+                                } else {
+                                    $valor_final = $valor;
+                                }
+                                if ($id_captura and $id_pregunta and $valor_final) {
+                                    $nueva_respuesta = array (
+                                        'id_captura' => $id_captura,
+                                        'id_pregunta' => $id_pregunta,
+                                        'valor' => $valor_final,
+                                    );
+                                    $id_respuesta = $this->respuesta_model->guardar($nueva_respuesta, null);
+                                }
+                            }
+                        }
+                    }
+
+                    // Eliminar archivo
+                    $status = unlink($nombre_archivo_fs) ? 'Se eliminó el archivo '.$nombre_archivo_fs : 'Error al eliminar el archivo '.$nombre_archivo_fs;
+                    echo $status;
+                }
+                $this->session->set_flashdata('num_registros_importados', $num_registros_importados);
+                // registro en bitacora
+                $accion = 'importó';
+                $entidad = 'captura';
+                $valor = $num_registros_importados . " registros en cuestionario " . $id_cuestionario;
+                $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
+
+                redirect(base_url() . 'cuestionario');
+            }
         } else {
             redirect(base_url() . 'admin/login');
         }
@@ -182,5 +263,4 @@ class Captura extends CI_Controller {
     }
 
 }
-
 

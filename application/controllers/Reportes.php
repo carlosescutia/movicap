@@ -137,5 +137,34 @@ class Reportes extends CI_Controller {
         }
     }
 
+    public function csv_machote()
+    {
+        if ($this->session->userdata('logueado')) {
+            $data = [];
+            $data += $this->funciones_sistema->get_userdata();
+            $data += $this->funciones_sistema->get_system_params();
+
+            $parametros = $this->input->post();
+            if ($parametros) {
+                $id_cuestionario = $parametros['id_cuestionario'];
+                $salida = $parametros['salida'];
+
+                $capturas_cuestionario = $this->captura_model->get_capturas_cuestionario_encabezado($id_cuestionario, $data['id_usuario'], $data['id_rol'], $salida);
+
+                $cuestionario = $this->cuestionario_model->get_cuestionario($id_cuestionario);
+                $nom_archivo = 'csv_carga_' . $cuestionario['nom_cuestionario'] . ' - ' . date('d', time()) . get_nom_mes(date('m',time())) . date('y',time()) . '.csv';
+
+                if ($salida == 'csv') {
+                    force_download($nom_archivo, $capturas_cuestionario);
+                } else {
+                    print_r($capturas_cuestionario);
+                }
+            }
+            redirect(base_url() . 'cuestionario');
+        } else {
+            redirect(base_url() . 'admin/login');
+        }
+    }
+
 
 }

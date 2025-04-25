@@ -31,7 +31,6 @@ class Archivo extends CI_Controller {
             $this->load->library('upload', $config);
             if ( ! $this->upload->do_upload('subir_archivo') ) {
                 $error = array('error' => $this->upload->display_errors());
-                echo 'nombre_archivo: ' . $nombre_archivo ;
                 $this->session->set_flashdata('error', $error['error']);
             } else {
                 // registro en bitacora

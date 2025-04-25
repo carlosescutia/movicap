@@ -26,6 +26,7 @@ class Cuestionario extends CI_Controller {
                 $data['cuestionarios'] = $this->cuestionario_model->get_cuestionarios_usuario($data['id_usuario'], $data['id_rol']);
                 $data['cuestionario'] = $this->cuestionario_model->get_cuestionario($data['cuestionario_activo']);
                 $data['capturas'] = $this->captura_model->get_capturas_cuestionario($data['cuestionario_activo'], $data['id_usuario'], $data['id_rol']);
+                $data['num_registros_importados'] = $this->session->flashdata('num_registros_importados');
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');

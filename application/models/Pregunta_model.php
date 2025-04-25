@@ -23,6 +23,28 @@ class Pregunta_model extends CI_Model {
         return $query->row_array();
     }
 
+    public function get_pregunta_cuestionario_nombre($id_cuestionario, $nombre) {
+        $sql = ""
+            ."select "
+            ."p.* "
+            ."from "
+            ."pregunta p "
+            ."left join seccion s on s.id_seccion = p.id_seccion "
+            ."where "
+            ."p.cve_tipo_pregunta in ('abierta', 'op_multiple') "
+            ."and s.id_cuestionario = ? "
+            ."and nom_pregunta = ? "
+            ."";
+        $query = $this->db->query($sql, array($id_cuestionario, $nombre));
+        return $query->row_array();
+    }
+
+    public function get_tipo_pregunta($id_pregunta) {
+        $sql = 'select * from pregunta where id_pregunta = ?;';
+        $query = $this->db->query($sql, array($id_pregunta));
+        return $query->row_array();
+    }
+
     public function guardar($data, $id_pregunta)
     {
         if ($id_pregunta) {

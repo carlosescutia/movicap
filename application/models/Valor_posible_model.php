@@ -23,6 +23,13 @@ class Valor_posible_model extends CI_Model {
         return $query->row_array();
     }
 
+    public function get_valor_posible_pregunta_valor($id_pregunta, $valor) {
+        $sql = 'select * from valor_posible where id_pregunta = ? and valor = ? ';
+        $query = $this->db->query($sql, array($id_pregunta, $valor));
+        //return $sql;
+        return $query->row_array();
+    }
+
     public function guardar($data, $id_valor_posible)
     {
         if ($id_valor_posible) {

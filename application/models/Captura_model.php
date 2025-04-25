@@ -131,7 +131,7 @@ class Captura_model extends CI_Model {
                 case 'abierta':
                     $sql .= ''
                         .'(select '
-                        .'r2.valor as "' . $preguntas_item['texto'] . '" '
+                        .'r2.valor as "' . $preguntas_item['nom_pregunta'] . '" '
                         .'from '
                         .'respuesta r2 '
                         .'where '
@@ -143,7 +143,7 @@ class Captura_model extends CI_Model {
                 case 'op_multiple':
                     $sql .= ''
                         .'(select '
-                        .'vp.valor as "' . $preguntas_item['texto'] . '" '
+                        .'vp.valor as "' . $preguntas_item['nom_pregunta'] . '" '
                         .'from '
                         .'respuesta r2 '
                         .'left join valor_posible vp on vp.id_pregunta = r2.id_pregunta and vp.id_valor_posible = r2.valor::integer '
@@ -158,7 +158,7 @@ class Captura_model extends CI_Model {
                         .'(select '
                         .'(case when c.id_captura::text || \'_\' || p.id_pregunta::text '
                         .'in (' . $lista_fotos_cuestionario . ') then \'' . $url . 'ft_\' || c.id_captura::text || \'_\' || p.id_pregunta::text || \'.jpg\' '
-                        .'else \'\' end) as "'. $preguntas_item['texto'] . '" '
+                        .'else \'\' end) as "'. $preguntas_item['nom_pregunta'] . '" '
                         .'from  '
                         .'captura c  '
                         .'left join seccion s on s.id_cuestionario = c.id_cuestionario  '
@@ -236,6 +236,73 @@ class Captura_model extends CI_Model {
         $sql = 'select c.*, u.nom_usuario from captura c left join usuario u on u.id_usuario = c.id_usuario where id_captura = ?;';
         $query = $this->db->query($sql, array($id_captura));
         return $query->row_array();
+    }
+
+    public function get_capturas_cuestionario_encabezado($id_cuestionario, $id_usuario, $id_rol, $salida=null)
+    {
+        // obtener lista de preguntas del cuestionario
+        $sql = ""
+            ."select  "
+            ."p.*  "
+            ."from  "
+            ."pregunta p  "
+            ."left join seccion s on s.id_seccion = p.id_seccion  "
+            ."where  "
+            ."s.id_cuestionario = ? "
+            ."order by  "
+            ."s.id_seccion, p.orden "
+            ."";
+        $query = $this->db->query($sql, array($id_cuestionario));
+        $preguntas = $query->result_array();
+
+        // query final para obtener el csv
+        $sql = ""
+            ."select "
+            ."";
+        foreach ($preguntas as $preguntas_item) {
+            $orig_valor = '';
+            $tabla_adicional = '';
+            switch ($preguntas_item['cve_tipo_pregunta']) {
+                case 'abierta':
+                    $sql .= ''
+                        .'(select '
+                        .'r2.valor as "' . $preguntas_item['nom_pregunta'] . '" '
+                        .'from '
+                        .'respuesta r2 '
+                        .'where '
+                        .'r2.id_pregunta = ' . $preguntas_item['id_pregunta'] 
+                        .'), '
+                        .'';
+                    break;
+                case 'op_multiple':
+                    $sql .= ''
+                        .'(select '
+                        .'vp.valor as "' . $preguntas_item['nom_pregunta'] . '" '
+                        .'from '
+                        .'respuesta r2 '
+                        .'left join valor_posible vp on vp.id_pregunta = r2.id_pregunta and vp.id_valor_posible = r2.valor::integer '
+                        .'where '
+                        .'r2.id_pregunta = ' . $preguntas_item['id_pregunta'] 
+                        .'), '
+                        .'';
+                    break;
+            }
+        }
+        $sql .= "cap.lat, cap.lon "
+            ."from  "
+            ."captura cap "
+            ."where  "
+            ."false "
+            ."";
+        $query = $this->db->query($sql, array($id_cuestionario, $id_usuario));
+
+        if ($salida == 'csv') {
+            $delimiter = ",";
+            $newline = "\r\n";
+            return $this->dbutil->csv_from_result($query, $delimiter, $newline);
+        } else {
+            return $query->result_array();
+        }
     }
 
     public function guardar($data, $id_captura)
