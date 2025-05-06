@@ -143,3 +143,15 @@ body a:hover {
 .offcanvas-size-sm {
     --bs-offcanvas-width: min(95vw, 250px) !important;
 }
+
+/* Hide the spin buttons in WebKit browsers */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide spin buttons in Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}

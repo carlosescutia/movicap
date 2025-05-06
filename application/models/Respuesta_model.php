@@ -41,7 +41,7 @@ class Respuesta_model extends CI_Model {
             ."cst.lugar, cap.id_captura, u.nom_usuario as capturista, cap.fecha as fecha_captura, cap.hora as hora_captura, ";
         foreach ($preguntas as $preguntas_item) {
             switch ($preguntas_item['cve_tipo_pregunta']) {
-                case 'abierta':
+                case 'abierta' or 'numero':
                     $sql .= ''
                         .'(select '
                         .'r2.valor as "' . $preguntas_item['nom_pregunta'] . '" '

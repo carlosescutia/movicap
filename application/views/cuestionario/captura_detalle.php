@@ -160,6 +160,23 @@
                                             </div>
                                         </div>
                                         <?php break; ?>
+                                    <?php case 'url': ?>
+                                        <div class="form-group row">
+                                            <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></label>
+                                            <div class="input-group col-12">
+                                                <a href="<?= $valor ?>" class="btn btn-sm btn-primary pt-2" target="_blank">visitar</a>
+                                                <input type="text" class="form-control" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" value="<?= $valor ?>" form="frm_captura">
+                                            </div>
+                                        </div>
+                                        <?php break; ?>
+                                    <?php case 'numero': ?>
+                                        <div class="form-group row">
+                                            <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></label>
+                                            <div class="col-12 col-sm-3">
+                                                <input type="number" class="form-control frm-numero" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" value="<?= $valor ?>" step="any" lang="en" form="frm_captura">
+                                            </div>
+                                        </div>
+                                        <?php break; ?>
                                     <?php case 'op_multiple': ?>
                                         <div class="form-group row">
                                             <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></label>
