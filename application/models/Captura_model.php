@@ -249,6 +249,7 @@ class Captura_model extends CI_Model {
             ."left join seccion s on s.id_seccion = p.id_seccion  "
             ."where  "
             ."s.id_cuestionario = ? "
+            ."and p.cve_tipo_pregunta in ('abierta', 'op_multiple', 'numero', 'url') "
             ."order by  "
             ."s.id_seccion, p.orden "
             ."";
@@ -263,7 +264,7 @@ class Captura_model extends CI_Model {
             $orig_valor = '';
             $tabla_adicional = '';
             switch ($preguntas_item['cve_tipo_pregunta']) {
-                case 'abierta':
+                case 'abierta' or 'numero':
                     $sql .= ''
                         .'(select '
                         .'r2.valor as "' . $preguntas_item['nom_pregunta'] . '" '

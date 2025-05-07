@@ -31,7 +31,7 @@ class Pregunta_model extends CI_Model {
             ."pregunta p "
             ."left join seccion s on s.id_seccion = p.id_seccion "
             ."where "
-            ."p.cve_tipo_pregunta in ('abierta', 'op_multiple') "
+            ."p.cve_tipo_pregunta in ('abierta', 'op_multiple', 'numero', 'url') "
             ."and s.id_cuestionario = ? "
             ."and nom_pregunta = ? "
             ."";
