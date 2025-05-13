@@ -60,7 +60,7 @@ class Captura extends CI_Controller {
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
                 $this->load->view('templates/dlg_borrar_archivo');
-                $this->load->view('cuestionario/captura_detalle', $data);
+                $this->load->view('proyecto/captura_detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'admin');
@@ -104,7 +104,7 @@ class Captura extends CI_Controller {
                     $this->detalle($id_captura);
                 }
             } else {
-                redirect(base_url() . 'cuestionario');
+                redirect(base_url() . 'proyecto');
             }
         } else {
             redirect(base_url() . 'admin/login');
@@ -121,6 +121,7 @@ class Captura extends CI_Controller {
         echo json_encode($result);
     }
 
+    /*
     public function guardar($id_captura=null)
     {
         if ($this->session->userdata('logueado')) {
@@ -150,12 +151,13 @@ class Captura extends CI_Controller {
 
             }
 
-            redirect(base_url() . 'captura');
+            redirect(base_url() . 'captura/detalle' . $id_captura);
 
         } else {
             redirect(base_url() . 'admin/login');
         }
     }
+    */
 
     public function importar_csv()
     {
@@ -234,7 +236,7 @@ class Captura extends CI_Controller {
                 $valor = $num_registros_importados . " registros en cuestionario " . $id_cuestionario;
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
 
-                redirect(base_url() . 'cuestionario');
+                redirect(base_url() . 'proyecto');
             }
         } else {
             redirect(base_url() . 'admin/login');

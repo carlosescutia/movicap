@@ -19,6 +19,16 @@
                 ?>
                 <?php
                     $permisos_requeridos = array(
+                    'cuestionario.can_delete',
+                    );
+                    if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
+                        <div class="col-sm-4">
+                            <?php include "cuestionario/boton.php" ?>
+                        </div>
+                    <?php }
+                ?>
+                <?php
+                    $permisos_requeridos = array(
                     'tipo_pregunta.can_edit',
                     );
                     if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>

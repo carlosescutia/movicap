@@ -6,18 +6,17 @@
     </form>
     <div class="my-3 pb-2 border-bottom">
         <div class="row">
-            <div class="col-9">
-                <h2>Editar captura
-                    <span class="h6"><?= $captura['id_captura'] ?> - <?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?></span>
-                </h2>
+            <div class="col-10">
+                <h2 id="titulo">Editar captura</h2>
+                <h6><?= $captura['nom_usuario'] ?> - <?= date('d/m/y', strtotime($captura['fecha'])) ?> <?= date('H:i', strtotime($captura['hora'])) ?></h6>
             </div>
             <?php
                 $permisos_requeridos = array(
                 'captura.can_edit',
                 );
                 if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                    <div class="col-2 text-end">
-                        <button type="submit" class="btn btn-primary" form="frm_captura">Guardar</button>
+                    <div class="col-1 text-end">
+                        <button type="submit" class="btn btn-primary btn-sm" form="frm_captura">Guardar</button>
                     </div>
                 <?php }
             ?>
@@ -33,40 +32,29 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end offcanvas-size-md" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas offcanvas-end offcanvas-size-sm" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Secciones</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div>
-                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-sm-12">
-            <ul class="nav nav-tabs rounded bg-success-subtle" id="tabs-secciones" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button 
-                        class="nav-link active" 
-                        id="tab-ubicacion" 
-                        data-bs-toggle="tab" 
-                        data-bs-target="#panel-ubicacion" 
-                        type="button" 
-                        role="tab" 
-                        aria-controls="panel-ubicacion" 
-                        aria-selected="true"
-                    >
-                        Ubicación
-                    </button>
-                </li>
+            <div class="list-group">
+                <button 
+                    class="list-group-item list-group-item-action active" 
+                    id="tab-ubicacion" 
+                    data-bs-toggle="tab" 
+                    data-bs-target="#panel-ubicacion" 
+                    type="button" 
+                    role="tab" 
+                    aria-controls="panel-ubicacion" 
+                    aria-selected="true"
+                    onclick="update_titulo('Ubicación')"
+                >
+                    Ubicación
+                </button>
                 <?php foreach ($secciones as $secciones_item) { ?>
-                <li class="nav-item" role="presentation">
                     <button 
-                        class="nav-link" 
+                        class="list-group-item list-group-item-action" 
                         id="tab-<?= $secciones_item['id_seccion'] ?>" 
                         data-bs-toggle="tab" 
                         data-bs-target="#panel-<?= $secciones_item['id_seccion'] ?>" 
@@ -74,12 +62,54 @@
                         role="tab" 
                         aria-controls="panel-<?= $secciones_item['id_seccion'] ?>" 
                         aria-selected="false"
+                        onclick="update_titulo('<?= $secciones_item['nom_seccion'] ?>')"
                     >
                         <?= $secciones_item['nom_seccion'] ?> 
                     </button>
-                </li>
                 <?php } ?>
-            </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12" id="area1">
+            <div class="d-none d-sm-block col-12">
+                <ul class="nav nav-tabs rounded bg-success-subtle" id="tabs-secciones" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button 
+                            class="nav-link active" 
+                            id="tab-ubicacion" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#panel-ubicacion" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="panel-ubicacion" 
+                            aria-selected="true"
+                            onclick="update_titulo('Ubicación')"
+                        >
+                            Ubicación
+                        </button>
+                    </li>
+                    <?php foreach ($secciones as $secciones_item) { ?>
+                    <li class="nav-item" role="presentation">
+                        <button 
+                            class="nav-link" 
+                            id="tab-<?= $secciones_item['id_seccion'] ?>" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#panel-<?= $secciones_item['id_seccion'] ?>" 
+                            type="button" 
+                            role="tab" 
+                            aria-controls="panel-<?= $secciones_item['id_seccion'] ?>" 
+                            aria-selected="false"
+                            onclick="update_titulo('<?= $secciones_item['nom_seccion'] ?>')"
+                        >
+                            <?= $secciones_item['nom_seccion'] ?> 
+                        </button>
+                    </li>
+                    <?php } ?>
+                </ul>
+            </div>
             <div class="tab-content mx-0 mx-sm-3 my-3" id="panes-secciones">
                 <div 
                     class="tab-pane fade show active" 
@@ -117,6 +147,7 @@
                                     foreach ($respuestas as $respuestas_item) {
                                         if ($respuestas_item['id_pregunta'] == $preguntas_item['id_pregunta']) {
                                             $valor = $respuestas_item['valor'];
+                                            $id_respuesta = $respuestas_item['id_respuesta'];
                                         }
                                     }
                                 ?>
@@ -129,18 +160,49 @@
                                             </div>
                                         </div>
                                         <?php break; ?>
+                                    <?php case 'url': ?>
+                                        <div class="form-group row">
+                                            <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></label>
+                                            <div class="input-group col-12">
+                                                <a href="<?= $valor ?>" class="btn btn-sm btn-primary pt-2" target="_blank">visitar</a>
+                                                <input type="text" class="form-control" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" value="<?= $valor ?>" form="frm_captura">
+                                            </div>
+                                        </div>
+                                        <?php break; ?>
+                                    <?php case 'numero': ?>
+                                        <div class="form-group row">
+                                            <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></label>
+                                            <div class="col-12 col-sm-3">
+                                                <input type="number" class="form-control frm-numero" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" value="<?= $valor ?>" step="any" lang="en" form="frm_captura">
+                                            </div>
+                                        </div>
+                                        <?php break; ?>
                                     <?php case 'op_multiple': ?>
                                         <div class="form-group row">
                                             <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?></label>
                                             <div class="col-12 col-sm-4">
                                                 <select class="form-select" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" form="frm_captura">
+                                                    <option value="" <?= $valor == "" ? 'selected' : '' ?> ></option>
                                                     <?php foreach ($valores_posibles as $valores_posibles_item) { ?>
                                                         <?php if ($valores_posibles_item['id_pregunta'] == $preguntas_item['id_pregunta'] ) { ?>
-                                                            <option value="<?= $valores_posibles_item['valor'] ?>" <?= $valores_posibles_item['valor'] == $valor ? 'selected' : '' ?> ><?= $valores_posibles_item['texto'] ?></option>
+                                                            <option value="<?= $valores_posibles_item['id_valor_posible'] ?>" <?= $valores_posibles_item['id_valor_posible'] == $valor ? 'selected' : '' ?> ><?= $valores_posibles_item['texto'] ?></option>
                                                         <?php } ?>
                                                     <?php } ?>
                                                     </select>
                                                 </div>
+                                        </div>
+                                        <?php break; ?>
+                                    <?php case 'calculo': ?>
+                                        <div class="form-group row">
+                                            <?php
+                                                $exp1 = str_replace('{', '$resp_calc["', $preguntas_item['expresion']);
+                                                $finalexp = str_replace('}', '"]', $exp1);
+                                                eval('$result = '.$finalexp.';');
+                                            ?>
+                                            <label for="p_<?=$preguntas_item['id_pregunta']?>"><?= $preguntas_item['texto'] ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $preguntas_item['expresion'] ?></label>
+                                            <div class="col-12">
+                                                <input type="text" class="form-control" name="p_<?=$preguntas_item['id_pregunta']?>" id="p_<?=$preguntas_item['id_pregunta']?>" value="<?= $result ?>" disabled>
+                                            </div>
                                         </div>
                                         <?php break; ?>
                                     <?php case 'foto': ?>
@@ -213,10 +275,7 @@
 
 <div class="form-group row">
     <div class="col-10">
-        <a href="<?=base_url()?>cuestionario" class="btn btn-secondary">Volver</a>
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            Menú lateral
-        </button>
+        <a href="<?=base_url()?>proyecto" class="btn btn-secondary">Volver</a>
     </div>
 </div>
 
@@ -257,11 +316,60 @@
         map.setView(new_position, 15);
     }
 
+    function update_titulo(titulo) {
+        $("#titulo").html(titulo);
+        return offcanvas.hide();
+    }
+
     $(document).ready(function(){
         lati = $("#lat").attr('value');
         longi = $("#lon").attr('value');
         update_position(lati,longi);
+
+        offcanvasElement = document.getElementById("offcanvasExample");
+        offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+
     });
+
+    // Swipe support 
+    var initialTouchX, initialTouchY, finalTouchX, finalTouchY;
+    var swipeThreshold = 75; 
+
+    function handleTouch(startX, endX, onSwipeLeft, onSwipeRight) {
+        var horizontalDistance = finalTouchX - initialTouchX;
+        var verticalDistance = finalTouchY - initialTouchY;
+
+        if (Math.abs(horizontalDistance) > Math.abs(verticalDistance) && Math.abs(horizontalDistance) > swipeThreshold) {
+            if (finalTouchX - initialTouchX < 0) {
+                onSwipeLeft(); 
+            } else {
+                onSwipeRight(); 
+            }
+        }
+    }
+
+    var swipeLeft = () => {
+        return offcanvas.toggle();
+    };
+
+    var swipeRight = () => {
+        return offcanvas.hide();
+    };
+
+    window.onload = function () {
+        window.addEventListener ('touchstart', function (event) {
+            initialTouchX = event.touches[0].clientX;
+            initialTouchY = event.touches[0].clientY;
+        });
+
+        window.addEventListener ('touchend', function (event) {
+            finalTouchX = event.changedTouches[0].clientX;
+            finalTouchY = event.changedTouches[0].clientY;
+
+            handleTouch(initialTouchX, finalTouchX, swipeLeft, swipeRight);
+        });
+    };
+    // Swipe support 
 
     function get_coords() {
         if (navigator.geolocation) {
@@ -274,4 +382,6 @@
             console.log("no se puede obtener ubicacion");
         }
     }
+
+
 </script>

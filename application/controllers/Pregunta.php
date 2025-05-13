@@ -29,7 +29,7 @@ class Pregunta extends CI_Controller {
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/pregunta_detalle', $data);
+                $this->load->view('catalogos/cuestionario/pregunta_detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'seccion/detalle/' . $id_seccion);
@@ -107,7 +107,7 @@ class Pregunta extends CI_Controller {
 
             }
 
-            redirect(base_url() . 'seccion/detalle/' . $pregunta['id_seccion']);
+            redirect(base_url() . 'pregunta/detalle/' . $id_pregunta);
 
         } else {
             redirect(base_url() . 'admin/login');

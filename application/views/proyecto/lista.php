@@ -6,47 +6,21 @@
         </div>
     <?php } ?>
 
-    <div class="row justify-content-between mb-3">
-        <div class="col-9 col-sm-6 align-middle">
-            <form method="post" name="frm_set_cuestionario_activo" action="<?= base_url() ?>cuestionario/set_cuestionario_activo">
-                <select class="form-select form-select-lg text-primary-emphasis bg-success-subtle" name="cuestionario_activo" id="cuestionario_activo" onchange="frm_set_cuestionario_activo.submit()">
-                    <?php foreach ($cuestionarios as $cuestionarios_item) { ?>
-                        <option value="<?=$cuestionarios_item['id_cuestionario']?>" <?= $cuestionarios_item['id_cuestionario'] == $cuestionario_activo ? 'selected' : '' ?> ><?=$cuestionarios_item['nom_cuestionario']?></option>
-                    <?php } ?>
-                </select>
-                <input type="hidden" name="previous_url" value="<?= current_url() ?>">
-            </form>
-        </div>
-        <div class="col col-sm-2 text-end mt-1">
-            <?php
-                $permisos_requeridos = array(
-                'cuestionario.can_edit',
-                );
-                if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                    <form method="post" action="<?= base_url() ?>cuestionario/nuevo">
-                        <button type="submit" class="btn btn-primary">Nuevo</button>
-                    </form>
-                <?php }
-            ?>
-        </div>
+    <div class="col-12 col-sm-6 mb-3">
+        <form method="post" name="frm_set_proyecto_activo" action="<?= base_url() ?>proyecto/set_proyecto_activo">
+            <select class="form-select form-select-lg text-primary-emphasis bg-success-subtle" name="proyecto_activo" id="proyecto_activo" onchange="frm_set_proyecto_activo.submit()">
+                <?php foreach ($cuestionarios as $cuestionarios_item) { ?>
+                    <option value="<?=$cuestionarios_item['id_cuestionario']?>" <?= $cuestionarios_item['id_cuestionario'] == $proyecto_activo ? 'selected' : '' ?> ><?=$cuestionarios_item['nom_cuestionario']?></option>
+                <?php } ?>
+            </select>
+            <input type="hidden" name="previous_url" value="<?= current_url() ?>">
+        </form>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 col-sm-6">
         <div class="row">
-            <div class="col-auto mt-1">
-                <h5>
-                    <?php
-                        $permisos_requeridos = array(
-                        'cuestionario.can_edit',
-                        );
-                        if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                            <a href="<?=base_url()?>cuestionario/detalle/<?=$cuestionario['id_cuestionario']?>">
-                        <?php } ?>
-                        <?= $cuestionario['lugar'] ?> - (<?= $cuestionario['fecha'] ?>)
-                        <?php if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                            </a>
-                    <?php } ?>
-                </h5>
+            <div class="col-auto me-auto mt-1">
+                <h6><?= $cuestionario['lugar'] ?> - (<?= $cuestionario['fecha'] ?>)</h6>
             </div>
             <?php
                 $permisos_requeridos = array(
@@ -57,7 +31,7 @@
                         <form method="post" action="<?= base_url() ?>reportes/capturas_cuestionario/">
                             <input type="hidden" name="id_cuestionario" value="<?=$cuestionario['id_cuestionario']?>">
                             <input type="hidden" name="salida" value="csv">
-                            <button type="submit" class="btn btn-success btn-sm">csv</button>
+                            <button type="submit" class="btn btn-success btn-sm">csv del proyecto</button>
                         </form>
                     </div>
                     <div class="col-auto">
@@ -93,7 +67,7 @@
         $nombre_archivo = 'import.csv';
         $dir_docs = 'doc/';
         $tipo_archivo = 'csv';
-        $url_actual = base_url() . 'cuestionario';
+        $url_actual = base_url() . 'proyecto';
         $descripcion = 'Importar capturas: ';
     ?>
     <input type="hidden" name="nombre_archivo" value="<?=$nombre_archivo?>">
@@ -121,16 +95,16 @@
             'captura.can_edit',
             );
             if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                <div class="col-10 text-end">
+                <div class="col-auto ms-auto">
                     <div class="row justify-content-end">
-                        <div class="col-5">
-                            <button type="submit" class="btn btn-secondary btn-sm" form="frm_csv_machote">csv para carga</button>
+                        <div class="col-auto ms-auto">
+                            <button type="submit" class="btn btn-secondary btn-sm" form="frm_csv_machote">machote csv</button>
                             <label tabindex="0" name="btn_sel_csv" id="btn_sel_csv" class="btn btn-secondary btn-sm">seleccionar csv
                                 <input name="subir_archivo" id="subir_archivo" type="file" class="d-none" onchange="$('#btn_up_csv').removeClass('d-none'); $('#btn_sel_csv').addClass('d-none');" form="frm_cargar_csv">
                             </label>
-                            <button id="btn_up_csv" type="submit" class="btn btn-success btn-sm d-none" form="frm_cargar_csv">cargar csv</button>
+                            <button id="btn_up_csv" type="submit" class="btn btn-success btn-sm d-none" form="frm_cargar_csv">subir csv</button>
                         </div>
-                        <div class="col-4">
+                        <div class="col-auto">
                             <button type="submit" class="btn btn-primary btn-sm" form="frm_captura">Capturar</button>
                         </div>
                     </div>
@@ -197,7 +171,7 @@
         $nombre_archivo = 'import.csv';
         $dir_docs = 'doc/';
         $nombre_archivo_fs = $dir_docs . $nombre_archivo;
-        $url_actual = base_url() . 'cuestionario';
+        $url_actual = base_url() . 'proyecto';
     ?>
     <?php if ( file_exists($nombre_archivo_fs) ) { ?>
         <form method="post" action="<?= base_url() ?>archivo/eliminar/" id="frm_cancelar_csv">
@@ -268,17 +242,11 @@
 
 <hr />
 
-<div class="form-group row">
-    <div class="col-10">
-        <a href="<?=base_url()?>catalogos" class="btn btn-secondary">Volver</a>
-    </div>
-</div>
-
 <script type="text/javascript">
     $(document).ready( function () {
         $('#tbl_capturas').DataTable( {
             language: {
-                url: '/js/es-MX.json',
+                url: '<?=base_url()?>js/es-MX.json',
             },
         });
     });

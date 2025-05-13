@@ -43,7 +43,7 @@
 <div class="area-contenido">
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-striped table-sm">
+            <table id="tbl_bitacora" class="table table-striped table-sm" data-page-length="50" data-order="[[0, &quot;desc&quot; ]]">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -62,7 +62,7 @@
                     <?php foreach ($bitacora as $bitacora_item) { ?>
                     <tr>
                         <td><?= $bitacora_item['id_evento'] ?></td>
-                        <td><?= empty($bitacora_item['fecha']) ? '' : date('d/m/y', strtotime($bitacora_item['fecha'])) ?></td>
+                        <td><?= empty($bitacora_item['fecha']) ? '' : $bitacora_item['fecha'] ?></td>
                         <td><?= empty($bitacora_item['hora']) ? '' : date('H:i', strtotime($bitacora_item['hora'])) ?></td>
                         <td><?= $bitacora_item['origen'] ?></td>
                         <td><?= $bitacora_item['usuario'] ?></td>
@@ -78,3 +78,14 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+$(document).ready( function () {
+    $('#tbl_bitacora').DataTable( {
+        language: {
+            url: '<?=base_url()?>js/es-MX.json',
+        },
+    });
+});
+</script>

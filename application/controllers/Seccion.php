@@ -27,7 +27,7 @@ class Seccion extends CI_Controller {
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/seccion_detalle', $data);
+                $this->load->view('catalogos/cuestionario/seccion_detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'cuestionario/detalle/' . $id_cuestionario);
@@ -100,7 +100,7 @@ class Seccion extends CI_Controller {
 
             }
 
-            redirect(base_url() . 'cuestionario/detalle/' . $seccion['id_cuestionario']);
+            redirect(base_url() . 'seccion/detalle/' . $id_seccion);
 
         } else {
             redirect(base_url() . 'admin/login');

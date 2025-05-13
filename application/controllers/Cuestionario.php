@@ -24,13 +24,10 @@ class Cuestionario extends CI_Controller {
             );
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
                 $data['cuestionarios'] = $this->cuestionario_model->get_cuestionarios_usuario($data['id_usuario'], $data['id_rol']);
-                $data['cuestionario'] = $this->cuestionario_model->get_cuestionario($data['cuestionario_activo']);
-                $data['capturas'] = $this->captura_model->get_capturas_cuestionario($data['cuestionario_activo'], $data['id_usuario'], $data['id_rol']);
-                $data['num_registros_importados'] = $this->session->flashdata('num_registros_importados');
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/lista', $data);
+                $this->load->view('catalogos/cuestionario/lista', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'admin');
@@ -59,7 +56,7 @@ class Cuestionario extends CI_Controller {
 
                 $this->load->view('templates/admheader', $data);
                 $this->load->view('templates/dlg_borrar');
-                $this->load->view('cuestionario/detalle', $data);
+                $this->load->view('catalogos/cuestionario/detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'admin');
@@ -102,14 +99,6 @@ class Cuestionario extends CI_Controller {
         }
     }
 
-    public function set_cuestionario_activo() {
-        if ($this->input->post()){
-            $cuestionario_activo = $this->input->post()['cuestionario_activo'];
-            $this->session->set_userdata('cuestionario_activo', $cuestionario_activo);
-            redirect(base_url() . 'cuestionario');
-        }
-    }
-
     public function guardar($id_cuestionario=null)
     {
         if ($this->session->userdata('logueado')) {
@@ -140,7 +129,7 @@ class Cuestionario extends CI_Controller {
 
             }
 
-            redirect(base_url() . 'cuestionario');
+            redirect(base_url() . 'cuestionario/detalle/' . $id_cuestionario);
 
         } else {
             redirect(base_url() . 'admin/login');

@@ -61,7 +61,7 @@
                                 'cuestionario.can_view',
                                 );
                                 if (has_permission_or($permisos_requeridos, $permisos_usuario)) { ?>
-                                    <li class="nav-item d-print-none"><a class="nav-link" href="<?=base_url()?>cuestionario">Proyectos</a></li>
+                                    <li class="nav-item d-print-none"><a class="nav-link" href="<?=base_url()?>proyecto">Proyectos</a></li>
                                 <?php }
                             ?>
                             <?php

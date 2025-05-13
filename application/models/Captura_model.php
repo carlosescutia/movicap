@@ -128,7 +128,7 @@ class Captura_model extends CI_Model {
             $orig_valor = '';
             $tabla_adicional = '';
             switch ($preguntas_item['cve_tipo_pregunta']) {
-                case 'abierta':
+                case 'abierta' or 'numero':
                     $sql .= ''
                         .'(select '
                         .'r2.valor as "' . $preguntas_item['nom_pregunta'] . '" '
@@ -145,10 +145,11 @@ class Captura_model extends CI_Model {
                         .'(select '
                         .'vp.valor as "' . $preguntas_item['nom_pregunta'] . '" '
                         .'from '
-                        .'respuesta r2 '
-                        .'left join valor_posible vp on vp.id_pregunta = r2.id_pregunta and vp.id_valor_posible = r2.valor::integer '
+                        .'valor_posible vp '
+                        .'left join respuesta r2 on vp.id_pregunta = r2.id_pregunta and vp.id_valor_posible = r2.valor::integer '
                         .'where '
                         .'r2.id_captura = cap.id_captura '
+                        .'and r2.valor ~ \'^[0-9\.]+$\' '
                         .'and r2.id_pregunta = ' . $preguntas_item['id_pregunta'] 
                         .'), '
                         .'';

@@ -59,7 +59,7 @@ class Respuesta extends CI_Controller {
                 $valor = $id_captura ;
                 $this->funciones_sistema->registro_bitacora($accion, $entidad, $valor);
             }
-            redirect(base_url() . 'cuestionario');
+            redirect(base_url() . 'captura/detalle/' . $id_captura);
 
         } else {
             redirect(base_url() . 'admin/login');

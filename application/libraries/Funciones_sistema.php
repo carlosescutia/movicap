@@ -22,7 +22,7 @@ class Funciones_sistema extends CI_Controller {
         $data['id_rol'] = $id_rol;
         $data['nom_usuario'] = $this->CI->session->userdata('nom_usuario');
         $data['error'] = $this->CI->session->flashdata('error');
-        $data['cuestionario_activo'] = $this->CI->session->userdata('cuestionario_activo');
+        $data['proyecto_activo'] = $this->CI->session->userdata('proyecto_activo');
         $data['permisos_usuario'] = explode(',', $this->CI->acceso_sistema_model->get_permisos_usuario($id_usuario));
         $data['accesos_sistema'] = explode(',', $this->CI->acceso_sistema_model->get_accesos_sistema_rol($id_rol)['accesos']);
         $data['opciones_sistema'] = $this->CI->opcion_sistema_model->get_opciones_sistema();

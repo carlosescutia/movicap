@@ -24,7 +24,7 @@ class Valor_posible extends CI_Controller {
             if (has_permission_or($permisos_requeridos, $data['permisos_usuario'])) {
 
                 $this->load->view('templates/admheader', $data);
-                $this->load->view('cuestionario/valor_posible_detalle', $data);
+                $this->load->view('catalogos/cuestionario/valor_posible_detalle', $data);
                 $this->load->view('templates/footer', $data);
             } else {
                 redirect(base_url() . 'pregunta/detalle/' . $id_pregunta);
@@ -99,7 +99,7 @@ class Valor_posible extends CI_Controller {
 
             }
 
-            redirect(base_url() . 'pregunta/detalle/' . $valor_posible['id_pregunta']);
+            redirect(base_url() . 'valor_posible/detalle/' . $id_valor_posible);
 
         } else {
             redirect(base_url() . 'admin/login');
